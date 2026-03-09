@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Android四大组件之Activity详解 | LeeLand的技术沉淀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、 什么是 Activity？ Activity 是 Android四大组件之一，是一种可以包含用户界面的组件，主要用于和用户进行交互。 1. Activity 的基本用法 要让一个 Activity 真正跑起来，必须经过以下几个关键步骤：  创建： 继承 AppCompatActivity 并重写 onCreate() 方法。 绑定视图： 在 onCreate() 中调用 setContent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android四大组件之Activity详解">
+<meta property="og:url" content="https://xiaoyu-liguo.github.io/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="LeeLand的技术沉淀">
+<meta property="og:description" content="一、 什么是 Activity？ Activity 是 Android四大组件之一，是一种可以包含用户界面的组件，主要用于和用户进行交互。 1. Activity 的基本用法 要让一个 Activity 真正跑起来，必须经过以下几个关键步骤：  创建： 继承 AppCompatActivity 并重写 onCreate() 方法。 绑定视图： 在 onCreate() 中调用 setContent">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/Activity/activity-lifecycle-flow.png">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/Activity/activity-inheritance-hierarchy.png">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/Activity/saved-state-registry.png">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/Activity/androidx.core.app.ComponentActivity.png">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/Activity/Android-Activity.png">
+<meta property="article:published_time" content="2026-02-03T15:40:00.000Z">
+<meta property="article:modified_time" content="2026-03-08T15:46:59.819Z">
+<meta property="article:author" content="LeeLand">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="四大组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaoyu-liguo.github.io/images/Activity/activity-lifecycle-flow.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LeeLand的技术沉淀" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LeeLand的技术沉淀</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Focus on Android &amp; Mobile Development</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xiaoyu-liguo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Android四大组件之Activity详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2026-02-03T15:40:00.000Z" itemprop="datePublished">2026-02-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Android四大组件之Activity详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1>一、 什么是 Activity？</h1>
+<p>Activity 是 Android四大组件之一，是一种可以包含用户界面的组件，主要用于和用户进行交互。</p>
+<h2 id="1-Activity-的基本用法">1. Activity 的基本用法</h2>
+<p>要让一个 Activity 真正跑起来，必须经过以下几个关键步骤：</p>
+<ol>
+<li><strong>创建：</strong> 继承 <code>AppCompatActivity</code> 并重写 <code>onCreate()</code> 方法。</li>
+<li><strong>绑定视图：</strong> 在 <code>onCreate()</code> 中调用 <code>setContentView(R.layout.xxx)</code> 加载布局。</li>
+<li><strong>注册（极其重要）：</strong> 所有的 Activity 必须在 <code>AndroidManifest.xml</code> 中进行注册，否则启动直接崩溃。</li>
+</ol>
+<h2 id="2-Activity-的生命周期（核心重点）">2. Activity 的生命周期（核心重点）</h2>
+<p>它描述了一个界面从诞生到销毁的完整过程。</p>
+<p><img src="/images/Activity/activity-lifecycle-flow.png" alt="Activity生命周期"></p>
+<p>主要包含 7 个核心回调方法：</p>
+<ul>
+<li><strong><code>onCreate()</code></strong>：Activity 正在被创建（初始化数据、加载布局）。</li>
+<li><strong><code>onStart()</code></strong>：Activity 正在启动（即将可见，但还不能交互）。</li>
+<li><strong><code>onResume()</code></strong>：Activity 已经可见，并且获取了焦点（用户可以开始疯狂点击了）。</li>
+<li><strong><code>onPause()</code></strong>：Activity 正在暂停（通常是因为弹出了一个对话框，或者正准备去别的界面。此时可见，但失去焦点）。</li>
+<li><strong><code>onStop()</code></strong>：Activity 即将停止（完全不可见，被压在后台了）。</li>
+<li><strong><code>onDestroy()</code></strong>：Activity 即将销毁（回收资源，寿终正寝）。</li>
+<li><strong><code>onRestart()</code></strong>：Activity 重新启动（从后台重新回到前台时触发）。</li>
+</ul>
+<h2 id="3-Activity-的启动模式-LaunchMode">3.  Activity 的启动模式 (LaunchMode)</h2>
+<p>在复杂的业务场景中（比如点通知栏、或者连续打开同一个界面），我们需要配置不同的启动模式来管理 Activity 返回栈（Task Stack）。</p>
+<p>四种主流启动模式：</p>
+<ol>
+<li><strong>Standard (标准模式)</strong>：默认模式，不管栈里有没有，每次都无脑 <code>new</code> 一个新实例。</li>
+<li><strong>SingleTop (栈顶复用)</strong>：如果它已经在栈的最顶端，就直接用，不新建；如果不在顶端，还是会新建。</li>
+<li><strong>SingleTask (栈内复用)</strong>：极其霸道。只要栈里有它，就把它上面所有的 Activity 全部踢出栈，让它重见天日（常用于 App 的 MainActivity）。</li>
+<li><strong>SingleInstance (单实例)</strong>：最孤独的模式。系统会专门为它开辟一个新的返回栈，并且这个栈里只能有它一个人（常用于系统的通话界面、闹钟界面）。</li>
+</ol>
+<h2 id="4-源码跟踪Activity">4. 源码跟踪Activity</h2>
+<p>我们新建一个Activity时，androidstiod会自动生成下面代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FirstActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见，我们的Activity继承了AppCompatActivity，然后重写了onCreat()方法，初始状态就只调用了父类的onCreat（）方法，我们可以根据需要在onCreat中添加需要的业务逻辑。</p>
+<p>我的Activity都是继承AppCompatActivity，AppCompatActivity又继承FragmentActivity，FragmentActivity又继承了ComponentActivity，他们各有独自负责的内容，大致可以理解为AppCompactActivity关注UI碎片化问题，FragementActivity关注碎片化页面问题，ComponentActivity关注架构问题。</p>
+<p><img src="/images/Activity/activity-inheritance-hierarchy.png" alt="Activity现代继承体系图"></p>
+<h1>二、 AppCompatActivity</h1>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppCompatActivity</span> <span class="title">extends</span> <span class="title">FragmentActivity</span> <span class="title">implements</span> <span class="title">AppCompatCallback</span>,</span><br><span class="line">        <span class="type">TaskStackBuilder.SupportParentable</span>, <span class="type">ActionBarDrawerToggle.DelegateProvider</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> String DELEGATE_TAG = <span class="string">&quot;androidx:appcompat&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> AppCompatDelegate mDelegate;</span><br><span class="line">    <span class="keyword">private</span> Resources mResources;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Default constructor for AppCompatActivity. All Activities must have a default constructor</span></span><br><span class="line"><span class="comment">     * for API 27 and lower devices or when using the default</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> android.app.AppComponentFactory&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> AppCompatActivity() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        initDelegate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>跟踪进去，可见AppCompatActivity继承FragmentActivity，实现了三个接口。可见AppCompactActivity就调用了父类构造方法，和执行了initDelegate方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> override val savedStateRegistry: SavedStateRegistry</span><br><span class="line">        <span class="title function_">get</span><span class="params">()</span> = savedStateRegistryController.savedStateRegistry</span><br><span class="line"><span class="keyword">final</span> override fun <span class="title function_">addOnContextAvailableListener</span><span class="params">(listener: OnContextAvailableListener)</span> &#123;</span><br><span class="line">        contextAwareHelper.addOnContextAvailableListener(listener)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DELEGATE_TAG</span> <span class="operator">=</span> <span class="string">&quot;androidx:appcompat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initDelegate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> Directly connect AppCompatDelegate to SavedStateRegistry</span></span><br><span class="line">    getSavedStateRegistry().registerSavedStateProvider(DELEGATE_TAG,</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">SavedStateRegistry</span>.SavedStateProvider() &#123;</span><br><span class="line">                <span class="meta">@NonNull</span></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> Bundle <span class="title function_">saveState</span><span class="params">()</span> &#123;</span><br><span class="line">                    <span class="type">Bundle</span> <span class="variable">outState</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">                    getDelegate().onSaveInstanceState(outState);</span><br><span class="line">                    <span class="keyword">return</span> outState;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    addOnContextAvailableListener(<span class="keyword">new</span> <span class="title class_">OnContextAvailableListener</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onContextAvailable</span><span class="params">(<span class="meta">@NonNull</span> Context context)</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">AppCompatDelegate</span> <span class="variable">delegate</span> <span class="operator">=</span> getDelegate();</span><br><span class="line">            delegate.installViewFactory();</span><br><span class="line">            delegate.onCreate(getSavedStateRegistry()</span><br><span class="line">                    .consumeRestoredStateForKey(DELEGATE_TAG));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见这里就做了两件事，getSavedStateRegistry().registerSavedStateProvider和addOnContextAvailableListener，实现的功能是“注册状态保存”机制（防崩溃/防被杀）“ + ”拦截 XML 布局“。</p>
+<p>第一件事：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">final override val savedStateRegistry: SavedStateRegistry</span><br><span class="line">    get() = savedStateRegistryController.savedStateRegistry</span><br></pre></td></tr></table></figure>
+<p>registerSavedStateProvider是ComponentActivity的一个只读属性（ComponentActivity它是Activity的超能力扩展包，在Activity基础上实现了Lifecycle、ViewModel、SavedStateRegistry、OnBackPressedDispatcherOwner等扩展功能，希望后续能写一篇详细解析），类型是SavedStateRegistry（savedStateRegistryController是ComponentActivity的一个注册表控制器）。SavedStateRegistry可以理解为“注册表”。</p>
+<p>SavedStateRegistry的registerSavedStateProvider方法如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> components = SafeIterableMap&lt;String, SavedStateProvider&gt;()</span><br><span class="line"></span><br><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">registerSavedStateProvider</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    key: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    provider: <span class="type">SavedStateProvider</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> previous = components.putIfAbsent(key, provider)</span><br><span class="line">    require(previous == <span class="literal">null</span>) &#123;</span><br><span class="line">        (<span class="string">&quot;SavedStateProvider with the given key is&quot;</span> +</span><br><span class="line">            <span class="string">&quot; already registered&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>registerSavedStateProvider接收一个String和provider，然后把他们放入了map，（SafeIterableMap是一个特殊的map，希望后面有时间出一篇关于SafeIterableMap的，设计的思想也很巧妙，可以暂时理解为一个特殊的map就行）。</p>
+<ul>
+<li><strong>平时（注册阶段）：</strong> Activity 里的各种组件（比如 <code>AppCompatDelegate</code>，还有以后会学到的 <code>ViewModel</code>），在初始化时，都会去 Activity 的 <code>SavedStateRegistry</code> 里注册一个自己的名字（Key）和打包方法（<code>SavedStateProvider</code>）。 <em>(注：这里它内部用来装这些注册信息的，就是防崩溃神器 <code>SafeIterableMap</code>！)</em></li>
+<li><strong>临死前（汇总打包阶段）：</strong> 当系统触发 <code>onSaveInstanceState()</code> 准备大开杀戒时，Activity 会对自己的 <code>SavedStateRegistry</code> 喊一声：“快！把所有人的行李收上来！” <code>SavedStateRegistry</code> 就会遍历那个 <code>SafeIterableMap</code>，挨个调用组件们的打包方法，把大家零散的数据，全部塞进一个超级大的 <code>Bundle</code>（大行李箱）里，最后交给 Android 操作系统底层去保管。</li>
+<li><strong>重生时（分发恢复阶段）：</strong> 当用户再次切回你的 App，系统会重新创建这个 Activity，并且把那个装满数据的 <code>Bundle</code> 大行李箱原封不动地还给它。 这时候，各个组件就会拿着自己当初注册的名字（Key），去 <code>SavedStateRegistry</code> 里把自己的那部分数据认领回去，瞬间恢复死前的界面状态！</li>
+</ul>
+<p><img src="/images/Activity/saved-state-registry.png" alt="Activity 状态保存与恢复底层机制"></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> static <span class="keyword">final</span> String DELEGATE_TAG = <span class="string">&quot;androidx:appcompat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="keyword">interface</span> SavedStateProvider &#123;</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Called to retrieve a state from a component before being killed</span></span><br><span class="line"><span class="comment">         * so later the state can be received from [consumeRestoredStateForKey]</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * Returns `S` with your saved state.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">saveState</span><span class="params">()</span></span>: Bundle</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>所以我们的activity初始化在注册表里就是&lt;“androidx:appcompat” , Bundle实例&gt;</p>
+<p>第二件事：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">addOnContextAvailableListener(new OnContextAvailableListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> void onContextAvailable(<span class="meta">@NonNull</span> Context context) &#123;</span><br><span class="line">            <span class="keyword">final</span> AppCompatDelegate delegate = getDelegate();</span><br><span class="line">            delegate.installViewFactory();</span><br><span class="line">            delegate.onCreate(getSavedStateRegistry()</span><br><span class="line">                    .consumeRestoredStateForKey(DELEGATE_TAG));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>AppCompatActivit()构造方法在执行时，它还只是一个刚刚被new出来的普通java对象，他的Context（上下文）还没有被系统赋予，没有Context，就没办法读取资源、加载主题等等。所以这段代码其实没办法直接执行，它是注册了一个监听器，</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> contextAwareHelper = ContextAwareHelper()</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">addOnContextAvailableListener</span><span class="params">(listener: <span class="type">OnContextAvailableListener</span>)</span></span> &#123;</span><br><span class="line">    contextAwareHelper.addOnContextAvailableListener(listener)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">addOnContextAvailableListener</span><span class="params">(listener: <span class="type">OnContextAvailableListener</span>)</span></span> &#123;</span><br><span class="line">        context?.let &#123; listener.onContextAvailable(it) &#125;</span><br><span class="line">        listeners.add(listener)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="keyword">interface</span> OnContextAvailableListener &#123;</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Called when the [ContextAware] object this listener was added to is associated to a</span></span><br><span class="line"><span class="comment">     * [Context].</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context The [Context] the [ContextAware] object is now associated with.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">onContextAvailable</span><span class="params">(context: <span class="type">Context</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ContextAwareHelper</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> listeners: MutableSet&lt;OnContextAvailableListener&gt; = CopyOnWriteArraySet()</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Volatile</span> <span class="keyword">private</span> <span class="keyword">var</span> context: Context? = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
+<p>ContextAwareHelper是一个集合，可以在里面存所有的监听器。</p>
+<ul>
+<li>Context 还没准备好，<code>ContextAwareHelper</code> 就会把这些监听器先记录</li>
+<li>Activity 的底层生命周期走到 <code>onCreate()</code>，真正的 <code>Context</code> 终于被系统赋予了，内部就会触发 <code>mContextAwareHelper.dispatchOnContextAvailable(this)</code>。Helper 就会遍历Set里所有的监听器，挨个调用它们的 <code>onContextAvailable(context)</code></li>
+<li>当 Activity 走向毁灭（<code>onDestroy</code>）时，为了防止那些监听器还死死抓着 Activity 的 Context 不放导致内存泄漏，Helper 内部会执行 <code>clearAvailableContext()</code>，把保存的引用全部置空，干干净净地离开。</li>
+</ul>
+<p>所以当activity有了自己的Context时，AppCompactActivity的initDelegate的第二部分就会执行</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">addOnContextAvailableListener(new OnContextAvailableListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> void onContextAvailable(<span class="meta">@NonNull</span> Context context) &#123;</span><br><span class="line">        <span class="keyword">final</span> AppCompatDelegate delegate = getDelegate();</span><br><span class="line">        delegate.installViewFactory();</span><br><span class="line">        delegate.onCreate(getSavedStateRegistry()</span><br><span class="line">                .consumeRestoredStateForKey(DELEGATE_TAG));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">AppCompatDelegate</span> <span class="variable">delegate</span> <span class="operator">=</span> getDelegate();</span><br></pre></td></tr></table></figure>
+<p>把真正干活的代理类 <code>AppCompatDelegate</code> 给叫出来。Activity 说：“环境准备好了，该你上场表演了。”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate.installViewFactory();</span><br></pre></td></tr></table></figure>
+<p>抢在开发者重写的 <code>onCreate()</code> 里的 <code>setContentView(R.layout.xxx)</code> 之前，提前在系统底层安插一个“间谍工厂”。等会儿系统去解析 XML 布局时，这个工厂就会把普通的 <code>&lt;TextView&gt;</code> 拦截下来，悄悄替换成具备向下兼容和高亮特效的 <code>AppCompatTextView</code>。这就是为什么老手机也能跑出新 Material Design 效果的根本原因（这涤地方很有意思，计划后面写一篇做详细分析）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate.onCreate(getSavedStateRegistry().consumeRestoredStateForKey(DELEGATE_TAG));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong><code>getSavedStateRegistry()</code></strong>：找到 Activity 专属的行李寄存处。</p>
+</li>
+<li>
+<p><strong><code>consumeRestoredStateForKey(DELEGATE_TAG)</code></strong>：拿出专门属于 Delegate 的那个“小行李箱”（里面存着比如当前是夜间模式还是日间模式的状态）。注意这里用的是 <code>consume</code>（消费），意思是用完就销毁，不留痕迹。</p>
+</li>
+<li>
+<p><strong><code>delegate.onCreate(...)</code></strong>：把这个装满记忆的小箱子喂给 Delegate，让它根据死前的状态完成初始化。</p>
+</li>
+</ul>
+<h1>三、 FragmentActivity</h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FragmentActivity</span> <span class="keyword">extends</span> <span class="title class_">ComponentActivity</span> <span class="keyword">implements</span></span><br><span class="line">        <span class="title class_">ActivityCompat</span>.OnRequestPermissionsResultCallback,</span><br><span class="line">        ActivityCompat.RequestPermissionsRequestCodeValidator &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FRAGMENTS_TAG</span> <span class="operator">=</span> <span class="string">&quot;android:support:fragments&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">FragmentController</span> <span class="variable">mFragments</span> <span class="operator">=</span> FragmentController.createController(<span class="keyword">new</span> <span class="title class_">HostCallbacks</span>());</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * A &#123;<span class="doctag">@link</span> Lifecycle&#125; that is exactly nested outside of when the FragmentController</span></span><br><span class="line"><span class="comment">     * has its state changed, providing the proper nesting of Lifecycle callbacks</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * TODO(b/127528777) Drive Fragment Lifecycle with LifecycleObserver</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">LifecycleRegistry</span> <span class="variable">mFragmentLifecycleRegistry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LifecycleRegistry</span>(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">boolean</span> mCreated;</span><br><span class="line">    <span class="type">boolean</span> mResumed;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">mStopped</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Default constructor for FragmentActivity. All Activities must have a default constructor</span></span><br><span class="line"><span class="comment">     * for API 27 and lower devices or when using the default</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> android.app.AppComponentFactory&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">FragmentActivity</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>其实这里FragmentActivity和前面AppCompatActivity的实现思想就很相近了，只是他们的发挥的作用不同。</p>
+<ul>
+<li>
+<p><strong>处理 UI 向下兼容</strong> 👉 找 <code>AppCompatDelegate</code> 注册监听，打包存状态，恢复切换 View。</p>
+</li>
+<li>
+<p><strong>处理 Fragment 恢复</strong> 👉 找 <code>FragmentManager</code> 注册监听，打包存状态，恢复 Fragment 栈。</p>
+</li>
+</ul>
+<p>跟进到FragmentActivity到初始化方法init中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FRAGMENTS_TAG</span> <span class="operator">=</span> <span class="string">&quot;android:support:fragments&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">    getSavedStateRegistry().registerSavedStateProvider(FRAGMENTS_TAG, <span class="keyword">new</span> ...) &#123;</span><br><span class="line">    <span class="keyword">public</span> Bundle <span class="title function_">saveState</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">outState</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">        <span class="comment">// 1. 把所有 Fragment 的生命周期强行按到 ON_STOP</span></span><br><span class="line">        markFragmentsCreated();</span><br><span class="line">        mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 核心大招：一键打包所有 Fragment 的状态！</span></span><br><span class="line">        <span class="type">Parcelable</span> <span class="variable">p</span> <span class="operator">=</span> mFragments.saveAllState();</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="literal">null</span>) &#123;</span><br><span class="line">            outState.putParcelable(FRAGMENTS_TAG, p);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> outState;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">    addOnContextAvailableListener(<span class="keyword">new</span> <span class="title class_">OnContextAvailableListener</span>() &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onContextAvailable</span><span class="params">(<span class="meta">@NonNull</span> Context context)</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 给所有的 Fragment 注入肉身（Context 主机）</span></span><br><span class="line">        mFragments.attachHost(<span class="literal">null</span> <span class="comment">/*parent*/</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 拿着之前的取件码（FRAGMENTS_TAG），去寄存处取行李</span></span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">savedInstanceState</span> <span class="operator">=</span> getSavedStateRegistry()</span><br><span class="line">                .consumeRestoredStateForKey(FRAGMENTS_TAG);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 把行李丢给 FragmentManager，一键恢复现场！</span></span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">Parcelable</span> <span class="variable">p</span> <span class="operator">=</span> savedInstanceState.getParcelable(FRAGMENTS_TAG);</span><br><span class="line">            mFragments.restoreSaveState(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="🌟-架构级顿悟：异曲同工的“外包”哲学">🌟 架构级顿悟：异曲同工的“外包”哲学</h2>
+<p>如果将 <code>AppCompatActivity</code> 和 <code>FragmentActivity</code> 的源码放在一起对比，会发现一个极其优雅的现代 Android 架构思想——<strong>基于 <code>ComponentActivity</code> 基础设施的“代理与分发”</strong>。</p>
+<p>老祖宗 <code>ComponentActivity</code> 搭建好了两大核心基础设施：</p>
+<ol>
+<li><strong><code>ContextAwareHelper</code></strong>：负责监听 Context 的注入时机。</li>
+<li><strong><code>SavedStateRegistry</code></strong>：负责管理系统杀后台时的状态保存与恢复。</li>
+</ol>
+<p>而它的两个派生类，仅仅是雇佣了不同的“大管家”来对接这两套设施，发挥了完全不同的作用：</p>
+<ul>
+<li>
+<p>🎨 <strong>处理 UI 向下兼容 (<code>AppCompatActivity</code>)</strong></p>
+<ul>
+<li><strong>大管家：</strong> <code>AppCompatDelegate</code></li>
+<li><strong>核心动作：</strong> 注册监听 ➡️ 抢在 <code>onCreate</code> 前安装 <code>ViewFactory</code> 拦截器 ➡️ 打包/恢复主题与夜间模式状态 ➡️ 偷梁换柱替换原生 View。</li>
+</ul>
+</li>
+<li>
+<p>🧩 <strong>处理 Fragment 碎片恢复 (<code>FragmentActivity</code>)</strong></p>
+<ul>
+<li><strong>大管家：</strong> <code>FragmentManager</code> (底层被包装在 <code>FragmentController</code> 中)</li>
+<li><strong>核心动作：</strong> 注册监听 ➡️ 抢在 <code>onCreate</code> 前为 Fragment 注入宿主 Context ➡️ 打包/恢复 Fragment 实例与回退栈 ➡️ 完美还原死前的页面嵌套现场。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🔬-源码跟进：剖析-FragmentActivity-init">🔬 源码跟进：剖析 <code>FragmentActivity.init()</code></h2>
+<p>顺着这个思路，我们直接跟进到 <code>FragmentActivity</code> 的 <code>init()</code> 方法中。你会发现，这段代码完美诠释了 Fragment 的“临终托孤”与“夺舍重生”：</p>
+<h3 id="阶段一：临终托孤（状态保存）">阶段一：临终托孤（状态保存）</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">getSavedStateRegistry().registerSavedStateProvider(FRAGMENTS_TAG, <span class="keyword">new</span> ...) &#123;</span><br><span class="line">    <span class="keyword">public</span> Bundle <span class="title function_">saveState</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">outState</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">        <span class="comment">// 1. 强行干预生命周期：把所有 Fragment 的状态压制到 ON_STOP</span></span><br><span class="line">        markFragmentsCreated();</span><br><span class="line">        mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 核心大招：序列化打包</span></span><br><span class="line">        <span class="type">Parcelable</span> <span class="variable">p</span> <span class="operator">=</span> mFragments.saveAllState(); </span><br><span class="line">        <span class="keyword">if</span> (p != <span class="literal">null</span>) &#123;</span><br><span class="line">            outState.putParcelable(FRAGMENTS_TAG, p);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> outState;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>当系统内存告急时，<code>SavedStateRegistry</code> 会回调这段逻辑。<code>FragmentActivity</code> 不会自己去挨个保存 Fragment，而是直接对 <code>FragmentController</code> (<code>mFragments</code>) 下达死命令：“把所有 Fragment 的属性、参数、回退栈全部序列化成 <code>Parcelable</code> 打包带走！</p>
+<h3 id="阶段二：借尸还魂（状态恢复）">阶段二：借尸还魂（状态恢复）</h3>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">addOnContextAvailableListener(new OnContextAvailableListener() &#123;</span><br><span class="line">    <span class="keyword">public</span> void onContextAvailable(<span class="meta">@NonNull</span> Context context) &#123;</span><br><span class="line">        <span class="comment">// 1. 注入灵魂：告诉底下的 Fragment，新的 Activity 宿主已经准备好了</span></span><br><span class="line">        mFragments.attachHost(<span class="literal">null</span> <span class="comment">/*parent*/</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 认领行李：拿着专属的 FRAGMENTS_TAG 取出包裹</span></span><br><span class="line">        Bundle savedInstanceState = getSavedStateRegistry()</span><br><span class="line">                .consumeRestoredStateForKey(FRAGMENTS_TAG);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 恢复现场：将数据甩给管家，一键重建所有 Fragment</span></span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="literal">null</span>) &#123;</span><br><span class="line">            Parcelable p = savedInstanceState.getParcelable(FRAGMENTS_TAG);</span><br><span class="line">            mFragments.restoreSaveState(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<h1>四、 ComponentActivity</h1>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">ComponentActivity</span>() :</span><br><span class="line">    androidx.core.app.ComponentActivity(),</span><br><span class="line">    ContextAware,</span><br><span class="line">    LifecycleOwner,</span><br><span class="line">    ViewModelStoreOwner,</span><br><span class="line">    HasDefaultViewModelProviderFactory,</span><br><span class="line">    SavedStateRegistryOwner,</span><br><span class="line">    OnBackPressedDispatcherOwner,</span><br><span class="line">    NavigationEventDispatcherOwner,</span><br><span class="line">    ActivityResultRegistryOwner,</span><br><span class="line">    ActivityResultCaller,</span><br><span class="line">    OnConfigurationChangedProvider,</span><br><span class="line">    OnTrimMemoryProvider,</span><br><span class="line">    OnNewIntentProvider,</span><br><span class="line">    OnMultiWindowModeChangedProvider,</span><br><span class="line">    OnPictureInPictureModeChangedProvider,</span><br><span class="line">    OnUserLeaveHintProvider,</span><br><span class="line">    MenuHost,</span><br><span class="line">    FullyDrawnReporterOwner&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="🧩-ComponentActivity：全能的“斜杠”基座">🧩 ComponentActivity：全能的“斜杠”基座</h3>
+<p>在源码中，<code>ComponentActivity</code> 的定义长得惊人，因为它实现了超过 10 个接口。这意味着它不仅是一个 Activity，更是多种能力的<strong>提供者（Owner）</strong>：</p>
+<ul>
+<li><strong>接口化设计</strong>：它不直接实现逻辑，而是通过实现接口（如 <code>LifecycleOwner</code>），将能力委派给内部的 <code>Helper</code> 类。</li>
+<li><strong>默认开启 (open)</strong>：作为架构基石，它被标记为 <code>open class</code>，允许 <code>FragmentActivity</code> 等后续子类不断对其进行功能扩容。</li>
+</ul>
+<blockquote>
+<p><strong>深度思考</strong>：为什么不把所有功能都写在 <code>Activity</code> 原生类里？<br>
+<strong>答案</strong>：解耦。通过接口化，Google 可以让 <code>Fragment</code> 甚至自定义 View 也实现这些接口（如 <code>LifecycleOwner</code>），从而拥有一套通用的架构规范。</p>
+</blockquote>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">ComponentActivity</span>() :</span><br><span class="line">    androidx.core.app.ComponentActivity(),</span><br></pre></td></tr></table></figure>
+<p>子类ComponentActivity(FragementACtivity的直接父亲)是androidx.activity包，和androidx.core.app.ComponentActivity()只是类名同，这种设计哲学在Android中非常常见。</p>
+<ol>
+<li>androidx.core.app.ComponentActivity非常的轻量，源码（包括注释）就一百多行。</li>
+</ol>
+<p><img src="/images/Activity/androidx.core.app.ComponentActivity.png" alt="ComponentActivity"></p>
+<p>它唯一存在的目的就是<strong>解决最基本的系统兼容性问题</strong>（比如在老版本手机上模拟新的 <code>KeyEvent</code> 传递），几乎不涉及任何复杂的 Jetpack 架构（没有 ViewModel，没有 SavedState 等）。</p>
+<ol start="2">
+<li>androidx.activity.ComponentActivity开启了“疯狂叠 Buff”模式</li>
+</ol>
+<p>它实现了 <code>LifecycleOwner</code>、<code>ViewModelStoreOwner</code> 等那一长串接口。<strong>这才是我们平时真正使用的、具备完整 Jetpack 能力的 Activity 基座</strong></p>
+<ul>
+<li>
+<p>核心架构战队（Jetpack 的地基）</p>
+<ul>
+<li>
+<p><strong><code>LifecycleOwner</code></strong>：<strong>生命周期持有者</strong>。让 Activity 拥有了“感知生死”的能力。你可以直接观察它的生命周期，而不需要在 <code>onStart/onStop</code> 里写一堆逻辑。</p>
+</li>
+<li>
+<p><strong><code>ViewModelStoreOwner</code></strong>：<strong>ViewModel 仓库</strong>。让 Activity 有能力在配置更改（如旋转屏幕）时，依然能死死抓住 <code>ViewModel</code> 实例不放。</p>
+</li>
+<li>
+<p><strong><code>HasDefaultViewModelProviderFactory</code></strong>：<strong>默认工厂</strong>。它提供了一个默认的“厨师”，当你调用 <code>by viewModels()</code> 时，就是这个工厂帮你实例化 ViewModel 的。</p>
+</li>
+<li>
+<p><strong><code>SavedStateRegistryOwner</code></strong>：<strong>状态恢复官</strong>。这就是咱们之前聊的那个“寄存处”，负责在 App 被杀掉后恢复那点“临终记忆”。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>事件分发战队（告别逻辑耦合）</p>
+<ul>
+<li><strong><code>OnBackPressedDispatcherOwner</code></strong>：<strong>返回键分发者</strong>。你可以通过 <code>onBackPressedDispatcher</code> 给不同的 Fragment 单独设置返回逻辑，不用再在 Activity 里写一堆 <code>if/else</code>。</li>
+<li><strong><code>MenuHost</code></strong>：<strong>菜单宿主</strong>。现在的菜单（Toolbar 上的三个点）不再必须写在 Activity 里，通过它，Fragment 也可以自主管理自己的菜单。</li>
+<li><strong><code>NavigationEventDispatcherOwner</code></strong>：<strong>导航事件分发</strong>。专门处理 Activity 级别的导航事件传递。</li>
+</ul>
+</li>
+<li>
+<p>系统回调战队（感知外部环境）</p>
+<ul>
+<li><strong><code>OnConfigurationChangedProvider</code></strong>：当屏幕旋转、字体变大、语言切换时，通知感兴趣的人。</li>
+<li><strong><code>OnTrimMemoryProvider</code></strong>：<strong>内存整理通知</strong>。系统内存不足时，通知各个组件赶紧清理缓存，别被系统杀了。</li>
+<li><strong><code>OnMultiWindowModeChangedProvider</code> / <code>OnPictureInPictureModeChangedProvider</code></strong>：<strong>窗口模式感知</strong>。处理分屏和画中画模式的切换。</li>
+<li><strong><code>OnNewIntentProvider</code></strong>：当 Activity 的启动模式为 <code>singleTask</code> 重新进入时，通知新意图。</li>
+</ul>
+</li>
+<li>
+<p>权限与结果战队（再见 startActivityForResult）</p>
+<ul>
+<li><strong><code>ActivityResultRegistryOwner</code></strong> &amp; <strong><code>ActivityResultCaller</code></strong>：<strong>结果注册中心</strong>。 这是 <code>ActivityResultLauncher</code> 的底层支撑。让你用“注册回调”的方式去请求权限、拍照、选图片，彻底废弃了那个乱糟糟的 <code>requestCode</code> 匹配。</li>
+</ul>
+</li>
+<li>
+<p>其他特殊战队</p>
+<ul>
+<li><strong><code>ContextAware</code></strong>：<strong>上下文感知</strong>。正如我们之前聊的，确保在 <code>onCreate</code> 之前，大家能监听到 Context 已经准备好了。</li>
+<li><strong><code>OnUserLeaveHintProvider</code></strong>：<strong>离场提示</strong>。当用户按 Home 键导致 Activity 进入后台时的回调。</li>
+<li><strong><code>FullyDrawnReporterOwner</code></strong>：<strong>绘制报告者</strong>。用于性能优化，精确上报 Activity 什么时候才算“完全绘制完成”，帮助测量冷启动耗时。</li>
+</ul>
+</li>
+</ul>
+<p>这部分内容太丰富了，其中包含了非常多巧妙的实现，后面会分别开新文章做详细分析。</p>
+<hr>
+<h1>五、Activity</h1>
+<p>无论是早期的Android还是现代化的Activity，所有Activity的祖先必定是android.app.Activity。虽然Google设计的ComponentActivity已经让Activity不那么臃肿，单其实android.app.Activity内容是非常多的，这个类的源码有近万行，是一个非常大的类（Android称霸世界也不是只靠时运，也是不乏实力的）。</p>
+<p>（如果是要逐字阅读这一万行代码，我估计我会疯掉。看了很多技术博客和一些技术书籍，形成了浅显、片面且带有极强主观看法的看法。）</p>
+<p>Activity主要有四个核心点，核心生命周期（状态机）、窗体管理（View 的宿主）、交互分发（接线员）、组件间通讯（信使）。</p>
+<ul>
+<li>核心生命周期（状态机）：<code>performCreate</code>, <code>performStart</code>, <code>performResume</code>。
+<ul>
+<li>系统（ActivityThread）是通过这些 <code>performXXX</code> 方法来驱动 <code>onCreate</code>, <code>onStart</code> 的。这就是 Activity 的“心跳”</li>
+</ul>
+</li>
+<li>窗体管理（View 的宿主）: <code>mWindow</code>, <code>setContentView</code>, <code>attach</code>
+<ul>
+<li>Activity 本身不显示东西，它内部持有一个 <code>PhoneWindow</code>（大管家）。当你调用 <code>setContentView</code>，其实是把布局塞给了这个 Window。</li>
+</ul>
+</li>
+<li>交互分发（接线员）：<code>KeyEvent.Callback</code>, <code>Window.Callback</code>
+<ul>
+<li>所有的按键点击、触摸屏幕，都是先传给 Activity，再由它分发给 Window 或 View。</li>
+</ul>
+</li>
+<li>组件间通讯（信使）： <code>startActivityForResult</code>, <code>onActivityResult</code>。
+<ul>
+<li>它是怎么和别的 Activity 打交道的</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Activity/Android-Activity.png" alt="Activity"></p>
+<p><strong>🚀 下一篇预告：</strong> 章幅有限，更好的方法是开辟一篇文章，深度切入这四大支柱的第一站——<strong>【核心生命周期】</strong>。我们将跟踪 <code>ActivityThread</code> 是如何通过 <code>performCreate</code> 敲响 Activity 的第一声大鼓的，敬请期待。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaoyu-liguo.github.io/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/" data-id="cmmiwn0bl0001w98obnzffhgo" data-title="Android四大组件之Activity详解" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" rel="tag">四大组件</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/02/06/Network-HTTP-TCP-Interview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          基础的网络知识
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/02/01/Android-Project-Structure-Parsing/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Android-Project-Structure-Parsing</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project-Struct/" rel="tag">Project-Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI%E6%B8%B2%E6%9F%93/" rel="tag">UI渲染</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewRootImpl/" rel="tag">ViewRootImpl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView/" rel="tag">setContentView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" rel="tag">四大组件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Project-Struct/" style="font-size: 10px;">Project-Struct</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/UI%E6%B8%B2%E6%9F%93/" style="font-size: 10px;">UI渲染</a> <a href="/tags/ViewRootImpl/" style="font-size: 10px;">ViewRootImpl</a> <a href="/tags/setContentView/" style="font-size: 10px;">setContentView</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">四大组件</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">三月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">二月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/03/08/setcontentview-source-code/">源码解密：setContentView 之后，到底发生了什么？</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/26/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/10/android-ui-rendering-process/">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/06/Network-HTTP-TCP-Interview/">基础的网络知识</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/">Android四大组件之Activity详解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 LeeLand<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

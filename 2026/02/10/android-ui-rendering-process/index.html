@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？ | LeeLand的技术沉淀</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="很多开发者以为，在 Activity 的 onCreate 里调用完 setContentView，屏幕上就应该有画面了。但如果此时立刻去获取一个 View 的宽高（view.getWidth()），你会发现结果永远是 0！ 因为在 onCreate 阶段，系统只是在内存里建好了一棵枯燥的 View 树，根本还没有开始画！” 答案就藏在 Android 主线程的大总管 —— ActivityThr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？">
+<meta property="og:url" content="https://xiaoyu-liguo.github.io/2026/02/10/android-ui-rendering-process/index.html">
+<meta property="og:site_name" content="LeeLand的技术沉淀">
+<meta property="og:description" content="很多开发者以为，在 Activity 的 onCreate 里调用完 setContentView，屏幕上就应该有画面了。但如果此时立刻去获取一个 View 的宽高（view.getWidth()），你会发现结果永远是 0！ 因为在 onCreate 阶段，系统只是在内存里建好了一棵枯燥的 View 树，根本还没有开始画！” 答案就藏在 Android 主线程的大总管 —— ActivityThr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/ActivityThread-SurfaceFlinger/1.png">
+<meta property="article:published_time" content="2026-02-10T11:30:00.000Z">
+<meta property="article:modified_time" content="2026-03-09T08:12:27.518Z">
+<meta property="article:author" content="LeeLand">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="ViewRootImpl">
+<meta property="article:tag" content="UI渲染">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaoyu-liguo.github.io/images/ActivityThread-SurfaceFlinger/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LeeLand的技术沉淀" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LeeLand的技术沉淀</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Focus on Android &amp; Mobile Development</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xiaoyu-liguo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-android-ui-rendering-process" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/02/10/android-ui-rendering-process/" class="article-date">
+  <time class="dt-published" datetime="2026-02-10T11:30:00.000Z" itemprop="datePublished">2026-02-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>很多开发者以为，在 <code>Activity</code> 的 <code>onCreate</code> 里调用完 <code>setContentView</code>，屏幕上就应该有画面了。但如果此时立刻去获取一个 View 的宽高（<code>view.getWidth()</code>），你会发现结果永远是 <strong>0</strong>！ <strong>因为在 <code>onCreate</code> 阶段，系统只是在内存里建好了一棵枯燥的 View 树，根本还没有开始画！</strong>”</p>
+<p>答案就藏在 Android 主线程的大总管 —— <strong><code>ActivityThread.java</code></strong> 里。系统在准备回调 Activity 的 <code>onResume()</code> 时，才真正吹响了渲染的冲锋号。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ActivityThread.java 中的 handleResumeActivity 节选</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleResumeActivity</span><span class="params">(IBinder token, <span class="type">boolean</span> finalStateRequest, <span class="type">boolean</span> isForward, String reason)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 回调我们写的 onResume()，此时屏幕依然是黑的！</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">ActivityClientRecord</span> <span class="variable">r</span> <span class="operator">=</span> performResumeActivity(token, finalStateRequest, reason);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">Activity</span> <span class="variable">a</span> <span class="operator">=</span> r.activity;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 拿到我们内存里建好的皇城 DecorView</span></span><br><span class="line">    <span class="type">View</span> <span class="variable">decor</span> <span class="operator">=</span> r.window.getDecorView();</span><br><span class="line">    decor.setVisibility(View.INVISIBLE); </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 拿到窗口管理器</span></span><br><span class="line">    <span class="type">ViewManager</span> <span class="variable">wm</span> <span class="operator">=</span> a.getWindowManager();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4. ⚠️ 见证奇迹的终极发令枪：把 DecorView 喂给 WindowManager！</span></span><br><span class="line">    wm.addView(decor, l); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>揭秘 <code>a.getWindowManager()</code> 的真面目</strong></p>
+<p>在代码里，<code>a</code> 就是我们的 <code>Activity</code>。当我们调用 <code>a.getWindowManager()</code> 时，返回的类型虽然写着 <code>ViewManager</code>（或者是它的子接口 <code>WindowManager</code>），它的真实实现类 —— <strong><code>WindowManagerImpl</code></strong></p>
+<ol>
+<li><strong>它是 Activity 的“私人大堂经理”</strong></li>
+</ol>
+<p>每当系统启动一个 Activity（在底层的 <code>Activity.attach()</code> 方法里），系统不仅会给它发一个 <code>PhoneWindow</code>，还会专门为这个 Activity <code>new</code> 一个专属的 <code>WindowManagerImpl</code>。</p>
+<p>这个大堂经理手里死死攥着两样东西：</p>
+<ul>
+<li>你当前的 <code>Context</code>（也就是这个 Activity）</li>
+<li>你当前的屏幕设备（因为有的手机可能外接了显示器，它得知道画在哪块屏幕上）</li>
+</ul>
+<ol start="2">
+<li><strong>为什么要有这个大堂经理</strong>？</li>
+</ol>
+<p>如果所有 Activity 都直接去找全局系统服务，一旦你把 Activity 销毁了，系统如果忘记清理，就会导致极其严重的<strong>内存泄漏</strong>。 所以，Google 设计了这个“大堂经理”（<code>WindowManagerImpl</code>）。你 Activity 要加弹窗、加视图，都找你的私人经理。等你 Activity 销毁时，这个经理会负责把你在这个页面上加的所有 View 全部清理掉！</p>
+<h4 id="3-大堂经理背后的“终极-Boss”">3. 大堂经理背后的“终极 Boss”</h4>
+<p>私人经理 <code>WindowManagerImpl</code> 其实也是个“甩手掌柜”。当你调用他的 <code>addView</code> 时，他会在内部直接呼叫一个叫 <strong><code>WindowManagerGlobal</code></strong> 的家伙。 <code>WindowManagerGlobal</code> 是一个<strong>全局单例</strong>（整个 App 进程只有他一个）。所有的跨进程通信、和底层硬件（WMS）的对接、以及 <code>new ViewRootImpl()</code>（创建包工头），<strong>全都是这个全局 Boss 在干！</strong></p>
+<hr>
+<p><strong><code>wm.addView()</code> 到底触发了什么？</strong></p>
+<p>当我们调用 <code>wm.addView(decor, l)</code> 时，前面提到的那个**全局 Boss（<code>WindowManagerGlobal</code>）**立刻干了两件事：</p>
+<ol>
+<li><code>new</code> 了一个名叫 <strong><code>ViewRootImpl</code></strong> 的超级包工头。</li>
+<li>调用 <code>root.setView(decor, ...)</code>，把你的皇城（DecorView）正式交给了包工头。</li>
+</ol>
+<h1>一、幕后黑手 <code>ViewRootImpl</code> 的诞生</h1>
+<p>别看它的名字里带个 <code>View</code>，<strong>它根本不是一个 View！</strong> 它不继承自任何 View 类，它是连接 WindowManager 和 整个 View 树的“绝对纽带”。 可以把它理解为一个<strong>专属包工头</strong>。</p>
+<p>在 Android 里，一个 Activity 对应一棵以 <code>DecorView</code> 为首的视图树；而每一棵视图树，系统都会为它专门配备唯一的一个 <code>ViewRootImpl</code>。</p>
+<p>在 <code>WindowManagerGlobal</code> 内部，系统调用了 <code>root.setView(view, ...)</code>。当顺着源码进入到 <code>ViewRootImpl.setView()</code> 这个方法时，会发现这个包工头一上任，立刻干了两件极其硬核的大事。</p>
+<p>这就是包工头的“两板斧”：<strong>对内搞定渲染节奏，对外搞定系统地皮。</strong></p>
+<h2 id="🪓-第一板斧：对内发起渲染请求-requestLayout">🪓 第一板斧：对内发起渲染请求 (<code>requestLayout</code>)</h2>
+<p>在 <code>setView</code> 方法的开头，包工头立刻调用了一个极其重要的方法：<code>requestLayout()</code>。</p>
+<blockquote>
+<p><strong>💡 破案时刻：</strong> 平时在开发中，如果动态改变了一个 View 的大小（比如把一段很长的文字塞进 TextView），往往需要调用 <code>view.requestLayout()</code>。 这个方法最终都会顺藤摸瓜，一路调用到 <code>ViewRootImpl</code> 的 <code>requestLayout()</code> 这里！</p>
+</blockquote>
+<p>它里面干了什么？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewRootImpl.java 源码节选</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">requestLayout</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!mHandlingLayoutInLayoutRequest) &#123;</span><br><span class="line">        checkThread(); <span class="comment">// ⚠️ 经典的检查：是否在主线程更新 UI？</span></span><br><span class="line">        mLayoutRequested = <span class="literal">true</span>;</span><br><span class="line">        scheduleTraversals(); <span class="comment">// 预约三大战役！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看到那个 <code>checkThread()</code> 了吗？<strong>这就是为什么“只有主线程才能更新 UI”的万恶之源！</strong> 每次要画图，包工头都会极其严厉地查你的身份证（线程 ID），不是主线程直接抛异常崩溃！</p>
+<p>查完之后，它调用了 <strong><code>scheduleTraversals()</code></strong>。 注意，这里是 <em>schedule</em>（预约/排期），而不是立刻执行。它其实是在向系统底层的 <strong>Choreographer（编舞者）</strong> 发送消息：“我准备好画图了，等下一个屏幕刷新信号（VSYNC）到来时，请立刻叫醒我！”</p>
+<h2 id="第二板斧：对外向系统申请“地皮”-跨进程-IPC">第二板斧：对外向系统申请“地皮” (跨进程 IPC)</h2>
+<p>App 只是一个普通的进程，它自己是没有权利直接在手机屏幕上乱画的。手机屏幕的绝对掌控者，是运行在系统核心进程里的 <strong>WMS (WindowManagerService)</strong>。</p>
+<p>包工头想要画图，必须得先向系统申请一块画布。所以在 <code>setView</code> 的后半段，有一句极其重量级的跨进程通信（Binder）代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewRootImpl.java 的 setView 后半段</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// ⚠️ 极其硬核的 IPC 调用！跨越进程边界去见 WMS 大佬</span></span><br><span class="line">    res = mWindowSession.addToDisplayAsUser(mWindow, mSeq, mWindowAttributes, ...);</span><br><span class="line">&#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过这句代码，包工头拿着你的 <code>DecorView</code> 的尺寸和参数，跑到系统底层去敲门：“WMS 大哥，我是 FirstActivity，我马上要开工了，给我分配一块屏幕上的 Surface（画布）吧！”</p>
+<p>当包工头对外成功向 WMS 申请到了画布，对内又向 Choreographer 预约好了档期。接下来，万事俱备。</p>
+<p>当屏幕硬件的 VSYNC（垂直同步）信号如期而至，系统会准时唤醒包工头。此时，包工头将极其冷酷地执行那个我们在 <code>requestLayout</code> 里看到的预约——也就是 Android 渲染史上最壮观、最复杂、长达近千行的史诗级方法：<strong><code>performTraversals()</code>（执行遍历）！</strong></p>
+<p>在这个方法里，从大树的根部（DecorView）开始，著名的 Measure（测量）、Layout（摆放）、Draw（绘制）三大战役，正式打响！</p>
+<h1>二、三大战役 <code>performTraversals()</code></h1>
+<p>当 16.6ms 的 VSYNC 信号如期而至，系统底层的 Choreographer（编舞者）准时唤醒了包工头 <code>ViewRootImpl</code>。 此时，包工头极其冷酷地按下了核按钮，执行了 Android UI 渲染史上最著名、最核心的方法：<strong><code>performTraversals()</code></strong>。</p>
+<p>扒开这个长达近千行的方法，去掉各种繁杂的状态判断，会发现它的灵魂极其纯粹。包工头带着 <code>DecorView</code>，自顶向下（从大树的根部到每一片叶子），严格按顺序打响了**“三大战役”**：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewRootImpl.java 中 performTraversals() 的核心骨架（伪代码精简版）</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">performTraversals</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// ... 准备工作</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 📏 第一战：测量 (Measure)</span></span><br><span class="line">    <span class="keyword">if</span> (layoutRequested) &#123;</span><br><span class="line">        performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 📍 第二战：布局 (Layout)</span></span><br><span class="line">    <span class="keyword">if</span> (didLayout) &#123;</span><br><span class="line">        performLayout(lp, mWidth, mHeight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 🎨 第三战：绘画 (Draw)</span></span><br><span class="line">    <span class="keyword">if</span> (!cancelDraw) &#123;</span><br><span class="line">        performDraw();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-第一战：测量-Measure-——-“你有多大？”">1. 第一战：测量 (Measure) —— “你有多大？”</h2>
+<p>包工头调用 <code>performMeasure()</code>，从 <code>DecorView</code> 开始往下发问。</p>
+<ul>
+<li>
+<p>包工头问 LinearLayout：“你需要多大空间？”</p>
+</li>
+<li>
+<p>LinearLayout 转头去问肚子里的 Button 和 TextView：“你们的内容有多宽多高？” 经过一轮极其复杂的计算，整棵树上所有的 View，<strong>第一次拥有了确定的宽和高（MeasuredWidth / MeasuredHeight）</strong>。</p>
+<blockquote>
+<p>(💡 这就是为什么在 <code>onCreate</code> 里直接调 <code>view.getWidth()</code> 永远是 0，因为代码跑到那里时，第一战还没打！)</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="1-1-Measure-第一战的“二进制魔法”">1.1. Measure 第一战的“二进制魔法”</h3>
+<p><strong>1️⃣极致压缩：什么是 MeasureSpec？</strong></p>
+<p>在包工头发起 <code>performMeasure()</code> 时，面临着一个极其严峻的性能考验： 手机屏幕一秒钟刷新 60 次（甚至 120 次），这意味着系统在极短的时间内，要带着成百上千个 View 疯狂地计算大小。如果在测量时频繁地 <code>new</code> 对象来传递数据，瞬间就会触发系统的 GC（垃圾回收），导致极其严重的画面卡顿。</p>
+<p>为了抠这点性能，Google 工程师丧心病狂地设计出了 <strong><code>MeasureSpec</code></strong>。</p>
+<p><code>MeasureSpec</code> 翻译过来叫“测量规格”。它并不是一个对象，它是一个<strong>极其纯粹的 32 位 <code>int</code> 整型数字</strong>！</p>
+<p>工程师利用了二进制的位运算（Bitwise Operations），硬生生地把<strong>两个完全不同的信息，塞进了一个 <code>int</code> 变量里</strong>：</p>
+<ul>
+<li><strong>高 2 位（SpecMode）：</strong> 代表测量的<strong>模式</strong>。</li>
+<li><strong>低 30 位（SpecSize）：</strong> 代表测量的<strong>具体大小</strong>（像素值）。</li>
+</ul>
+<p>当拿着这个 <code>int</code> 数字时，只需要通过系统的按位与（<code>&amp;</code>）和移位（<code>&gt;&gt;</code>）操作，就能瞬间解包出 Mode 和 Size，<strong>全程 0 对象分配，性能快到起飞！</strong></p>
+<p><strong>2️⃣父与子的谈判：三大 SpecMode</strong></p>
+<p>在递归遍历时，父容器（比如 LinearLayout）就是通过 <code>MeasureSpec</code> 向子 View（比如 Button）下达测量命令的。<code>SpecMode</code> 共有三种，它们完美对应了你在 XML 里写的那些属性：</p>
+<p><strong><code>EXACTLY</code>（精确模式）：“强权老爸”</strong></p>
+<ul>
+<li><strong>场景</strong>：你在 XML 里写了 <code>layout_width=&quot;100dp&quot;</code> 或者 <code>match_parent</code>。</li>
+<li><strong>父容器潜台词</strong>：“儿子，不管你内容有多少，我都已经把你的大小定死了！给你 100 像素，多一点都不行，少一点也不行！”</li>
+</ul>
+<p><strong><code>AT_MOST</code>（最大模式）：“开明老爸”</strong></p>
+<ul>
+<li><strong>场景</strong>：你在 XML 里写了 <code>layout_width=&quot;wrap_content&quot;</code>。</li>
+<li><strong>父容器潜台词</strong>：“儿子，你先自己算算你需要多大。但我最多只能给你 800 像素（屏幕宽度），只要不超过这个值，你要多大自己定！”</li>
+</ul>
+<p><strong><code>UNSPECIFIED</code>（无限制模式）：“土豪老爸”</strong></p>
+<ul>
+<li><strong>场景</strong>：极其罕见，通常出现在 <code>ScrollView</code> 或 <code>RecyclerView</code> 的底层测量中。</li>
+<li><strong>父容器潜台词</strong>：“儿子，老爸我有无限的滚动空间，你想要多大就有多大，哪怕超出屏幕也没关系！”</li>
+</ul>
+<p><strong>3️⃣递归回溯：一场自底向上的汇报演出</strong></p>
+<p>弄懂了 <code>MeasureSpec</code> 这个“谈判工具”，我们再看测量的真实流程，这是完美的**“递归回溯”**。</p>
+<p>测量是一场标准的<strong>树形 DFS（深度优先搜索）</strong>。 以一个 <code>LinearLayout</code> 里包着一个 <code>TextView</code> 为例，流程是这样的：</p>
+<ol>
+<li><strong>递（向下传达约束）：</strong> 包工头给 <code>LinearLayout</code> 下达 <code>MeasureSpec</code>（比如最大 1080 像素）。 <code>LinearLayout</code> 发现自己有儿子，于是它不能马上决定自己的大小。它拿着老爸给的约束，结合 <code>TextView</code> 的 <code>LayoutParams</code>，生成一个新的 <code>MeasureSpec</code>，传给 <code>TextView</code> 的 <code>measure()</code> 方法。</li>
+<li><strong>触底（叶子节点自我测量）：</strong> <code>TextView</code> 收到指令。它是叶子节点，没有儿子了。于是它老老实实地调用底层的文本渲染引擎，计算出自己那串文字到底需要占几个像素。算完之后，调用 <code>setMeasuredDimension(width, height)</code>，把结果保存在自己肚子里。</li>
+<li><strong>归（向上回溯汇报）：</strong> <code>TextView</code> 测量完毕，出栈。<code>LinearLayout</code> 终于拿到了儿子的真实大小。它把儿子的宽加起来，再加上自己的 padding（内边距），最终算出了自己的总大小，然后也调用 <code>setMeasuredDimension</code> 保存起来。</li>
+<li>一路向上回溯，直到最顶层的 <code>DecorView</code> 算完，<strong>整个第一战（Measure）宣告彻底结束！</strong></li>
+</ol>
+<h2 id="2-第二战：布局-Layout-——-“你站哪儿？”">2. 第二战：布局 (Layout) —— “你站哪儿？”</h2>
+<p>大小确定了，接下来排座位。包工头调用 <code>performLayout()</code>，再次从上往下发号施令： “LinearLayout，你占据屏幕上半部分！Button，你站在 LinearLayout 内部坐标为 (X:50, Y:100) 的位置！” 打完这一战，所有的 View 都拥有了<strong>相对于父容器的四个顶点真实坐标（Left, Top, Right, Bottom）</strong>。</p>
+<h2 id="3-第三战：绘画-Draw-——-“给你画笔，上色！”">3. 第三战：绘画 (Draw) —— “给你画笔，上色！”</h2>
+<p>万事俱备，只欠上色。包工头调用 <code>performDraw()</code>，拿出之前向系统申请好的 <code>Surface</code>（物理画布），并生成一个 <code>Canvas</code>（画笔）。 包工头大吼一声：“拿到画笔的，依次把自己画在画布上！” 树上的 View 们开始极其有纪律地作画：</p>
+<ol>
+<li>画自己的背景（Background）。</li>
+<li>画自己的内容（比如 TextView 渲染文字，ImageView 画图片）。</li>
+<li>如果自己是容器，就把画笔递给孩子们（dispatchDraw），让孩子们接着画。</li>
+</ol>
+<h2 id="4-上色">4. 上色</h2>
+<p>当 <code>performDraw()</code> 执行完毕，那块 <code>Surface</code> 画布上已经画满了绚丽的 UI 像素。</p>
+<p>但这块画布目前还在 App 的进程内存里。包工头的最后一个动作，是把这块画好的 <code>Surface</code> 缓冲区，一脚踢给系统专门负责合成画面的终极硬件 Boss —— <strong><code>SurfaceFlinger</code></strong>！</p>
+<p><code>SurfaceFlinger</code> 拿到你的画面，再拿到系统顶部状态栏的画面，将它们瞬间合成，直接送往 GPU 和手机屏幕硬件。</p>
+<h1>三、终极大 Boss <code>SurfaceFlinger</code></h1>
+<p>当包工头 <code>ViewRootImpl</code> 极其辛苦地指挥完 Measure、Layout、Draw 三大战役后，UI 像素已经被一笔一画地填满在了那块名为 <code>Surface</code> 的物理画布上。</p>
+<p>但此时，面临着一个极其严峻的系统级挑战： <strong>App 进程被隔离在沙箱里，它绝对没有权限去直接操作手机的物理硬件屏幕！</strong> 屏幕的绝对控制权，掌握在底层的系统服务进程手中。</p>
+<p>那么，App 是怎么把画好的画面交出去的呢？这就轮到 Android 渲染引擎的终极大 Boss —— <strong>SurfaceFlinger</strong> 登场了！</p>
+<h2 id="1-跨进程的性能狂魔：共享内存-GraphicBuffer">1. 跨进程的性能狂魔：共享内存 (GraphicBuffer)</h2>
+<p>很多人会想当然地以为：“既然不在一个进程，那肯定是用 Binder 跨进程把画布传过去呗！” <strong>大错特错！</strong></p>
+<blockquote>
+<p><strong>💡 极客思考：为什么不能用 Binder？</strong> 一个 1080 x 1920 屏幕的一帧画面，如果用 ARGB_8888 格式，大小约为 <code>1080 * 1920 * 4 bytes ≈ 8MB</code>。 而 Android 系统的 Binder 事务缓冲区极限只有 <strong>1MB</strong> 出头！如果用 Binder 传画面，App 瞬间就会抛出 <code>TransactionTooLargeException</code> 当场崩溃！</p>
+</blockquote>
+<p>为了解决这个物理级难题，Google 引入了极其暴力的 <strong>BufferQueue（缓冲队列）</strong> 和 <strong>匿名共享内存（Ashmem / GraphicBuffer）</strong> 机制。</p>
+<ul>
+<li><strong>App（生产者）：</strong> 向 BufferQueue 申请一块内存，在里面画画。画完之后，不需要拷贝庞大的像素数据，只需要通过 Binder 把这块内存的**文件描述符（句柄）**极其轻量地传给系统。</li>
+<li><strong>SurfaceFlinger（消费者）：</strong> 收到句柄后，直接映射这块物理内存。<strong>全程零拷贝（Zero-Copy）！</strong> 性能瞬间拉满！</li>
+</ul>
+<h2 id="2-大-Boss-的真正本职工作：图层合成-Composition">2. 大 Boss 的真正本职工作：图层合成 (Composition)</h2>
+<p>当 SurfaceFlinger 从队列里拿到 App 画好的那块玻璃（Surface）时，它面临的其实是一堆玻璃：</p>
+<ul>
+<li>顶部的<strong>系统状态栏</strong>（时间、电量）是一块玻璃。</li>
+<li>底部的<strong>系统导航栏</strong>（三大金刚键/小白条）是一块玻璃。</li>
+<li><strong>App 界面</strong>是一块玻璃。</li>
+<li>如果你弹出了一个 Toast 或者悬浮窗，那又是一块额外的玻璃。</li>
+</ul>
+<p>SurfaceFlinger 的核心工作根本不是“画图”，而是**“合成（Composite）”**！ 它就像一个极其冷酷的千层饼大师，按照 Z 轴（Z-order）的上下顺序，把这些来自不同进程的玻璃板层层叠加上去。如果 App 背景是半透明的，它还会利用 GPU 进行极其复杂的 Alpha 混合运算，算出最终透过去的颜色。</p>
+<h2 id="3-终极一跃：提交给硬件-HWC">3. 终极一跃：提交给硬件 (HWC)</h2>
+<p>一切就绪！ 当 VSYNC 信号再次响起，SurfaceFlinger 会把最终合成完毕的一整块“完美画面”，直接提交给硬件层的 <strong>HWC（Hardware Composer / 硬件合成器）</strong> 和 <strong>Display Controller（显示控制器）</strong>。</p>
+<p>控制器将数字信号转化为极其微弱的电流，以极光般的速度扫过手机屏幕上的几百万个发光二极管（OLED/LCD 像素点）。</p>
+<hr>
+<p>至此，在 MainActivity 里敲下的那行极其普通的 <code>setContentView(R.layout.activity_main)</code>，跨越了生命周期、跨越了 View 树的重重解剖、跨越了 Binder 进程边界、跨越了共享内存，最终化作了用户指尖那一抹最绚丽的色彩！</p>
+<p>最后，再整理一下一个关键的元素：</p>
+<p><img src="/images/ActivityThread-SurfaceFlinger/1.png" alt="1"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaoyu-liguo.github.io/2026/02/10/android-ui-rendering-process/" data-id="cmmiwn0bo000ew98o3hgg4bex" data-title="源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI%E6%B8%B2%E6%9F%93/" rel="tag">UI渲染</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ViewRootImpl/" rel="tag">ViewRootImpl</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/02/26/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/02/06/Network-HTTP-TCP-Interview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">基础的网络知识</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project-Struct/" rel="tag">Project-Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI%E6%B8%B2%E6%9F%93/" rel="tag">UI渲染</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewRootImpl/" rel="tag">ViewRootImpl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView/" rel="tag">setContentView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" rel="tag">四大组件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Project-Struct/" style="font-size: 10px;">Project-Struct</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/UI%E6%B8%B2%E6%9F%93/" style="font-size: 10px;">UI渲染</a> <a href="/tags/ViewRootImpl/" style="font-size: 10px;">ViewRootImpl</a> <a href="/tags/setContentView/" style="font-size: 10px;">setContentView</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">四大组件</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">三月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">二月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/03/08/setcontentview-source-code/">源码解密：setContentView 之后，到底发生了什么？</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/26/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/10/android-ui-rendering-process/">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/06/Network-HTTP-TCP-Interview/">基础的网络知识</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/">Android四大组件之Activity详解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 LeeLand<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

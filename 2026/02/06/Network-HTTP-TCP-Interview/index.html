@@ -6,12 +6,12 @@
   
   <title>基础的网络知识 | LeeLand的技术沉淀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP&#x2F;IP 协议族中那些最重要的知识点 一、TCP&#x2F;IP网络结构计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP&#x2F;IP 四层模型，以及结合两者优点的五层协议（教学常用）。 在实际工业界试中，我们最常讨论的是 TCP&#x2F;IP 四层模型。它们之间的对应关系如下表所示：">
+  <meta name="description" content="网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP&#x2F;IP 协议族中那些最重要的知识点 一、TCP&#x2F;IP网络结构 计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP&#x2F;IP 四层模型，以及结合两者优点的五层协议（教学常用）。 在实际工业界试中，我们最常讨论的是 TCP&#x2F;IP 四层模型。它们之间的对应关系如下表所示：    OSI 七层模型 TCP&#x2F;IP 四">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基础的网络知识">
 <meta property="og:url" content="https://xiaoyu-liguo.github.io/2026/02/06/Network-HTTP-TCP-Interview/index.html">
 <meta property="og:site_name" content="LeeLand的技术沉淀">
-<meta property="og:description" content="网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP&#x2F;IP 协议族中那些最重要的知识点 一、TCP&#x2F;IP网络结构计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP&#x2F;IP 四层模型，以及结合两者优点的五层协议（教学常用）。 在实际工业界试中，我们最常讨论的是 TCP&#x2F;IP 四层模型。它们之间的对应关系如下表所示：">
+<meta property="og:description" content="网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP&#x2F;IP 协议族中那些最重要的知识点 一、TCP&#x2F;IP网络结构 计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP&#x2F;IP 四层模型，以及结合两者优点的五层协议（教学常用）。 在实际工业界试中，我们最常讨论的是 TCP&#x2F;IP 四层模型。它们之间的对应关系如下表所示：    OSI 七层模型 TCP&#x2F;IP 四">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xiaoyu-liguo.github.io/images/tcp-handshake.png">
 <meta property="og:image" content="https://xiaoyu-liguo.github.io/images/tcp-four-way-handshake.png">
@@ -109,78 +109,93 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP&#x2F;IP 协议族中那些最重要的知识点</p>
-<h1 id="一、TCP-IP网络结构"><a href="#一、TCP-IP网络结构" class="headerlink" title="一、TCP&#x2F;IP网络结构"></a>一、TCP&#x2F;IP网络结构</h1><p>计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP&#x2F;IP 四层模型，以及结合两者优点的五层协议（教学常用）。</p>
-<p>在实际工业界试中，我们最常讨论的是 <strong>TCP&#x2F;IP 四层模型</strong>。它们之间的对应关系如下表所示：</p>
+        <p>网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP/IP 协议族中那些最重要的知识点</p>
+<h1>一、TCP/IP网络结构</h1>
+<p>计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP/IP 四层模型，以及结合两者优点的五层协议（教学常用）。</p>
+<p>在实际工业界试中，我们最常讨论的是 <strong>TCP/IP 四层模型</strong>。它们之间的对应关系如下表所示：</p>
 <table>
 <thead>
 <tr>
-<th align="left">OSI 七层模型</th>
-<th align="left">TCP&#x2F;IP 四层模型</th>
-<th align="left">核心功能与常见协议</th>
+<th style="text-align:left">OSI 七层模型</th>
+<th style="text-align:left">TCP/IP 四层模型</th>
+<th style="text-align:left">核心功能与常见协议</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">应用层、表示层、会话层</td>
-<td align="left"><strong>应用层 (Application)</strong></td>
-<td align="left">为用户应用提供接口 (HTTP, HTTPS, DNS, FTP)</td>
+<tbody>
+<tr>
+<td style="text-align:left">应用层、表示层、会话层</td>
+<td style="text-align:left"><strong>应用层 (Application)</strong></td>
+<td style="text-align:left">为用户应用提供接口 (HTTP, HTTPS, DNS, FTP)</td>
 </tr>
 <tr>
-<td align="left">传输层</td>
-<td align="left"><strong>传输层 (Transport)</strong></td>
-<td align="left">提供端到端的通信连接 (TCP, UDP)</td>
+<td style="text-align:left">传输层</td>
+<td style="text-align:left"><strong>传输层 (Transport)</strong></td>
+<td style="text-align:left">提供端到端的通信连接 (TCP, UDP)</td>
 </tr>
 <tr>
-<td align="left">网络层</td>
-<td align="left"><strong>网络层 (Internet)</strong></td>
-<td align="left">负责数据包的路由和转发 (IP, ICMP)</td>
+<td style="text-align:left">网络层</td>
+<td style="text-align:left"><strong>网络层 (Internet)</strong></td>
+<td style="text-align:left">负责数据包的路由和转发 (IP, ICMP)</td>
 </tr>
 <tr>
-<td align="left">数据链路层、物理层</td>
-<td align="left"><strong>网络接口层 (Network Access)</strong></td>
-<td align="left">负责底层硬件的物理传输 (Ethernet, Wi-Fi, ARP)</td>
+<td style="text-align:left">数据链路层、物理层</td>
+<td style="text-align:left"><strong>网络接口层 (Network Access)</strong></td>
+<td style="text-align:left">负责底层硬件的物理传输 (Ethernet, Wi-Fi, ARP)</td>
 </tr>
-</tbody></table>
-<p>下面拿 TCP&#x2F;IP 四层模型做详细说明。理解这四层，是后续排查网络疑难杂症的基础。</p>
-<h2 id="1-应用层-Application-Layer"><a href="#1-应用层-Application-Layer" class="headerlink" title="1. 应用层 (Application Layer)"></a>1. 应用层 (Application Layer)</h2><p>用户日常访问的网页、使用的 App 几乎都是直接在应用层上实现的。它<strong>只关心为用户提供功能，不关心底层数据如何传输</strong>。</p>
+</tbody>
+</table>
+<p>下面拿 TCP/IP 四层模型做详细说明。理解这四层，是后续排查网络疑难杂症的基础。</p>
+<h2 id="1-应用层-Application-Layer">1. 应用层 (Application Layer)</h2>
+<p>用户日常访问的网页、使用的 App 几乎都是直接在应用层上实现的。它<strong>只关心为用户提供功能，不关心底层数据如何传输</strong>。</p>
 <ul>
 <li><strong>常见协议</strong>：HTTP、HTTPS、DNS、FTP 等。</li>
 <li><strong>开发映射</strong>：我们在业务中使用的 Retrofit、OkHttp 发起的网络请求，或者用 WebView 加载网页，本质上都是在构建和解析应用层的数据报文。</li>
 </ul>
-<h2 id="2-传输层-Transport-Layer"><a href="#2-传输层-Transport-Layer" class="headerlink" title="2. 传输层 (Transport Layer)"></a>2. 传输层 (Transport Layer)</h2><p>应用层决定了“要传什么”，而传输层则是<strong>为应用层提供端到端的网络支持，关心“怎么收发数据”</strong>。</p>
+<h2 id="2-传输层-Transport-Layer">2. 传输层 (Transport Layer)</h2>
+<p>应用层决定了“要传什么”，而传输层则是<strong>为应用层提供端到端的网络支持，关心“怎么收发数据”</strong>。</p>
 <ul>
 <li><strong>常见协议</strong>：TCP（保证可靠交付）、UDP（追求极致速度）。</li>
 <li><strong>开发映射</strong>：如果我们要在 App 里实现 IM 即时通讯或者直播推流，底层用到的 Socket 编程就是直接在这层与操作系统内核打交道。</li>
 </ul>
-<h2 id="3-网络层-Internet-Layer"><a href="#3-网络层-Internet-Layer" class="headerlink" title="3. 网络层 (Internet Layer)"></a>3. 网络层 (Internet Layer)</h2><p>数据要从一台手机跨越千山万水到达远端服务器，中间要经过极其复杂的路由器和交换机。网络层负责<strong>寻址和路由选择</strong>，决定数据包怎么从源设备一步步“跳”到目的设备。</p>
+<h2 id="3-网络层-Internet-Layer">3. 网络层 (Internet Layer)</h2>
+<p>数据要从一台手机跨越千山万水到达远端服务器，中间要经过极其复杂的路由器和交换机。网络层负责<strong>寻址和路由选择</strong>，决定数据包怎么从源设备一步步“跳”到目的设备。</p>
 <ul>
 <li><strong>常见协议</strong>：IPv4、IPv6、ICMP（平时排查弱网用的 <code>ping</code> 命令就基于此）。</li>
 </ul>
-<h2 id="4-网络接口层-Network-Access-Layer"><a href="#4-网络接口层-Network-Access-Layer" class="headerlink" title="4. 网络接口层 (Network Access Layer)"></a>4. 网络接口层 (Network Access Layer)</h2><p>数据要彻底实现从一台设备通过 Wi-Fi 或蜂窝网络到达另一台设备，需要最底层的链路级别支持，它负责将上层的数字信号转换为物理介质中的电信号或无线电波。</p>
+<h2 id="4-网络接口层-Network-Access-Layer">4. 网络接口层 (Network Access Layer)</h2>
+<p>数据要彻底实现从一台设备通过 Wi-Fi 或蜂窝网络到达另一台设备，需要最底层的链路级别支持，它负责将上层的数字信号转换为物理介质中的电信号或无线电波。</p>
 <ul>
 <li><strong>常见协议</strong>：ARP 协议（通过 IP 获取网卡 MAC 地址）、以太网协议。</li>
 </ul>
-<h1 id="二、在浏览器输入网址后发生了什么？"><a href="#二、在浏览器输入网址后发生了什么？" class="headerlink" title="二、在浏览器输入网址后发生了什么？"></a>二、在浏览器输入网址后发生了什么？</h1><p>这是一道可以无限深挖的综合性问题。从宏观的应用层来看，整个过程的第一步是封装请求：</p>
-<h3 id="1-URL-解析"><a href="#1-URL-解析" class="headerlink" title="1. URL 解析"></a>1. URL 解析</h3><p>当我们在浏览器输入一个 URL 时，浏览器首先要对其进行解析，拆解出目标地址和所需资源。</p>
+<h1>二、在浏览器输入网址后发生了什么？</h1>
+<p>这是一道可以无限深挖的综合性问题。从宏观的应用层来看，整个过程的第一步是封装请求：</p>
+<h3 id="1-URL-解析">1. URL 解析</h3>
+<p>当我们在浏览器输入一个 URL 时，浏览器首先要对其进行解析，拆解出目标地址和所需资源。</p>
 <blockquote>
-<p><strong>URL 标准结构</strong> &#x3D; <code>访问协议 (http/https) + :// + Web 服务器名称 (域名) + 资源路径</code></p>
+<p><strong>URL 标准结构</strong> = <code>访问协议 (http/https) + :// + Web 服务器名称 (域名) + 资源路径</code></p>
 </blockquote>
-<h3 id="2-DNS-域名解析-获取目标-IP"><a href="#2-DNS-域名解析-获取目标-IP" class="headerlink" title="2. DNS 域名解析 (获取目标 IP)"></a>2. DNS 域名解析 (获取目标 IP)</h3><p>解析完 URL 后，浏览器需要根据域名去寻找目标服务器的真实 IP 地址。寻找 IP 的过程有一套严格的<strong>降级查找机制</strong>：</p>
+<h3 id="2-DNS-域名解析-获取目标-IP">2. DNS 域名解析 (获取目标 IP)</h3>
+<p>解析完 URL 后，浏览器需要根据域名去寻找目标服务器的真实 IP 地址。寻找 IP 的过程有一套严格的<strong>降级查找机制</strong>：</p>
 <ol>
 <li><strong>查本地缓存</strong>：浏览器自身缓存 -&gt; 操作系统缓存 -&gt; 本地 <code>hosts</code> 文件。</li>
 <li><strong>查 DNS 服务器</strong>：如果本地都没有记录，就会向本地域名服务器发送 DNS 请求（通常会经过根 DNS 服务器、顶级 DNS 服务器、权威 DNS 服务器的查询过程）。</li>
 </ol>
-<h3 id="3-封装-HTTP-请求消息"><a href="#3-封装-HTTP-请求消息" class="headerlink" title="3. 封装 HTTP 请求消息"></a>3. 封装 HTTP 请求消息</h3><p>拿到了目的 IP，浏览器就可以正式封装要在应用层发送的 HTTP 请求报文了。</p>
+<h3 id="3-封装-HTTP-请求消息">3. 封装 HTTP 请求消息</h3>
+<p>拿到了目的 IP，浏览器就可以正式封装要在应用层发送的 HTTP 请求报文了。</p>
 <p>HTTP 消息的结构非常严谨，通常由四个部分组成：</p>
 <blockquote>
-<p><strong>HTTP 消息 &#x3D; 请求行&#x2F;响应行 + 请求头 (Headers) + 空行 (CRLF) + 请求体 (Body)</strong></p>
+<p><strong>HTTP 消息 = 请求行/响应行 + 请求头 (Headers) + 空行 (CRLF) + 请求体 (Body)</strong></p>
 </blockquote>
-<h1 id="三、各个协议部分细节"><a href="#三、各个协议部分细节" class="headerlink" title="三、各个协议部分细节"></a>三、各个协议部分细节</h1><h2 id="1-HTTP"><a href="#1-HTTP" class="headerlink" title="1. HTTP"></a>1. HTTP</h2><h3 id="1-1-http的请求方法"><a href="#1-1-http的请求方法" class="headerlink" title="1.1 http的请求方法"></a>1.1 http的请求方法</h3><p>HTTP 请求行的开头就是请求方法。官方定义的方法类型有多种，这里以面试中最常被对比的 GET 和 POST 为例说明：</p>
+<h1>三、各个协议部分细节</h1>
+<h2 id="1-HTTP">1. HTTP</h2>
+<h3 id="1-1-http的请求方法">1.1 http的请求方法</h3>
+<p>HTTP 请求行的开头就是请求方法。官方定义的方法类型有多种，这里以面试中最常被对比的 GET 和 POST 为例说明：</p>
 <ul>
 <li><strong>GET</strong>：一般用于<strong>获取资源</strong>。它对服务器资源不会发生更改，具有<strong>幂等性</strong>。例如我们请求接口查看“今天是星期几”， 无论用户查看多少次，都不影响结果和服务器状态。GET 的请求参数通常直接暴露拼接在 URL 中（例如 <code>/?zone=zh</code>）。</li>
-<li><strong>POST</strong>：一般用于<strong>操作&#x2F;提交资源</strong>。它通常会改变服务器状态，<strong>不具有幂等性</strong>。例如电商付款，用户如果 （因网络卡顿等原因）重复发起了 N 次 POST 扣款请求，如果没有做特殊处理，账户余额就会被扣款 N 次， 商家也会新增 N 个订单。 POST 的参数通常封装在请求体 (Body) 中。</li>
+<li><strong>POST</strong>：一般用于<strong>操作/提交资源</strong>。它通常会改变服务器状态，<strong>不具有幂等性</strong>。例如电商付款，用户如果 （因网络卡顿等原因）重复发起了 N 次 POST 扣款请求，如果没有做特殊处理，账户余额就会被扣款 N 次， 商家也会新增 N 个订单。 POST 的参数通常封装在请求体 (Body) 中。</li>
 </ul>
-<h3 id="1-2-HTTP-的状态码"><a href="#1-2-HTTP-的状态码" class="headerlink" title="1.2 HTTP 的状态码"></a>1.2 HTTP 的状态码</h3><p>HTTP 响应报文的开头就是状态码。虽然在实际业务开发中，我们经常会在响应体（Body）里与后端自定义业务状态码，但在底层的 HTTP 协议层面，官方推荐的标准分类是：</p>
+<h3 id="1-2-HTTP-的状态码">1.2 HTTP 的状态码</h3>
+<p>HTTP 响应报文的开头就是状态码。虽然在实际业务开发中，我们经常会在响应体（Body）里与后端自定义业务状态码，但在底层的 HTTP 协议层面，官方推荐的标准分类是：</p>
 <ul>
 <li>1xx (信息提示)：请求已被接收，还需要后续处理。</li>
 <li>2xx (成功)：服务器已成功接收并处理了请求。</li>
@@ -188,23 +203,27 @@
 <li>4xx (客户端错误)：客户端的请求有误，服务器无法处理。</li>
 <li>5xx (服务端错误)：服务器在处理请求的过程中发生了内部错误。</li>
 </ul>
-<h3 id="1-3-HTTP-版本的演进"><a href="#1-3-HTTP-版本的演进" class="headerlink" title="1.3 HTTP 版本的演进"></a>1.3 HTTP 版本的演进</h3><ul>
-<li><strong>HTTP&#x2F;1.0</strong>：<strong>短连接</strong>。每次发送请求都需要重新建立 TCP 连接（即经历完整的“三次握手”和“四次挥手”），网络开销极大。</li>
-<li><strong>HTTP&#x2F;1.1</strong>：<strong>长连接（Keep-Alive）</strong>。默认开启长连接，允许多个 HTTP 请求复用同一个 TCP 连接，省去了频繁连接的开销。<ul>
-<li><strong>致命痛点</strong>：存在<strong>“队头阻塞 (Head-of-line blocking)”</strong>。在一个 TCP 连接中，如果前面的请求响应太慢，后面的请求只能排队干等。</li>
+<h3 id="1-3-HTTP-版本的演进">1.3 HTTP 版本的演进</h3>
+<ul>
+<li><strong>HTTP/1.0</strong>：<strong>短连接</strong>。每次发送请求都需要重新建立 TCP 连接（即经历完整的“三次握手”和“四次挥手”），网络开销极大。</li>
+<li><strong>HTTP/1.1</strong>：<strong>长连接（Keep-Alive）</strong>。默认开启长连接，允许多个 HTTP 请求复用同一个 TCP 连接，省去了频繁连接的开销。
+<ul>
+<li><strong>致命痛点</strong>：存在**“队头阻塞 (Head-of-line blocking)”**。在一个 TCP 连接中，如果前面的请求响应太慢，后面的请求只能排队干等。</li>
 </ul>
 </li>
-<li><strong>HTTP&#x2F;2.0</strong>：<strong>性能的全面跨越</strong>。<ul>
+<li><strong>HTTP/2.0</strong>：<strong>性能的全面跨越</strong>。
+<ul>
 <li><strong>多路复用（Multiplexing）</strong>：彻底解决了 HTTP 层的队头阻塞。多个请求可以同时在一个 TCP 连接上并发、交错地发送和接收，谁先处理完谁就先回来，极大提升了加载速度。</li>
-<li><strong>头部压缩（HPACK）</strong>：HTTP&#x2F;1.1 每次都会发送大量重复的 Header（如 User-Agent、Cookie），HTTP&#x2F;2 引入了字典机制，把头部压缩得非常小。</li>
+<li><strong>头部压缩（HPACK）</strong>：HTTP/1.1 每次都会发送大量重复的 Header（如 User-Agent、Cookie），HTTP/2 引入了字典机制，把头部压缩得非常小。</li>
 <li><strong>二进制分帧</strong>：放弃了纯文本传输，改用更高效、更易于机器解析的二进制格式。</li>
 </ul>
 </li>
-<li><strong>HTTP&#x2F;3.0 (面试加分项)<strong>：</strong>底层协议的革命</strong>。因为 HTTP&#x2F;2 依然基于 TCP，TCP 本身的丢包重传机制会导致 TCP 层面的队头阻塞。HTTP&#x2F;3 直接抛弃了 TCP，底层改用基于 UDP 的 <strong>QUIC 协议</strong>。它不仅连接速度极快，而且在移动端经常切换网络（比如从 Wi-Fi 切到 4G）时不会断线重连，这对于客户端的弱网优化意义重大。</li>
+<li><strong>HTTP/3.0 (面试加分项)</strong>：<strong>底层协议的革命</strong>。因为 HTTP/2 依然基于 TCP，TCP 本身的丢包重传机制会导致 TCP 层面的队头阻塞。HTTP/3 直接抛弃了 TCP，底层改用基于 UDP 的 <strong>QUIC 协议</strong>。它不仅连接速度极快，而且在移动端经常切换网络（比如从 Wi-Fi 切到 4G）时不会断线重连，这对于客户端的弱网优化意义重大。</li>
 </ul>
-<h3 id="2-HTTPS：给“裸奔”的-HTTP-穿上铠甲"><a href="#2-HTTPS：给“裸奔”的-HTTP-穿上铠甲" class="headerlink" title="2. HTTPS：给“裸奔”的 HTTP 穿上铠甲"></a>2. HTTPS：给“裸奔”的 HTTP 穿上铠甲</h3><p>HTTP 默认是明文传输的，无论是把参数拼在 URL 里还是放在 Body 里，在抓包工具和中间路由器眼里都是在“裸奔”。为了解决安全问题，HTTPS 应运而生。</p>
+<h3 id="2-HTTPS：给“裸奔”的-HTTP-穿上铠甲">2. HTTPS：给“裸奔”的 HTTP 穿上铠甲</h3>
+<p>HTTP 默认是明文传输的，无论是把参数拼在 URL 里还是放在 Body 里，在抓包工具和中间路由器眼里都是在“裸奔”。为了解决安全问题，HTTPS 应运而生。</p>
 <blockquote>
-<p><strong>HTTPS &#x3D; HTTP + TLS&#x2F;SSL（安全层）</strong></p>
+<p><strong>HTTPS = HTTP + TLS/SSL（安全层）</strong></p>
 </blockquote>
 <p>HTTPS 并不是一种全新的协议，而是把 HTTP 原本直接交给 TCP 的明文数据，先交给 TLS 层进行加密，再由 TCP 传输。它通过三大核心机制保障安全：</p>
 <ol>
@@ -212,175 +231,204 @@
 <li><strong>摘要算法（完整性）</strong>：类似数据的“指纹”，防止数据在传输过程中被黑客篡改。</li>
 <li><strong>数字证书（身份认证）</strong>：通过 CA 机构颁发的证书，加上“链式校验”，防止中间人冒充目标服务器。</li>
 </ol>
-<h4 id="2-1-TLS-握手到底是怎么协商出密钥的？"><a href="#2-1-TLS-握手到底是怎么协商出密钥的？" class="headerlink" title="2.1 TLS 握手到底是怎么协商出密钥的？"></a>2.1 TLS 握手到底是怎么协商出密钥的？</h4><p><em>(以经典的 TLS 1.2 &#x2F; RSA 密钥交换为例，TCP 三次握手完成后，开始 TLS 握手)</em></p>
+<h4 id="2-1-TLS-握手到底是怎么协商出密钥的？">2.1 TLS 握手到底是怎么协商出密钥的？</h4>
+<p><em>(以经典的 TLS 1.2 / RSA 密钥交换为例，TCP 三次握手完成后，开始 TLS 握手)</em></p>
 <ol>
 <li>客户端打招呼 (Client Hello)：客户端向服务端发送支持的加密套件列表，并生成一个 <code>客户端随机数 (Random 1)</code>。</li>
-<li>服务端回应 (Server Hello + Certificate)：服务端确认加密算法，生成一个 <strong><code>服务端随机数 (Random 2)</code><strong>，并把自己的</strong>数字证书（内含服务器公钥）</strong>发送给客户端。</li>
-<li><strong>客户端验证与生成密钥</strong>：<ul>
+<li>服务端回应 (Server Hello + Certificate)：服务端确认加密算法，生成一个 <strong><code>服务端随机数 (Random 2)</code></strong>，并把自己的**数字证书（内含服务器公钥）**发送给客户端。</li>
+<li><strong>客户端验证与生成密钥</strong>：
+<ul>
 <li>客户端使用本地内置的 CA 机构公钥，验证服务器证书的真实性。</li>
 <li>验证通过后，客户端生成第三个随机数，称为 <code>Pre-Master Secret (预主密钥)</code>。</li>
 <li>客户端用<strong>服务器的公钥</strong>将这个预主密钥加密，发送给服务端。</li>
 </ul>
 </li>
 <li><strong>服务端解密</strong>：服务端收到后，用自己的<strong>私钥</strong>解密，得到 <code>Pre-Master Secret</code>。</li>
-<li><strong>生成最终对称密钥</strong>：此时，双方手里都有了同样的三个要素：<code>Random 1</code> + <code>Random 2</code> + <code>Pre-Master Secret</code>。双方使用同样的算法，用这三个要素计算出最终的<strong>“会话密钥”</strong>。</li>
+<li><strong>生成最终对称密钥</strong>：此时，双方手里都有了同样的三个要素：<code>Random 1</code> + <code>Random 2</code> + <code>Pre-Master Secret</code>。双方使用同样的算法，用这三个要素计算出最终的**“会话密钥”**。</li>
 </ol>
 <p>至此，握手完成。接下来双方的 HTTP 通信，都只用这个“会话密钥”进行极其高效的<strong>对称加解密</strong>，黑客即使抓包也只能看到一堆乱码。</p>
-<h4 id="2-2-既然-HTTPS-这么安全，为什么-Charles-Fiddler-还能抓到密码？"><a href="#2-2-既然-HTTPS-这么安全，为什么-Charles-Fiddler-还能抓到密码？" class="headerlink" title="2.2 既然 HTTPS 这么安全，为什么 Charles&#x2F;Fiddler 还能抓到密码？"></a>2.2 既然 HTTPS 这么安全，为什么 Charles&#x2F;Fiddler 还能抓到密码？</h4><p>很多人了解了HTTPS后会有疑问：“既然 HTTPS 加密了，为什么我们在开发时用抓包工具依然能看到明文数据？抓包的原理是什么？”</p>
+<h4 id="2-2-既然-HTTPS-这么安全，为什么-Charles-Fiddler-还能抓到密码？">2.2 既然 HTTPS 这么安全，为什么 Charles/Fiddler 还能抓到密码？</h4>
+<p>很多人了解了HTTPS后会有疑问：“既然 HTTPS 加密了，为什么我们在开发时用抓包工具依然能看到明文数据？抓包的原理是什么？”</p>
 <p>答案是：<strong>抓包本质上是一次“合法的中间人攻击 (MITM)”，核心在于你主动信任了代理工具的 CA 证书。</strong></p>
-<p>正常的直连流程是：<code>客户端 &lt;====&gt; 服务器</code>。<br>而打开抓包工具（如 Charles）后，流程变成了：<code>客户端 &lt;====&gt; Charles &lt;====&gt; 服务器</code>。</p>
+<p>正常的直连流程是：<code>客户端 &lt;====&gt; 服务器</code>。<br>
+而打开抓包工具（如 Charles）后，流程变成了：<code>客户端 &lt;====&gt; Charles &lt;====&gt; 服务器</code>。</p>
 <p><strong>具体的“欺骗”过程如下：</strong></p>
 <ol>
 <li><strong>拦截请求</strong>：客户端向真实服务器发起 HTTPS 连接，Charles 在中间拦截了这个请求。</li>
 <li><strong>伪造证书</strong>：Charles 伪装成服务器，给自己动态签发了一张伪造的数字证书，发给客户端。</li>
-<li><strong>关键的一步 (CA 的作用)<strong>：正常情况下，客户端（手机）发现这张证书不是正规机构（如 DigiCert）签发的，会直接报“证书不可信”并断开连接。</strong>但是</strong>，我们在配置抓包环境时，都会<strong>手动把 Charles 的根证书 (Root CA) 下载并安装到手机的“受信任的凭据”列表中</strong>。</li>
+<li><strong>关键的一步 (CA 的作用)</strong>：正常情况下，客户端（手机）发现这张证书不是正规机构（如 DigiCert）签发的，会直接报“证书不可信”并断开连接。<strong>但是</strong>，我们在配置抓包环境时，都会<strong>手动把 Charles 的根证书 (Root CA) 下载并安装到手机的“受信任的凭据”列表中</strong>。</li>
 <li><strong>握手成功</strong>：客户端校验时，发现这本伪造证书的根证书竟然在系统信任列表里！于是乖乖地用 Charles 的公钥加密了预主密钥（Pre-Master Secret）。</li>
 <li><strong>双向解密</strong>：Charles 用自己的私钥解开拿到密钥，这就和客户端建立了第一段加密连接。随后，Charles 再以客户端的身份，去和真正的服务器完成第二段标准的 HTTPS 握手。</li>
 </ol>
-<p>最终，所有数据都在 Charles 这里经历了一次<strong>“解密 -&gt; 记录明文 -&gt; 重新加密”</strong>的过程。</p>
+<p>最终，所有数据都在 Charles 这里经历了一次**“解密 -&gt; 记录明文 -&gt; 重新加密”**的过程。</p>
 <blockquote>
-<p><strong>💡Android 7.0 的网络安全限制</strong><br>面试官如果深挖，一定要抛出这个知识点：<strong>从 Android 7.0 (API 24) 开始，系统默认不再信任用户手动安装的 CA 证书（只信任系统内置的）。</strong><br>这就是为什么在新版 Android 手机上抓包，经常会遇到网络请求直接 Crash 或者抓不到 HTTPS 的原因。解决办法是在 Android 工程的 <code>res/xml/network_security_config.xml</code> 中，显式配置 <code>&lt;trust-anchors&gt;</code>，允许在 debug 模式下信任用户证书。</p>
+<p><strong>💡Android 7.0 的网络安全限制</strong><br>
+面试官如果深挖，一定要抛出这个知识点：<strong>从 Android 7.0 (API 24) 开始，系统默认不再信任用户手动安装的 CA 证书（只信任系统内置的）。</strong><br>
+这就是为什么在新版 Android 手机上抓包，经常会遇到网络请求直接 Crash 或者抓不到 HTTPS 的原因。解决办法是在 Android 工程的 <code>res/xml/network_security_config.xml</code> 中，显式配置 <code>&lt;trust-anchors&gt;</code>，允许在 debug 模式下信任用户证书。</p>
 </blockquote>
-<h2 id="2-TCP-核心解析"><a href="#2-TCP-核心解析" class="headerlink" title="2. TCP 核心解析"></a>2. TCP 核心解析</h2><p>应用层（如 HTTP）往往不管怎么收发数据，网络层（如 IP）往往不管是否丢包、是否乱序，而 <strong>TCP 就是来兜底保障数据可靠传输的（提供可靠性和流量控制）</strong>。</p>
+<h2 id="2-TCP-核心解析">2. TCP 核心解析</h2>
+<p>应用层（如 HTTP）往往不管怎么收发数据，网络层（如 IP）往往不管是否丢包、是否乱序，而 <strong>TCP 就是来兜底保障数据可靠传输的（提供可靠性和流量控制）</strong>。</p>
 <blockquote>
-<p><strong>TCP &#x3D; 面向连接 + 可靠 + 字节流</strong></p>
+<p><strong>TCP = 面向连接 + 可靠 + 字节流</strong></p>
 </blockquote>
 <ul>
 <li><strong>面向连接</strong>：一对一通信（相对的，UDP 可以一对多）。</li>
 <li><strong>可靠</strong>：无论网络链路发生什么变化，保证数据包可以被完整传送到目的地。</li>
 <li><strong>字节流</strong>：通过 TCP 协议传输时，消息可能会被操作系统分组成多个 TCP 报文，字节就是最小单位，它没有固定的业务边界。</li>
 </ul>
-<h3 id="2-1-TCP-与-UDP-的报文结构对比"><a href="#2-1-TCP-与-UDP-的报文结构对比" class="headerlink" title="2.1 TCP 与 UDP 的报文结构对比"></a>2.1 TCP 与 UDP 的报文结构对比</h3><p><strong>TCP 报文核心字段</strong>：</p>
+<h3 id="2-1-TCP-与-UDP-的报文结构对比">2.1 TCP 与 UDP 的报文结构对比</h3>
+<p><strong>TCP 报文核心字段</strong>：</p>
 <ul>
-<li><strong>序列号 (Sequence Number)<strong>：建立连接时生成的随机数字作为初始值。发送端每发送一次数据，就累加一次该数据字节数的大小。</strong>（核心作用：解决网络乱序问题）</strong></li>
-<li><strong>确认应答号 (Acknowledgment Number)<strong>：期望下一次收到的序列号。</strong>（核心作用：解决丢包问题）</strong></li>
+<li><strong>序列号 (Sequence Number)</strong>：建立连接时生成的随机数字作为初始值。发送端每发送一次数据，就累加一次该数据字节数的大小。<strong>（核心作用：解决网络乱序问题）</strong></li>
+<li><strong>确认应答号 (Acknowledgment Number)</strong>：期望下一次收到的序列号。<strong>（核心作用：解决丢包问题）</strong></li>
 </ul>
 <p><strong>浅提 UDP</strong>：</p>
 <ul>
-<li><strong>UDP 报文</strong> &#x3D; (源端口，目标端口) + (包长度，校验和) + 数据。</li>
+<li><strong>UDP 报文</strong> = (源端口，目标端口) + (包长度，校验和) + 数据。</li>
 <li>它是没有复杂控制机制的、面向 IP 的无连接通信服务。</li>
 </ul>
-<h3 id="2-2-TCP-vs-UDP"><a href="#2-2-TCP-vs-UDP" class="headerlink" title="2.2 TCP vs UDP"></a>2.2 TCP vs UDP</h3><table>
+<h3 id="2-2-TCP-vs-UDP">2.2 TCP vs UDP</h3>
+<table>
 <thead>
 <tr>
-<th align="left">对比维度</th>
-<th align="left">TCP</th>
-<th align="left">UDP</th>
+<th style="text-align:left">对比维度</th>
+<th style="text-align:left">TCP</th>
+<th style="text-align:left">UDP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>连接性</strong></td>
-<td align="left">面向连接</td>
-<td align="left">无连接</td>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>连接性</strong></td>
+<td style="text-align:left">面向连接</td>
+<td style="text-align:left">无连接</td>
 </tr>
 <tr>
-<td align="left"><strong>通信对象</strong></td>
-<td align="left">严格的一对一</td>
-<td align="left">一对一、一对多、多对多</td>
+<td style="text-align:left"><strong>通信对象</strong></td>
+<td style="text-align:left">严格的一对一</td>
+<td style="text-align:left">一对一、一对多、多对多</td>
 </tr>
 <tr>
-<td align="left"><strong>可靠性</strong></td>
-<td align="left">可靠交付</td>
-<td align="left">最大努力交付（可用 QUIC 在应用层补救）</td>
+<td style="text-align:left"><strong>可靠性</strong></td>
+<td style="text-align:left">可靠交付</td>
+<td style="text-align:left">最大努力交付（可用 QUIC 在应用层补救）</td>
 </tr>
 <tr>
-<td align="left"><strong>传输机制</strong></td>
-<td align="left">有拥塞控制和流量控制</td>
-<td align="left">无复杂的控制机制</td>
+<td style="text-align:left"><strong>传输机制</strong></td>
+<td style="text-align:left">有拥塞控制和流量控制</td>
+<td style="text-align:left">无复杂的控制机制</td>
 </tr>
 <tr>
-<td align="left"><strong>传输形态</strong></td>
-<td align="left">面向字节流（无边界，保证有序）</td>
-<td align="left">面向数据报（有边界，可能乱序）</td>
+<td style="text-align:left"><strong>传输形态</strong></td>
+<td style="text-align:left">面向字节流（无边界，保证有序）</td>
+<td style="text-align:left">面向数据报（有边界，可能乱序）</td>
 </tr>
 <tr>
-<td align="left"><strong>分片策略</strong></td>
-<td align="left">数据大于 MSS 会在<strong>传输层</strong>分片</td>
-<td align="left">数据大于 MTU 会在 <strong>IP 层</strong> 分片</td>
+<td style="text-align:left"><strong>分片策略</strong></td>
+<td style="text-align:left">数据大于 MSS 会在<strong>传输层</strong>分片</td>
+<td style="text-align:left">数据大于 MTU 会在 <strong>IP 层</strong> 分片</td>
 </tr>
 <tr>
-<td align="left"><strong>首部开销</strong></td>
-<td align="left">较长 (通常 20 字节以上)</td>
-<td align="left">极小 (仅 8 字节)</td>
+<td style="text-align:left"><strong>首部开销</strong></td>
+<td style="text-align:left">较长 (通常 20 字节以上)</td>
+<td style="text-align:left">极小 (仅 8 字节)</td>
 </tr>
-</tbody></table>
-<h3 id="2-3-图解-TCP-三次握手"><a href="#2-3-图解-TCP-三次握手" class="headerlink" title="2.3 图解 TCP 三次握手"></a>2.3 图解 TCP 三次握手</h3><p><img src="/images/tcp-handshake.png" alt="TCP三次握手"></p>
+</tbody>
+</table>
+<h3 id="2-3-图解-TCP-三次握手">2.3 图解 TCP 三次握手</h3>
+<p><img src="/images/tcp-handshake.png" alt="TCP三次握手"></p>
 <ol>
 <li><strong>第一次握手</strong>：客户端发送 <code>SYN</code> 报文（携带随机生成的 <code>client_seq</code>），进入 <code>SYN_SENT</code> 状态。</li>
 <li><strong>第二次握手</strong>：服务端接收后，发送 <code>SYN + ACK</code> 报文（确认号为 <code>client_seq + 1</code>，并携带自己的 <code>server_seq</code>），进入 <code>SYN_RCVD</code> 状态。</li>
-<li><strong>第三次握手</strong>：客户端发送 <code>ACK</code> 报文（确认号为 <code>server_seq + 1</code>），进入 <code>ESTABLISHED</code> (稳定连接) 状态。<strong>此时的 ACK 报文是可以携带业务数据的。</strong><br><em>(服务端收到 ACK 后，也进入 <code>ESTABLISHED</code> 状态)</em></li>
+<li><strong>第三次握手</strong>：客户端发送 <code>ACK</code> 报文（确认号为 <code>server_seq + 1</code>），进入 <code>ESTABLISHED</code> (稳定连接) 状态。<strong>此时的 ACK 报文是可以携带业务数据的。</strong><br>
+<em>(服务端收到 ACK 后，也进入 <code>ESTABLISHED</code> 状态)</em></li>
 </ol>
-<h4 id="灵魂拷问-1：为什么是三次握手？两次不行吗？"><a href="#灵魂拷问-1：为什么是三次握手？两次不行吗？" class="headerlink" title="灵魂拷问 1：为什么是三次握手？两次不行吗？"></a>灵魂拷问 1：为什么是三次握手？两次不行吗？</h4><ul>
+<h4 id="灵魂拷问-1：为什么是三次握手？两次不行吗？">灵魂拷问 1：为什么是三次握手？两次不行吗？</h4>
+<ul>
 <li><strong>防止历史连接（最核心原因）</strong>：防止旧的迟到连接请求突然到达服务端，导致服务端错误建立连接。</li>
 <li><strong>同步双方序列号</strong>：确保双方都有机会发送和确认彼此的初始序列号。</li>
 <li><strong>避免资源浪费</strong>：防止服务端因失效请求而一直白白分配内存等资源。</li>
 </ul>
-<h4 id="灵魂拷问-2：为什么初始序列号要随机？"><a href="#灵魂拷问-2：为什么初始序列号要随机？" class="headerlink" title="灵魂拷问 2：为什么初始序列号要随机？"></a>灵魂拷问 2：为什么初始序列号要随机？</h4><p>如果每次都使用相同的初始序列号，那么网络中滞留的<strong>历史报文</strong>极有可能会被下一个相同四元组的新连接错误接收。*(注：序列号的生成基于时钟，每 4 微秒 +1，极难重复)*。</p>
-<h3 id="2-4-图解-TCP-四次挥手"><a href="#2-4-图解-TCP-四次挥手" class="headerlink" title="2.4 图解 TCP 四次挥手"></a>2.4 图解 TCP 四次挥手</h3><p>当客户端和服务端的数据传输完毕后，就需要断开连接。断开连接的过程需要经过四次交互，也就是常说的“四次挥手”。</p>
+<h4 id="灵魂拷问-2：为什么初始序列号要随机？">灵魂拷问 2：为什么初始序列号要随机？</h4>
+<p>如果每次都使用相同的初始序列号，那么网络中滞留的<strong>历史报文</strong>极有可能会被下一个相同四元组的新连接错误接收。<em>(注：序列号的生成基于时钟，每 4 微秒 +1，极难重复)</em>。</p>
+<h3 id="2-4-图解-TCP-四次挥手">2.4 图解 TCP 四次挥手</h3>
+<p>当客户端和服务端的数据传输完毕后，就需要断开连接。断开连接的过程需要经过四次交互，也就是常说的“四次挥手”。</p>
 <p><img src="/images/tcp-four-way-handshake.png" alt="TCP四次挥手"></p>
 <ol>
 <li><strong>第一次挥手</strong>：客户端发送 <code>FIN</code> 报文（表示自己没有数据要发了），进入 <code>FIN_WAIT_1</code> 状态。</li>
-<li><strong>第二次挥手</strong>：服务端收到 <code>FIN</code> 报文后，回复 <code>ACK</code> 报文，进入 <code>CLOSE_WAIT</code> 状态。<ul>
+<li><strong>第二次挥手</strong>：服务端收到 <code>FIN</code> 报文后，回复 <code>ACK</code> 报文，进入 <code>CLOSE_WAIT</code> 状态。
+<ul>
 <li><em>（此时客户端收到 ACK 后，进入 <code>FIN_WAIT_2</code> 状态。此时 TCP 连接处于“半关闭”状态，即客户端不发了，但服务端如果还有数据，依然可以继续发给客户端）</em>。</li>
 </ul>
 </li>
 <li><strong>第三次挥手</strong>：服务端的数据也发送完毕了，于是发送 <code>FIN</code> 报文给客户端，进入 <code>LAST_ACK</code> 状态。</li>
-<li><strong>第四次挥手</strong>：客户端收到服务端的 <code>FIN</code> 报文，回复 <code>ACK</code> 报文，进入 <strong><code>TIME_WAIT</code></strong> 状态。<ul>
-<li>*(服务端收到这个 ACK 后，立刻进入 <code>CLOSED</code> 状态，彻底关闭连接)*。</li>
+<li><strong>第四次挥手</strong>：客户端收到服务端的 <code>FIN</code> 报文，回复 <code>ACK</code> 报文，进入 <strong><code>TIME_WAIT</code></strong> 状态。
+<ul>
+<li><em>(服务端收到这个 ACK 后，立刻进入 <code>CLOSED</code> 状态，彻底关闭连接)</em>。</li>
 </ul>
 </li>
 <li><strong>最终关闭</strong>：客户端在 <code>TIME_WAIT</code> 状态等待 <strong>2MSL</strong>（报文最大生存时间的 2 倍）后，如果没有收到服务端的重传，才会进入真正的 <code>CLOSED</code> 状态。</li>
 </ol>
-<h4 id="灵魂拷问-1：为什么建立连接是三次，挥手却需要四次？"><a href="#灵魂拷问-1：为什么建立连接是三次，挥手却需要四次？" class="headerlink" title="灵魂拷问 1：为什么建立连接是三次，挥手却需要四次？"></a>灵魂拷问 1：为什么建立连接是三次，挥手却需要四次？</h4><p>因为 TCP 是全双工通信，存在<strong>“半关闭”</strong>状态。单向发送的 <code>FIN</code> 只代表该方的数据发送完毕，不代表对方也没有数据要发送。因此，服务端的 <code>ACK</code>（确认收到断开请求）和 <code>FIN</code>（服务端自己也准备好断开了）通常是分两步发送的。</p>
-<h4 id="灵魂拷问-2：为什么主动关闭的一方需要-TIME-WAIT-状态，且要等待-2MSL？"><a href="#灵魂拷问-2：为什么主动关闭的一方需要-TIME-WAIT-状态，且要等待-2MSL？" class="headerlink" title="灵魂拷问 2：为什么主动关闭的一方需要 TIME_WAIT 状态，且要等待 2MSL？"></a>灵魂拷问 2：为什么主动关闭的一方需要 TIME_WAIT 状态，且要等待 2MSL？</h4><p>这是面试官极其喜欢深挖的考点：</p>
+<h4 id="灵魂拷问-1：为什么建立连接是三次，挥手却需要四次？">灵魂拷问 1：为什么建立连接是三次，挥手却需要四次？</h4>
+<p>因为 TCP 是全双工通信，存在**“半关闭”**状态。单向发送的 <code>FIN</code> 只代表该方的数据发送完毕，不代表对方也没有数据要发送。因此，服务端的 <code>ACK</code>（确认收到断开请求）和 <code>FIN</code>（服务端自己也准备好断开了）通常是分两步发送的。</p>
+<h4 id="灵魂拷问-2：为什么主动关闭的一方需要-TIME-WAIT-状态，且要等待-2MSL？">灵魂拷问 2：为什么主动关闭的一方需要 TIME_WAIT 状态，且要等待 2MSL？</h4>
+<p>这是面试官极其喜欢深挖的考点：</p>
 <ul>
 <li><strong>防止历史数据干扰</strong>：保证网络中该连接产生的哪怕是最迟到的数据包，也都在这 2MSL 内自然消亡。防止它们被后续使用相同“四元组”的新连接错误接收。</li>
 <li><strong>保证被动关闭的一方能可靠地断开</strong>：如果客户端最后发送的那个 <code>ACK</code> 报文在网络中丢失了，服务端会因为没收到确认而重发 <code>FIN</code>。<code>TIME_WAIT</code> 状态确保客户端有足够的时间去接收这个重传的 <code>FIN</code> 并再次回复 <code>ACK</code>。</li>
 </ul>
-<h2 id="3-WebSocket：真正的全双工自由"><a href="#3-WebSocket：真正的全双工自由" class="headerlink" title="3. WebSocket：真正的全双工自由"></a>3. WebSocket：真正的全双工自由</h2><p>有不少人存在一个直击灵魂的疑惑：<strong>TCP 本身是全双工的，但基于 TCP 的 HTTP 却是一问一答的（而且只能由客户端主动发问，服务器被动应答），这难道不是半双工吗？</strong><br>❓❓❓ ❓❓❓ ❓❓❓</p>
+<h2 id="3-WebSocket：真正的全双工自由">3. WebSocket：真正的全双工自由</h2>
+<p>有不少人存在一个直击灵魂的疑惑：<strong>TCP 本身是全双工的，但基于 TCP 的 HTTP 却是一问一答的（而且只能由客户端主动发问，服务器被动应答），这难道不是半双工吗？</strong><br>
+❓❓❓ ❓❓❓ ❓❓❓</p>
 <p>其实，前辈们早就意识到了 HTTP 这个“不主动”的缺陷，所以在 WebSocket 诞生之前，业界妥协出了“短轮询”和“长轮询”的方案。比如很多网站的“扫码登录”页面，底层用的就是长轮询。</p>
 <ul>
 <li><strong>短轮询（Short Polling）</strong>：客户端像个复读机一样不断发送小请求（“我登录成功了吗？”“现在呢？”“成功了吗？”…），极其消耗服务器和网络资源。</li>
 <li><strong>长轮询（Long Polling）</strong>：HTTP 请求发送后，服务器如果没数据，就先憋着不回响应，把这个连接挂起（设置较长的超时时间）。这样就留给服务器足够的时间去处理业务，一旦用户在手机上点了确认，服务器立刻顺着这条挂起的连接返回“登录成功”。</li>
 </ul>
 <p>虽然有这两种方法，但是对于需要<strong>高频、双向交互</strong>的场景，轮询就显得极其鸡肋了。比如你逛着某宝，不小心点到了右下角弹出的绚丽广告，打开了一个“一刀999”的页游。你甚至什么都不用操作，屏幕里的角色自己就开始疯狂打怪、掉装备、全服广播。这种服务器需要高频向客户端主动推送数据的场景，<strong>WebSocket 它来了！</strong></p>
-<h3 id="3-1-WebSocket-的握手与数据帧"><a href="#3-1-WebSocket-的握手与数据帧" class="headerlink" title="3.1 WebSocket 的握手与数据帧"></a>3.1 WebSocket 的握手与数据帧</h3><p>WebSocket 是应用层的协议，它的唯一目的就是实现真正的全双工通信。</p>
+<h3 id="3-1-WebSocket-的握手与数据帧">3.1 WebSocket 的握手与数据帧</h3>
+<p>WebSocket 是应用层的协议，它的唯一目的就是实现真正的全双工通信。</p>
 <p><img src="/images/websocket-handshake-and-communication.png" alt="WebSocket握手与通信时序图"></p>
 <ul>
 <li><strong>借鸡生蛋的握手</strong>：WebSocket 的建立是“踩在 HTTP 的肩膀上”完成的。TCP 三次握手完成后，客户端会发送一个特殊的 HTTP 请求（Header 里带有 <code>Upgrade: websocket</code>）。服务器如果支持，就会返回一个经典的 <strong><code>101 Switching Protocols</code> (协议转换)</strong> 状态码。这一来一回的 HTTP 握手结束后，这条连接就正式升级为 WebSocket，<strong>从此以后和 HTTP 再无半点瓜葛</strong>。</li>
-<li><strong>数据帧 (Frame)<strong>：WebSocket 传输的数据不叫报文，叫“帧”。它的数据格式设计得非常精巧，可以粗略理解为 <code>数据头 + 消息体</code>。因为消息头里明确包含了</strong>消息体的长度</strong>，所以接收方能够精确地切分数据，这也就极其优雅地<strong>解决了底层 TCP 的粘包问题</strong>。</li>
+<li><strong>数据帧 (Frame)</strong>：WebSocket 传输的数据不叫报文，叫“帧”。它的数据格式设计得非常精巧，可以粗略理解为 <code>数据头 + 消息体</code>。因为消息头里明确包含了<strong>消息体的长度</strong>，所以接收方能够精确地切分数据，这也就极其优雅地<strong>解决了底层 TCP 的粘包问题</strong>。</li>
 </ul>
-<h2 id="4-RPC：把“网络调用”伪装成“本地调用”"><a href="#4-RPC：把“网络调用”伪装成“本地调用”" class="headerlink" title="4. RPC：把“网络调用”伪装成“本地调用”"></a>4. RPC：把“网络调用”伪装成“本地调用”</h2><p>总有人喜欢问一个极其宽泛且带有误导性的问题：“既然有了 HTTP，为什么还要有 RPC？”</p>
+<h2 id="4-RPC：把“网络调用”伪装成“本地调用”">4. RPC：把“网络调用”伪装成“本地调用”</h2>
+<p>总有人喜欢问一个极其宽泛且带有误导性的问题：“既然有了 HTTP，为什么还要有 RPC？”</p>
 <p>很多初学者不知道怎么回答，是因为没看透本质。</p>
 <p><strong>核心真相：RPC 根本不是某一个具体的网络协议，而是一种“架构设计理念”。</strong></p>
 <ul>
 <li><strong>HTTP 是一种具体的通信规范</strong>（规定了请求头、状态码、报文长什么样）。</li>
-<li><strong>RPC (Remote Procedure Call，远程过程调用) 是一种行为</strong>。它的终极目的是<strong>“让调用远程服务，就像调用本地方法一样简单”</strong>。像 <code>gRPC</code>、<code>Thrift</code>、<code>Dubbo</code> 这些具体的 RPC 框架，就是为了帮你把底层的网络打包、寻址、序列化等脏活累活全封装起来。</li>
+<li><strong>RPC (Remote Procedure Call，远程过程调用) 是一种行为</strong>。它的终极目的是**“让调用远程服务，就像调用本地方法一样简单”**。像 <code>gRPC</code>、<code>Thrift</code>、<code>Dubbo</code> 这些具体的 RPC 框架，就是为了帮你把底层的网络打包、寻址、序列化等脏活累活全封装起来。</li>
 </ul>
-<h3 id="4-1-灵魂反击：如何回答“有了-HTTP-为什么还要-RPC”？"><a href="#4-1-灵魂反击：如何回答“有了-HTTP-为什么还要-RPC”？" class="headerlink" title="4.1 灵魂反击：如何回答“有了 HTTP 为什么还要 RPC”？"></a>4.1 灵魂反击：如何回答“有了 HTTP 为什么还要 RPC”？</h3><p>如果在遇到这个问题，你是否和我一样不知从何讲起：</p>
+<h3 id="4-1-灵魂反击：如何回答“有了-HTTP-为什么还要-RPC”？">4.1 灵魂反击：如何回答“有了 HTTP 为什么还要 RPC”？</h3>
+<p>如果在遇到这个问题，你是否和我一样不知从何讲起：</p>
 <ol>
-<li><strong>两者根本不在一个维度，甚至可以融合</strong><ul>
-<li>RPC 的底层传输层不仅可以基于 TCP 直接写，<strong>它完全也可以基于 HTTP 协议！</strong> 比如目前极其主流的 Google <code>gRPC</code>，它的底层就是雷打不动的 <strong>HTTP&#x2F;2</strong> 协议。</li>
+<li><strong>两者根本不在一个维度，甚至可以融合</strong>
+<ul>
+<li>RPC 的底层传输层不仅可以基于 TCP 直接写，<strong>它完全也可以基于 HTTP 协议！</strong> 比如目前极其主流的 Google <code>gRPC</code>，它的底层就是雷打不动的 <strong>HTTP/2</strong> 协议。</li>
 </ul>
 </li>
-<li><strong>应用场景不同（内外有别）</strong><ul>
-<li><strong>HTTP 主外（B2C）</strong>：像浏览器、手机 App 访问后端服务器，面对的是全世界各种各样的客户端。它需要跨语言、跨平台，主打一个“通用、标准、无脑兼容”。所以 HTTP 往往使用 JSON&#x2F;XML 这种可读性强但体积大的文本格式。</li>
+<li><strong>应用场景不同（内外有别）</strong>
+<ul>
+<li><strong>HTTP 主外（B2C）</strong>：像浏览器、手机 App 访问后端服务器，面对的是全世界各种各样的客户端。它需要跨语言、跨平台，主打一个“通用、标准、无脑兼容”。所以 HTTP 往往使用 JSON/XML 这种可读性强但体积大的文本格式。</li>
 <li><strong>RPC 主内（B2B）</strong>：通常用于公司内部的<strong>微服务与微服务之间</strong>的通信（比如阿里的订单服务调用库存服务）。既然都是“自家程序员写的代码”，追求的就是极致的效率。所以 RPC 框架往往采用极致压缩的二进制流（如 Protobuf），抛弃了臃肿的 HTTP Header，体积更小，速度飞快。</li>
 </ul>
 </li>
-<li><strong>开发体验的极致追求</strong><ul>
-<li>写 HTTP 请求，哪怕用 Retrofit，你也得关心 URL 地址、请求方法（GET&#x2F;POST）、HTTP 状态码解析。</li>
+<li><strong>开发体验的极致追求</strong>
+<ul>
+<li>写 HTTP 请求，哪怕用 Retrofit，你也得关心 URL 地址、请求方法（GET/POST）、HTTP 状态码解析。</li>
 <li>用 RPC 框架，你只需要在代码里写 <code>userService.getUserInfo(uid)</code>，至于这行代码是怎么变成二进制、怎么跨越千山万水飞到另一台机房的服务器上并带回结果的，你完全不需要关心。这就是 RPC 的魅力。</li>
 </ul>
 </li>
 </ol>
-<h1 id=""><a href="#" class="headerlink" title=""></a></h1><hr>
+<h1></h1>
+<hr>
 <p><strong>总结</strong>：在真实的 Android 开发中，虽然有 Retrofit 和 OkHttp 帮我们封装好了底层的网络请求，但理解这些协议栈的细节，是我们进行弱网优化、排查连接超时问题的根本所在。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaoyu-liguo.github.io/2026/02/06/Network-HTTP-TCP-Interview/" data-id="cmmgcfwjd0001gw8odsun0g4y" data-title="基础的网络知识" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://xiaoyu-liguo.github.io/2026/02/06/Network-HTTP-TCP-Interview/" data-id="cmmiwn0bo000hw98o44mvfc5e" data-title="基础的网络知识" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -392,15 +440,20 @@
     
 <nav id="article-nav">
   
-    <a href="/2026/02/26/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2026/02/10/android-ui-rendering-process/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          Hello World
+          源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？
         
       </div>
     </a>
   
+  
+    <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Android四大组件之Activity详解</div>
+    </a>
   
 </nav>
 
@@ -416,7 +469,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
     </div>
   </div>
 
@@ -426,7 +479,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project-Struct/" rel="tag">Project-Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI%E6%B8%B2%E6%9F%93/" rel="tag">UI渲染</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewRootImpl/" rel="tag">ViewRootImpl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView/" rel="tag">setContentView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" rel="tag">四大组件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
     </div>
   </div>
 
@@ -436,7 +489,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a>
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Project-Struct/" style="font-size: 10px;">Project-Struct</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/UI%E6%B8%B2%E6%9F%93/" style="font-size: 10px;">UI渲染</a> <a href="/tags/ViewRootImpl/" style="font-size: 10px;">ViewRootImpl</a> <a href="/tags/setContentView/" style="font-size: 10px;">setContentView</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">四大组件</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a>
     </div>
   </div>
 
@@ -458,7 +511,7 @@
       <ul>
         
           <li>
-            <a href="/2026/03/05/Android-Project-Structure-Parsing/">Android-Project-Structure-Parsing</a>
+            <a href="/2026/03/08/setcontentview-source-code/">源码解密：setContentView 之后，到底发生了什么？</a>
           </li>
         
           <li>
@@ -466,7 +519,15 @@
           </li>
         
           <li>
+            <a href="/2026/02/10/android-ui-rendering-process/">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a>
+          </li>
+        
+          <li>
             <a href="/2026/02/06/Network-HTTP-TCP-Interview/">基础的网络知识</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/">Android四大组件之Activity详解</a>
           </li>
         
       </ul>
