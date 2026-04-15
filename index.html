@@ -1,1382 +1,207 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>LeeLand的技术沉淀</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录移动端架构、Java&#x2F;Kotlin进阶与底层技术探索">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LeeLand Notes - Notes and Essays</title><meta name="author" content="LeeLand"><meta name="copyright" content="LeeLand"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="技术、阅读与写作的个人札记">
 <meta property="og:type" content="website">
-<meta property="og:title" content="LeeLand的技术沉淀">
+<meta property="og:title" content="LeeLand Notes">
 <meta property="og:url" content="https://xiaoyu-liguo.github.io/index.html">
-<meta property="og:site_name" content="LeeLand的技术沉淀">
-<meta property="og:description" content="记录移动端架构、Java&#x2F;Kotlin进阶与底层技术探索">
+<meta property="og:site_name" content="LeeLand Notes">
+<meta property="og:description" content="技术、阅读与写作的个人札记">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xiaoyu-liguo.github.io/images/1.jpg">
 <meta property="article:author" content="LeeLand">
-<meta property="article:tag" content="Android, Kotlin, C++, 数据结构">
+<meta property="article:tag" content="Android, Kotlin, C++, 阅读, 写作, 生活">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="LeeLand的技术沉淀" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">LeeLand的技术沉淀</a>
-      </h1>
+<meta name="twitter:image" content="https://xiaoyu-liguo.github.io/images/1.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "LeeLand Notes",
+  "alternateName": [
+    "Notes and Essays",
+    "xiaoyu-liguo.github.io"
+  ],
+  "url": "https://xiaoyu-liguo.github.io/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://xiaoyu-liguo.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
       
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Focus on Android &amp; Mobile Development</a>
-        </h2>
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LeeLand Notes',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/"><i class="fa-fw fas fa-feather-alt"></i><span> 诗歌随笔</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">LeeLand Notes</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/"><i class="fa-fw fas fa-feather-alt"></i><span> 诗歌随笔</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">LeeLand Notes</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc masonry" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/04/14/poetry-essay-first-issue/" title="诗歌随笔｜春夜与微光">诗歌随笔｜春夜与微光</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-04-14T12:30:00.000Z" title="发表于 2026-04-14 20:30:00">2026-04-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/">诗歌随笔</a></span></div><div class="content">夜色落在窗沿时， 风把白天的喧闹悄悄折起。 桌上那盏旧灯， 像一枚安静的月亮， 把未说完的话照亮一点点。 人总在奔跑里忘记呼吸， 也总在停下时， 听见内心最细小的回响。 那些被忽略的瞬间， 其实都在替我们记录生活： 一杯温水的热气， 一页书翻动的声响， 以及一句没有发出的问候。 愿今夜的你， 也能在忙碌之外， 给自己留一小段空白。 不必急着回答世界， 先和自己并肩坐一会儿， 看微光慢慢长成清晨。 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/04/11/romanticism-collective-dawn/" title="浪漫">浪漫</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-04-10T16:00:00.000Z" title="发表于 2026-04-11 00:00:00">2026-04-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/">诗歌随笔</a></span></div><div class="content">夫浪漫者，非风月之私语，乃痴人之壮游。其色如银汉，其寒似秋霜，然能照彻八荒，引群生以共往。 观夫隆中一对，草堂春深。九州图展，不过墨痕；三分鼎立，竟从唇吻。指山河于掌上，许驱驰于尘中。“兴复汉室，还于旧都”——八字虽轻，千钧未重。时无寸土，唯青灯照壁；身无一旅，但明眸映空。此之浪漫，以血为丹青，以命为笔锋。不计成败，岂问穷通？但信汉家旌帜，终当猎猎于洛阳之东。 至若梁山泊上，杏黄旗翻。八面风来，百单八汉。聚义厅前，大碗烈酒；替天行道，一片赤肝。笑谈藏净梦，粗犷筑危栏。无欺压之世界，有肝胆之人间。此之浪漫，快意可啖，热肠不寒。纵蓼洼风冷，招安梦残，而侠气耿耿，未许摧残。 若夫西行一路，师徒四影。筋斗能至西天，凡躯偏踏炎岭。十万八千，步步魔影；九九八一，回回棘梗。腾云非乐，降妖乃永。经书不在天竺，而在足胫。是知跌倒复起，搀扶共警。此之浪漫，执着成鼎，磨难作饼。不证菩提，但证同行之惺惺。 至若大观园里，旧帕传情。两方素绢，三首绝...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/26/dream-roaming-celestial-ruins/" title="梦游天墟吟寄远">梦游天墟吟寄远</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-25T16:00:00.000Z" title="发表于 2026-03-26 00:00:00">2026-03-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/">诗歌随笔</a></span></div><div class="content">闻道天墟在云巅，苍茫九阙隐寒烟。 世人徒羡蓬莱客，谁见昆山玉作田？ 我欲因之跨鸾鹤，振衣直出浮云脚。 东溟夜半赤文飞，扶桑枝上日初薄。 忽有仙人邀我游，手折若木拂星旒。 足蹑青龙鳞甲动，耳闻玄鹤唳清秋。 三十六峰如削铁，紫霞深处洞门裂。 石髓凝脂千岁香，瑶花坠地无声雪。 素女鼓瑟声依微，羲和停鞭欲何归？ 饮我以丹露，赠我以虹霓。 云梯万仞不可测，仰见银潢倒注湿人衣。 虎豹当关怒且吼，手挽天河洗北斗。 倏忽雷电下九幽，魍魉睒睗逃且走。 心惊魄动恍然醒，四顾萧然唯素绠。 窗间残月堕空梁，枕上烟霞散俄顷。 乃知天地一浮沤，万事东流不转头。 白璧黄金皆粪土，何如长啸狎群鸥？ 君不见， 谢公屐、阮公途，千古风流安在乎？ 且向青崖骑白鹿，不折吾腰向五都！ </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/08/setcontentview-source-code/" title="源码解密：setContentView 之后，到底发生了什么？">源码解密：setContentView 之后，到底发生了什么？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-08T08:15:00.000Z" title="发表于 2026-03-08 16:15:00">2026-03-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android/">Android</a></span></div><div class="content">定义Android布局的方式有很多种，XML、Compose等等，那页面布局是怎么显示到屏幕上的呢？以XML为例 12345678910111213&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    android:orientation=&quot;vertical&quot;    android:layout_width=&quot;match_parent&quot;    android:layout_height=&quot;match_parent&quot;&gt;    &lt;Button        android:id=&quot;@+id/but...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/02/10/android-ui-rendering-process/" title="源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-02-10T11:30:00.000Z" title="发表于 2026-02-10 19:30:00">2026-02-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android/">Android</a></span></div><div class="content">很多开发者以为，在 Activity 的 onCreate 里调用完 setContentView，屏幕上就应该有画面了。但如果此时立刻去获取一个 View 的宽高（view.getWidth()），你会发现结果永远是 0！ 因为在 onCreate 阶段，系统只是在内存里建好了一棵枯燥的 View 树，根本还没有开始画！” 答案就藏在 Android 主线程的大总管 —— ActivityThread.java 里。系统在准备回调 Activity 的 onResume() 时，才真正吹响了渲染的冲锋号。 123456789101112131415161718// ActivityThread.java 中的 handleResumeActivity 节选@Overridepublic void handleResumeActivity(IBinder token, boolean finalStateRequest, ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/02/06/Network-HTTP-TCP-Interview/" title="基础的网络知识">基础的网络知识</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-02-06T12:30:00.000Z" title="发表于 2026-02-06 20:30:00">2026-02-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="content">网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP/IP 协议族中那些最重要的知识点 一、TCP/IP网络结构 计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP/IP 四层模型，以及结合两者优点的五层协议（教学常用）。 在实际工业界试中，我们最常讨论的是 TCP/IP 四层模型。它们之间的对应关系如下表所示：    OSI 七层模型 TCP/IP 四层模型 核心功能与常见协议     应用层、表示层、会话层 应用层 (Application) 为用户应用提供接口 (HTTP, HTTPS, DNS, FTP)   传输层 传输层 (Transport) 提供端到端的通信连接 (TCP, UDP)   网络层 网络层 (Internet) 负责数据包的路由和转发 (IP, ICMP)   数据链路层、物理层 网络接口层 (Network Access) 负责底层硬件的物理传输 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/" title="Android四大组件之Activity详解">Android四大组件之Activity详解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-02-03T15:40:00.000Z" title="发表于 2026-02-03 23:40:00">2026-02-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android/">Android</a></span></div><div class="content">一、 什么是 Activity？ Activity 是 Android四大组件之一，是一种可以包含用户界面的组件，主要用于和用户进行交互。 1. Activity 的基本用法 要让一个 Activity 真正跑起来，必须经过以下几个关键步骤：  创建： 继承 AppCompatActivity 并重写 onCreate() 方法。 绑定视图： 在 onCreate() 中调用 setContentView(R.layout.xxx) 加载布局。 注册（极其重要）： 所有的 Activity 必须在 AndroidManifest.xml 中进行注册，否则启动直接崩溃。  2. Activity 的生命周期（核心重点） 它描述了一个界面从诞生到销毁的完整过程。  主要包含 7 个核心回调方法：  onCreate()：Activity 正在被创建（初始化数据、加载布局）。 onStart()：Activity 正在启动（即将...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/02/01/Android-Project-Structure-Parsing/" title="Android-Project-Structure-Parsing">Android-Project-Structure-Parsing</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-02-01T06:19:13.000Z" title="发表于 2026-02-01 14:19:13">2026-02-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android/">Android</a></span></div><div class="content">一、Android系统架构 安卓系统可以分为 Linux层 + 系统运行库 + 应用框架层 + 应用层。 1. Linux层 Android系统是基于Linux内核的，这一层为系统提供了各种底层驱动，显示驱动、音频驱动、蓝牙驱动、WIFI驱动等等。 2. 系统运行库 通过C/C++库为Android提供主要的特性支持，SQLite库提供了数据库支持，OpenGL ES提供3D绘图，Webkit提供浏览器内核等等。 这里还包含Android运行时库，提供给Java/Kotlin开发者来编写应用。 虚拟机 相信听说过Java的人都听过JVM，为了实现Java的一次编译，到处运行，不同的平台（Mac、Linux、Windows，以及同系统不同版本）的JVM或多或少有差异，但是为上层提供的接口是相同的，都是识别一套 .class 文件规则。 ART/Dalvik就是Android世界的虚拟机，所以各个手机厂商（华米OV）背后的硬件...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/12/16/zhe-gu-tian-cliff-chant/" title="鹧鸪天·危崖吟">鹧鸪天·危崖吟</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-12-15T16:00:00.000Z" title="发表于 2025-12-16 00:00:00">2025-12-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/">诗歌随笔</a></span></div><div class="content">万仞悬峰接玉清，松涛欲沸星河倾。 足惊苔痕蛟蛇颤，袖卷云涡鸾鹤停。 叩玉阙，触天楹，叩阍声里自噤音。 恐扰仙班金箓宴，风雷俱作九霄吟。 </div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">LeeLand</div><div class="author-info-description">技术、阅读与写作的个人札记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/14/poetry-essay-first-issue/" title="诗歌随笔｜春夜与微光">诗歌随笔｜春夜与微光</a><time datetime="2026-04-14T12:30:00.000Z" title="发表于 2026-04-14 20:30:00">2026-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/11/romanticism-collective-dawn/" title="浪漫">浪漫</a><time datetime="2026-04-10T16:00:00.000Z" title="发表于 2026-04-11 00:00:00">2026-04-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/26/dream-roaming-celestial-ruins/" title="梦游天墟吟寄远">梦游天墟吟寄远</a><time datetime="2026-03-25T16:00:00.000Z" title="发表于 2026-03-26 00:00:00">2026-03-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/08/setcontentview-source-code/" title="源码解密：setContentView 之后，到底发生了什么？">源码解密：setContentView 之后，到底发生了什么？</a><time datetime="2026-03-08T08:15:00.000Z" title="发表于 2026-03-08 16:15:00">2026-03-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/10/android-ui-rendering-process/" title="源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a><time datetime="2026-02-10T11:30:00.000Z" title="发表于 2026-02-10 19:30:00">2026-02-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android/"><span class="card-category-list-name">Android</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><span class="card-category-list-name">计算机网络</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%97%E6%AD%8C%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">诗歌随笔</span><span class="card-category-list-count">4</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E5%8F%A4%E9%A3%8E/" style="font-size: 1.23em; color: #999ea6">古风</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 1.1em; color: #999">写作</a> <a href="/tags/%E8%AF%8D/" style="font-size: 1.1em; color: #999">词</a> <a href="/tags/Android/" style="font-size: 1.5em; color: #99a9bf">Android</a> <a href="/tags/ViewRootImpl/" style="font-size: 1.1em; color: #999">ViewRootImpl</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 1.5em; color: #99a9bf">诗歌</a> <a href="/tags/setContentView/" style="font-size: 1.1em; color: #999">setContentView</a> <a href="/tags/%E6%B5%AA%E6%BC%AB/" style="font-size: 1.1em; color: #999">浪漫</a> <a href="/tags/%E7%90%86%E6%83%B3/" style="font-size: 1.1em; color: #999">理想</a> <a href="/tags/Project-Struct/" style="font-size: 1.1em; color: #999">Project-Struct</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.1em; color: #999">四大组件</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1.37em; color: #99a4b2">随笔</a> <a href="/tags/UI%E6%B8%B2%E6%9F%93/" style="font-size: 1.1em; color: #999">UI渲染</a> <a href="/tags/TCP-IP/" style="font-size: 1.1em; color: #999">TCP/IP</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
       
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xiaoyu-liguo.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
   
-    <article id="post-setcontentview-source-code" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/03/08/setcontentview-source-code/" class="article-date">
-  <time class="dt-published" datetime="2026-03-08T08:15:00.000Z" itemprop="datePublished">2026-03-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/03/08/setcontentview-source-code/">源码解密：setContentView 之后，到底发生了什么？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+    <ul class="card-archive-list">
       
-        <p>定义Android布局的方式有很多种，XML、Compose等等，那页面布局是怎么显示到屏幕上的呢？以XML为例</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/button1&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">&quot;Button 1&quot;</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/images/setContentView/1.png" alt="linearlayout-button"></p>
-<p>这是一个以LinearLayout布局为基础，包含一个Button的页面。</p>
-<h1>一、  注入灵魂：将布局绑定到 Activity</h1>
-<p>布局图纸画好了，接下来就是让它进入 App 的生命周期里。在 Android 中，持有页面布局的组件是 <code>Activity</code>。</p>
-<blockquote>
-<p><strong>💡 核心认知</strong>： <code>Activity</code> 只是 View 的<strong>宿主（持有者）</strong>，并不是绘画者。它不仅管 UI，还要管生命周期、系统事件等。所以，很多新手把“Activity”直接等同于“一个页面布局”，其实是非常不准确的。</p>
-<p>但是**<code>Activity</code> 类的源码里，压根就没有一个属性是用来存 <code>View</code> 的！**（没有类似 <code>View mRootView</code> 或者 <code>DecorView mDecor</code> 这样的全局变量）。至于他们的关系，可见<code>视图的真实引用链</code></p>
-</blockquote>
-<p>要把刚才的 XML 注入给 Activity，现代 Android 开发通常有两种流派：</p>
-<p><strong>方法 1：传统手艺（findViewById）</strong></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法1</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FirstActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 祭出 lateinit 魔法：声明一个 Button 变量，承诺稍后赋值</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> button1: Button</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        <span class="comment">// 2. 将 XML 布局加载到内存中（交由底层 LayoutInflater 偷梁换柱）</span></span><br><span class="line">        setContentView(R.layout.first_layout)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 兑现承诺：在布局里根据 ID 找到那个按钮，赋值给变量</span></span><br><span class="line">        button1 = findViewById(R.id.button1)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 稳稳地给它设置点击事件</span></span><br><span class="line">        button1.setOnClickListener &#123;</span><br><span class="line">            Toast.makeText(<span class="keyword">this</span>, <span class="string">&quot;You clicked Button 1&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>方法 1（传 ID）</strong>：只给了 Activity 一个极其轻量的**“图纸编号”**（<code>R.layout.first_layout</code> 本质上是个 <code>int</code> 数字）。此时 XML <strong>还没有</strong>被加载到内存中。是 Activity 内部暗中调用了 <code>LayoutInflater</code>，极其辛苦地拿着编号去硬盘里找 XML，并把它“充气”成内存里的 View。</li>
-</ul>
-<p><strong>方法 2：现代标配（ViewBinding 视图绑定）</strong></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法2</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FirstActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 声明系统为你自动生成的 Binding 类的变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> binding: FirstLayoutBinding</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 充气（解析）XML 布局，生成 binding 对象</span></span><br><span class="line">        binding = FirstLayoutBinding.inflate(layoutInflater)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3. 告诉 Activity，你的界面就是 binding 的根视图</span></span><br><span class="line">        setContentView(binding.root)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 见证奇迹：直接通过 binding 点出你在 XML 里写的所有 ID！类型绝对安全！</span></span><br><span class="line">        binding.button1.setOnClickListener &#123;</span><br><span class="line">            Toast.makeText(<span class="keyword">this</span>, <span class="string">&quot;You clicked Button 1&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>方法 2（传 View）</strong>：在调用 <code>setContentView</code> 之前，通过 <code>FirstLayoutBinding.inflate(layoutInflater)</code> 提前召唤了 <code>LayoutInflater</code>，把图纸变成了真正的、在内存里建好的**“现房”**（<code>binding.root</code> 本质上是个 <code>View</code>）。然后你直接把现房丢给了 Activity。</li>
-</ul>
-<h1>二、 setContentView（）</h1>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> void setContentView(<span class="meta">@LayoutRes</span> int layoutResID) &#123;</span><br><span class="line">    initViewTreeOwners();</span><br><span class="line">    getDelegate().setContentView(layoutResID);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> void setContentView(View view) &#123;</span><br><span class="line">    initViewTreeOwners();</span><br><span class="line">    getDelegate().setContentView(view);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> void setContentView(View view, ViewGroup.LayoutParams params) &#123;</span><br><span class="line">    initViewTreeOwners();</span><br><span class="line">    getDelegate().setContentView(view, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用重载的方式达到了编译时多态，<code>setContentView</code>就做了两件事：</p>
-<ol>
-<li>注入灵魂：<code>initViewTreeOwers（）</code></li>
-</ol>
-<p>这是现代 Android (Jetpack) 极其重要的一步。 在我们之前的认知里，View 只是屏幕上冷冰冰的像素点。但是这行代码，把 Activity 的“生死观（Lifecycle）”和“记忆库（ViewModel）”强行绑定到了这棵 View 视图树上。 这就是为什么你在现代的 Fragment 或者自定义 View 里，可以通过极其简单的代码（如 <code>findViewTreeLifecycleOwner</code>）直接拿到 Activity 的生命周期！这行代码给冷冰冰的 UI 注入了灵魂。</p>
-<ol start="2">
-<li>外包干活：<code>getDelegate().setContentView(...)</code></li>
-</ol>
-<p>核心来了！Activity 说：“UI 渲染太麻烦了，还要管老手机的向下兼容，我不干了！” 于是，它调用了 <code>getDelegate()</code>，拿到了一位名为 <strong><code>AppCompatDelegate</code>（兼容性大管家）</strong> 的代理人，把你的图纸（<code>layoutResID</code>）或者现房（<code>view</code>）直接扔给了他。</p>
-<blockquote>
-<p>这也是为什么在 XML 里明明写的是普通的 <code>&lt;Button&gt;</code>，运行到手机上却自动变成了带有点击水波纹特效的 <code>MaterialButton</code>？ 就是因为这位 <code>AppCompatDelegate</code> 管家在接手图纸后，暗中施展了“偷梁换柱”的魔法，替换了原生的控件！</p>
-</blockquote>
-<h2 id="1-initViewTreeOwers（）">1. <code>initViewTreeOwers（）</code></h2>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void initViewTreeOwners() &#123;</span><br><span class="line">    <span class="comment">// 在设置内容视图之前设置视图树的所有者，这样在充气解析（inflation）和附加监听器时，就能直接看到它们已经存在了</span></span><br><span class="line">  	<span class="comment">// 1. 注入生命周期感知能力</span></span><br><span class="line">    ViewTreeLifecycleOwner.<span class="keyword">set</span>(getWindow().getDecorView(), <span class="keyword">this</span>);</span><br><span class="line">  	<span class="comment">// 2. 注入 ViewModel 存储能力</span></span><br><span class="line">    ViewTreeViewModelStoreOwner.<span class="keyword">set</span>(getWindow().getDecorView(), <span class="keyword">this</span>);</span><br><span class="line">  	<span class="comment">// 3. 注入状态保存能力</span></span><br><span class="line">    ViewTreeSavedStateRegistryOwner.<span class="keyword">set</span>(getWindow().getDecorView(), <span class="keyword">this</span>);</span><br><span class="line">  	<span class="comment">// 4. 注入返回键拦截能力</span></span><br><span class="line">    ViewTreeOnBackPressedDispatcherOwner.<span class="keyword">set</span>(getWindow().getDecorView(), <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p><strong><code>this</code> 是谁？</strong> 就是 Activity 本身！还记得我们之前扒过（可见文章<a target="_blank" rel="noopener" href="http://localhost:4000/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/">Android四大组件之Activity详解</a>的最后部分），现代的 <code>ComponentActivity</code> 身上实现了十几个接口（<code>LifecycleOwner</code>, <code>ViewModelStoreOwner</code> 等）吗？它现在要把自己的这些超能力共享出去了。</p>
-</li>
-<li>
-<p><strong><code>getWindow().getDecorView()</code> 是谁？</strong> 它是当前这个界面的<strong>绝对根节点</strong>（也就是整个屏幕最底层的那块大画板）。</p>
-</li>
-</ul>
-<p>在以前的老 Android 开发中，如果你在一个自定义的 <code>View</code>（比如一个正在播放动画的自定义大风车控件）里，想要知道 Activity 什么时候退到后台，以便暂停动画省电，你只能极其丑陋地把 <code>Context</code> 强转成 <code>Activity</code>，然后去搞回调。这会导致 View 和 Activity <strong>重度耦合</strong>。</p>
-<p>但有了这四行代码之后，格局彻底打开了：</p>
-<p>Activity 把自己的 <code>Lifecycle</code>、<code>ViewModel</code> 等能力，<strong>像贴标签一样，死死地贴在了根节点 <code>DecorView</code> 上。</strong></p>
-<p>接下来，当你调用 <code>setContentView</code> 把你的 XML 控件（比如 <code>Button</code>、<code>TextView</code>）塞进这个树形结构后，神奇的事情发生了： 任何一个极其底层的叶子节点（比如你自定义的 View），只要它在这棵树上，它就可以通过 <code>ViewTreeLifecycleOwner.get(this)</code> 顺着树枝一路往上找。因为老祖宗 <code>DecorView</code> 身上贴着 Activity 给的标签，所以这个底层的 View <strong>不需要强转 Context，就能直接拿到整个页面的生命周期！</strong></p>
-<h3 id="1-1-getWindow-是什么？">1.1 <code>getWindow()</code>是什么？</h3>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Window getWindow() &#123;</span><br><span class="line">        <span class="keyword">return</span> mWindow;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Window</span> &#123;</span><br><span class="line">    <span class="comment">/** Flag for the &quot;options panel&quot; feature.  This is enabled by default. */</span></span><br><span class="line">    <span class="keyword">public</span> static <span class="keyword">final</span> int FEATURE_OPTIONS_PANEL = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/** Flag for the &quot;no title&quot; feature, turning off the title at the top</span></span><br><span class="line"><span class="comment">     *  of the screen. */</span></span><br><span class="line">    <span class="keyword">public</span> static <span class="keyword">final</span> int FEATURE_NO_TITLE = <span class="number">1</span>;</span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Retrieve the top-level window decor view (containing the standard</span></span><br><span class="line"><span class="comment">     * window frame/decorations and the client&#x27;s content inside of that), which</span></span><br><span class="line"><span class="comment">     * can be added as a window to the window manager.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;&lt;em&gt;Note that calling this function for the first time &quot;locks in&quot;</span></span><br><span class="line"><span class="comment">     * various window characteristics as described in</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #setContentView(View, android.view.ViewGroup.LayoutParams)&#125;.&lt;/em&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Returns the top-level window decor view.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="meta">@NonNull</span> View getDecorView()</span><br></pre></td></tr></table></figure>
-<h4 id="Window-的真面目：它是“制定规则的宪法”">Window 的真面目：它是“制定规则的宪法”</h4>
-<p>你贴出的这几行源码（<code>FEATURE_NO_TITLE</code>、<code>FEATURE_OPTIONS_PANEL</code> 等），正好暴露了 <code>Window</code> 的真实身份：<strong>它是一个“顶级视图策略（Policy）”的定义者。</strong></p>
-<p>它就像一份合同或者图纸，规定了一个“窗口”应该具备哪些能力：</p>
-<ul>
-<li><strong>有没有标题栏？</strong>（<code>FEATURE_NO_TITLE</code>）</li>
-<li><strong>左边有没有图标？</strong>（<code>FEATURE_LEFT_ICON</code>）</li>
-<li><strong>背景是不是透明的？</strong></li>
-<li><strong>全屏还是非全屏？</strong></li>
-</ul>
-<p>这也是为什么你在早期的 Android 开发中，如果想要隐藏标题栏，必须在 <code>setContentView</code> <strong>之前</strong>调用一句话： <code>requestWindowFeature(Window.FEATURE_NO_TITLE);</code> 这就是你在向 <code>Window</code> 这个大总管申请：“我要修改这份合同上的第 1 条规则！”</p>
-<h4 id="“唯一的太子”：PhoneWindow">“唯一的太子”：PhoneWindow</h4>
-<p>既然 <code>Window</code> 只是个签合同的“虚职”（抽象类），那总得有人来干脏活累活吧？</p>
-<p>Google 在设计 Android 时，可能幻想着未来会有 <code>TvWindow</code>（电视窗口）、<code>WatchWindow</code>（手表窗口）、<code>CarWindow</code>（汽车窗口）来继承这个抽象类。</p>
-<p><strong>但现实极其骨感：</strong> 整个 Android 源码中，<code>Window</code> 这个庞大的抽象家族里，<strong>只有一个唯一且真实的子类（太子），它的名字叫 <code>PhoneWindow</code>。</strong></p>
-<p>当你调用 <code>Activity.getWindow()</code> 时，底层其实是通过多态，返回了一个实实在在的 <code>PhoneWindow</code> 对象！所有的界面绘制、按键事件分发、XML 解析，全都是这个 <code>PhoneWindow</code> 在默默执行。</p>
-<h3 id="1-2-getDecorView-是什么">1.2 <code>getDecorView()</code>是什么</h3>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 位于 com.android.internal.policy.PhoneWindow </span></span><br><span class="line"><span class="keyword">private</span> DecorView mDecor; <span class="comment">// 皇城本尊的变量引用</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="meta">@NonNull</span> View getDecorView() &#123;</span><br><span class="line">    <span class="comment">// 如果皇城还没建，或者被强拆了要求重建</span></span><br><span class="line">    <span class="keyword">if</span> (mDecor == <span class="literal">null</span> || mForceDecorInstall) &#123;</span><br><span class="line">        installDecor(); <span class="comment">// ⚠️ 高能预警：这是 Android 视图层最重要的造物方法！</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mDecor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>调用 <code>getDecorView()</code> 时，它会检查是不是还没建好。如果没建好，它就会调用一个叫 <strong><code>installDecor()</code></strong> 的方法。</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PhoneWindow.java 里的 installDecor() 节选</span></span><br><span class="line"><span class="keyword">private</span> void installDecor() &#123;</span><br><span class="line">    <span class="keyword">if</span> (mDecor == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 1. 霸气侧漏：直接 new 一个皇城！</span></span><br><span class="line">        mDecor = generateDecor(-<span class="number">1</span>); </span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mContentParent == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 2. 划分内城：在皇城里圈出一块叫 android.R.id.content 的地</span></span><br><span class="line">        mContentParent = generateLayout(mDecor); </span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 看看 generateDecor 里干了什么？</span></span><br><span class="line"><span class="keyword">protected</span> DecorView generateDecor(int featureId) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// 原来 DecorView 就是这么极其朴素地被 new 出来的！</span></span><br><span class="line">    <span class="keyword">return</span> new DecorView(context, featureId, <span class="keyword">this</span>, getAttributes());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过 <code>generateLayout()</code>，在根节点内部划分出了状态栏、导航栏，并最终挖出了那个代号为 <code>android.R.id.content</code> 的小盒子（mContentParent）。 <strong>万事俱备，只欠 XML！</strong>”</p>
-<p>现在，“皇城”建好了，“盒子”也准备好了。我们手里攥着的那张 <code>R.layout.first_layout</code> 的 XML 图纸，终于要被扔进这个盒子里了。</p>
-<h4 id="DecorView是什么">DecorView是什么</h4>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DecorView</span> <span class="title">extends</span> <span class="title">FrameLayout</span> <span class="title">implements</span> <span class="title">RootViewSurfaceTaker</span>, <span class="type">WindowCallbacks</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> String TAG = <span class="string">&quot;DecorView&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> boolean DEBUG_MEASURE = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> boolean SWEEP_OPEN_MENU = <span class="literal">false</span>;</span><br><span class="line">  <span class="comment">//...其他细节</span></span><br><span class="line">  </span><br><span class="line">  DecorView(Context context, int featureId, PhoneWindow window,</span><br><span class="line">            WindowManager.LayoutParams params) &#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        mFeatureId = featureId;</span><br><span class="line">        mShowInterpolator = AnimationUtils.loadInterpolator(context,</span><br><span class="line">                android.R.interpolator.linear_out_slow_in);</span><br><span class="line">        mHideInterpolator = AnimationUtils.loadInterpolator(context,</span><br><span class="line">                android.R.interpolator.fast_out_linear_in);</span><br><span class="line"></span><br><span class="line">        mBarEnterExitDuration = context.getResources().getInteger(</span><br><span class="line">                R.integer.dock_enter_exit_duration);</span><br><span class="line">        mForceWindowDrawsBarBackgrounds = context.getResources().getBoolean(</span><br><span class="line">                R.bool.config_forceWindowDrawsStatusBarBackground)</span><br><span class="line">                &amp;&amp; params.type != TYPE_INPUT_METHOD</span><br><span class="line">                &amp;&amp; context.getApplicationInfo().targetSdkVersion &gt;= N;</span><br><span class="line">        mSemiTransparentBarColor = context.getResources().getColor(</span><br><span class="line">                R.color.system_bar_background_semi_transparent, <span class="literal">null</span> <span class="comment">/* theme */</span>);</span><br><span class="line"></span><br><span class="line">        setWindow(window);</span><br><span class="line"></span><br><span class="line">        updateLogTag(params);</span><br><span class="line"></span><br><span class="line">        mLegacyNavigationBarBackgroundPaint.setColor(Color.BLACK);</span><br><span class="line"></span><br><span class="line">        mWearGestureInterceptionDetector =</span><br><span class="line">                WearGestureInterceptionDetector.isEnabled(context)</span><br><span class="line">                        ? new WearGestureInterceptionDetector(context, <span class="keyword">this</span>)</span><br><span class="line">                        : <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><strong>它本质上就是一个极其普通的 <code>FrameLayout</code></strong>。但它之所以能成为整个界面的“皇城”，全靠上面贴出来的这段构造方法里赋予它的<strong>特权</strong>。</p>
-<p>你以为你的屏幕上只有你自己写的 XML 布局吗？大错特错！手机屏幕的顶部有<strong>状态栏（时间、电量）</strong>，底部有<strong>导航栏（返回键、Home 键）</strong>。</p>
-<p><code>DecorView</code> 的核心职责，就是负责把你写的布局，和系统硬塞进来的这些“装饰品”拼装在一起。上面贴的代码里，全都是它在为这些系统装饰做准备：</p>
-<ul>
-<li>处理系统 UI 的进出动画：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mShowInterpolator = AnimationUtils.loadInterpolator(...);</span><br><span class="line">mHideInterpolator = AnimationUtils.loadInterpolator(...);</span><br><span class="line">mBarEnterExitDuration = ...;</span><br></pre></td></tr></table></figure>
-<p>这几行代码是在加载动画插值器和时间。当你玩游戏或者看视频时，状态栏和导航栏经常会隐藏和滑出。<strong>原来这些动画，都是 <code>DecorView</code> 这个老大哥在底层默默控制的</strong></p>
-<ul>
-<li>绘制状态栏和导航栏的背景色：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mForceWindowDrawsBarBackgrounds = ...; <span class="comment">// 是否强制画状态栏背景</span></span><br><span class="line">mSemiTransparentBarColor = ...;        <span class="comment">// 半透明的状态栏颜色</span></span><br><span class="line">mLegacyNavigationBarBackgroundPaint.setColor(Color.BLACK); <span class="comment">// 重点！</span></span><br></pre></td></tr></table></figure>
-<p>看到那句 <code>setColor(Color.BLACK)</code> 了吗？这就是为什么在早期的 Android 系统里，底部的三大金刚键（导航栏）背景永远是<strong>死黑死黑</strong>的一块！因为 <code>DecorView</code> 在出生的时候，就拿起画笔（Paint）把它涂黑了。后来我们学的高级技术“沉浸式状态栏/导航栏”，本质上就是去抢夺 <code>DecorView</code> 的这支画笔，把它改成透明的。</p>
-<ul>
-<li>手表设备的特殊处理：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mWearGestureInterceptionDetector = ...</span><br></pre></td></tr></table></figure>
-<p>Android 系统不仅跑在手机上，还跑在智能手表（Wear OS）上。因为手表屏幕太小，经常需要全局滑动拦截。<code>DecorView</code> 作为屏幕的最外层，理所当然地承担了拦截手表全局手势的重任。</p>
-<h3 id="1-3-生命周期感知能力实现原理">1.3 生命周期感知能力实现原理</h3>
-<p>当我们点进 <code>ViewTreeLifecycleOwner.set(view, owner)</code> 的源码时，会发现它的实现短得令人发指：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewTreeLifecycleOwner.java 源码核心逻辑</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">(<span class="meta">@NonNull</span> View view, <span class="meta">@Nullable</span> LifecycleOwner lifecycleOwner)</span> &#123;</span><br><span class="line">    <span class="comment">// 竟然只是给 View 打了个 Tag（贴了个小纸条）！</span></span><br><span class="line">    view.setTag(R.id.view_tree_lifecycle_owner, lifecycleOwner);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Activity 并没有给 <code>DecorView</code> 注入什么复杂的监听代码。它只是极其敷衍地在 <code>DecorView</code>（大树的根节点）的脑门上，<strong>贴了一张名叫 <code>R.id.view_tree_lifecycle_owner</code> 的“小纸条”</strong>。这张纸条上写着：“我是 Activity，我是 LifecycleOwner”。</p>
-<h4 id="底层的-View-是怎么拿到生命周期的？">底层的 View 是怎么拿到生命周期的？</h4>
-<p>贴在根节点上的纸条有什么用？这就体现出这套设计的绝妙之处了。</p>
-<p>假设我们在 XML 里写了一个极深的自定义 View（比如 <code>DecorView -&gt; LinearLayout -&gt; FrameLayout -&gt; MyCustomButton</code>）。 当 <code>MyCustomButton</code> 想要获取生命周期时，它会调用： <code>val owner = ViewTreeLifecycleOwner.get(this)</code></p>
-<p>在这个 <code>get()</code> 方法的源码里，执行了一个极其经典的**“顺藤摸瓜（向上遍历树）”**操作：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewTreeLifecycleOwner.java 的 get() 源码逻辑演示</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> LifecycleOwner <span class="title function_">get</span><span class="params">(<span class="meta">@NonNull</span> View view)</span> &#123;</span><br><span class="line">    <span class="type">View</span> <span class="variable">currentView</span> <span class="operator">=</span> view;</span><br><span class="line">    <span class="keyword">while</span> (currentView != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 1. 看看自己脑门上有没有贴那张纸条？</span></span><br><span class="line">        <span class="type">LifecycleOwner</span> <span class="variable">owner</span> <span class="operator">=</span> (LifecycleOwner) currentView.getTag(R.id.view_tree_lifecycle_owner);</span><br><span class="line">        <span class="keyword">if</span> (owner != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> owner; <span class="comment">// 找到了！直接返回</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 自己没有？那就找亲爹（父容器）要！</span></span><br><span class="line">        <span class="type">ViewParent</span> <span class="variable">parent</span> <span class="operator">=</span> currentView.getParent();</span><br><span class="line">        currentView = (parent <span class="keyword">instanceof</span> View) ? (View) parent : <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>; <span class="comment">// 找了一圈都没找到</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>底层的 <code>MyCustomButton</code> 发现自己身上没纸条，就去问它的父容器 <code>FrameLayout</code>；<code>FrameLayout</code> 也没有，就去问 <code>LinearLayout</code>；一路往上问，<strong>最终一定会问到老祖宗 <code>DecorView</code> 头上！</strong> 而我们在 <code>setContentView</code> 的第一步，就已经在 <code>DecorView</code> 脑门上贴好了 Activity 的纸条。于是，极其底层的 View，隔山打牛般地拿到了最顶层 Activity 的生命周期对象！</p>
-<p>当 View 顺藤摸瓜拿到了 Activity 这个 <code>LifecycleOwner</code> 之后，接下来发生的事情，就<strong>完美衔接上了旧时代做法</strong>：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// View 内部的伪代码</span></span><br><span class="line"><span class="keyword">val</span> owner = ViewTreeLifecycleOwner.<span class="keyword">get</span>(<span class="keyword">this</span>)</span><br><span class="line">owner?.lifecycle?.addObserver(<span class="keyword">object</span> : DefaultLifecycleObserver &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResume</span><span class="params">(owner: <span class="type">LifecycleOwner</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// View 知道 Activity 回到前台了，开始播放动画！</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onPause</span><span class="params">(owner: <span class="type">LifecycleOwner</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// View 知道 Activity 退到后台了，暂停动画省电！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>至于 Activity 是怎么在自己销毁时通知这些 Observer 的？ 正如你回忆的那样，现代的 <code>ComponentActivity</code> 内部有一个 <code>LifecycleRegistry</code>。Activity 依然是在自己的 <code>onCreate()</code>、<code>onDestroy()</code> 等原生方法里，去调用 <code>LifecycleRegistry.handleLifecycleEvent(...)</code> 来分发事件。</p>
-<p><strong>只是现在，这个分发过程被系统封装好了，再也不需要开发者手动去写那些恶心的回调了。</strong></p>
-<h2 id="2-getDelegate-setContentView">2. <code>getDelegate().setContentView()</code></h2>
-<p>首先，<code>getDelegate（）</code>返回的是一个AppCompatDelegate，然后把图纸交给了他<code>setContentView()</code></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">getDelegate().setContentView(layoutResID);</span><br><span class="line"></span><br><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="keyword">public</span> AppCompatDelegate getDelegate() &#123;</span><br><span class="line">    <span class="keyword">if</span> (mDelegate == <span class="literal">null</span>) &#123;</span><br><span class="line">        mDelegate = AppCompatDelegate.create(<span class="keyword">this</span>, <span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mDelegate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们直接扒开 <code>AppCompatDelegateImpl</code>（代理人的真实实现类）的源码，真相瞬间大白：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AppCompatDelegateImpl.java 源码核心逻辑</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> void setContentView(int resId) &#123;</span><br><span class="line">    <span class="comment">// 1. 确保皇城（DecorView）和内城盒子（android.R.id.content）已经建好</span></span><br><span class="line">    ensureSubDecor(); </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 找到那个专门给你留的空盒子 mContentParent</span></span><br><span class="line">    ViewGroup contentParent = mSubDecor.findViewById(android.R.id.content);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 把盒子里以前的东西全扔掉（确保页面是干净的）</span></span><br><span class="line">    contentParent.removeAllViews();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4. ⚠️ 高能预警：召唤终极翻译官 LayoutInflater！</span></span><br><span class="line">    LayoutInflater.from(mContext).inflate(resId, contentParent);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 5. 通知系统，内容已经塞进去了</span></span><br><span class="line">    mAppCompatWindowCallback.getWrapped().onContentChanged();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-1-为什么必须是找这个空盒子">2.1 为什么必须是找这个空盒子</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ViewGroup</span> <span class="variable">contentParent</span> <span class="operator">=</span> mSubDecor.findViewById(android.R.id.content);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p><strong>防重叠（占位）：</strong> 如果系统直接把你的 XML 布局塞进 <code>DecorView</code>，那你的页面就会直接顶到屏幕最上面，<strong>和头顶的 ActionBar（标题栏）重叠在一起</strong>！为了防止这种尴尬，系统先用一个垂直的 <code>LinearLayout</code> 把屏幕上下分好区：上面放标题栏，下面留一个叫 <code>content</code> 的 <code>FrameLayout</code> 给你。</p>
-</li>
-<li>
-<p><strong>主题控制：</strong> 早年 Android 开发时，如果想隐藏标题栏，必须在 <code>setContentView</code> 之前调用 <code>requestWindowFeature(Window.FEATURE_NO_TITLE)</code></p>
-<ul>
-<li>
-<p>为什么必须在它<strong>之前</strong>？</p>
-</li>
-<li>
-<p>因为当你写了 <code>NO_TITLE</code> 时，系统在建这栋房子时，就不会往里面塞 ActionBar 了，而是直接给一个占据全屏的 <code>content</code> 空盒子。如果房子已经建好了你再去改，就晚了！</p>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DecorView (整个手机屏幕的绝对根节点，负责画状态栏/导航栏背景)</span><br><span class="line"> │</span><br><span class="line"> └── LinearLayout (垂直排列，这就是 mSubDecor)</span><br><span class="line">      │</span><br><span class="line">      ├── ActionBar / TitleBar (系统自带的顶部标题栏区域)</span><br><span class="line">      │</span><br><span class="line">      └── FrameLayout (ID: android.R.id.content) 👈 专门留给你的空房间！</span><br><span class="line">           │</span><br><span class="line">           └── [空空如也，等待你的 setContentView 把它填满]</span><br></pre></td></tr></table></figure>
-<p>很多老司机在写全局弹窗（比如一个覆盖全屏的加载动画、或者一个全局的悬浮按钮）时，不知道该把这个 View 添加到哪里。因为如果加到自己写的 LinearLayout 里，它可能会被限制在某个局部区域。</p>
-<p><strong>终极解决方案：</strong> 直接在代码里写 <code>Activity.findViewById(android.R.id.content)</code>！ 因为这玩意儿是系统专门留给你塞内容的<strong>最大容器</strong>。拿到这个容器，你就可以用 <code>addView()</code> 强行把你的悬浮按钮塞进去，它绝对能覆盖在你自己写的普通 XML 布局之上！</p>
-<h3 id="2-2-LayoutInflater-的“造物魔法”-Inflate">2.2 LayoutInflater 的“造物魔法” (Inflate)</h3>
-<p>为什么叫 Inflate（充气）？因为 XML 文件在硬盘里只是一堆干瘪的文本字符串（比如 <code>&lt;Button&gt;</code>）。<code>LayoutInflater</code> 的工作，就是给这些文本“充气”，让它们变成内存里丰满的、活生生的 Java/Kotlin 对象。</p>
-<p>它干活的流程极其硬核：</p>
-<ol>
-<li><strong>解析 XML (XmlPullParser)</strong>：它像一个无情的阅读机器，一行一行地读取你的 XML 文件，遇到一个 <code>&lt;Button&gt;</code> 标签，它就记录下来。</li>
-<li><strong>反射造物 (Reflection)</strong>：它是怎么把字符串 <code>&lt;Button&gt;</code> 变成内存里的 <code>android.widget.Button</code> 对象的？答案是<strong>反射</strong>！它在底层拼接出完整的类名，然后通过 <code>Class.forName().newInstance()</code>，硬生生地把对象 new 出来。</li>
-<li><strong>拼装树结构</strong>：它按照 XML 里的嵌套关系，把子 View（比如 Button）通过 <code>addView()</code> 塞进父容器（比如 LinearLayout），最后再把这整棵树，塞进那个 <code>contentParent</code> 空盒子里。</li>
-</ol>
-<blockquote>
-<p><strong>💡 性能优化的真相</strong> 为什么“XML 布局层级为什么不能太深”？为什么现在要主推 Jetpack Compose 和 ViewBinding？ 因为 <strong>IO 读取 XML + 递归解析 + 大量反射 new 对象</strong>，这套组合拳极其耗时！层级越深，反射越慢，页面启动就越卡！</p>
-</blockquote>
-<h2 id="3-这些View在DecorView怎么存的？">3 这些View在DecorView怎么存的？</h2>
-<h3 id="3-1-源码铁证：它就藏在-ViewGroup-里"><strong>3.1 源码铁证：它就藏在 <code>ViewGroup</code> 里</strong></h3>
-<p>因为 <code>DecorView</code> 继承自 <code>FrameLayout</code>，而 <code>FrameLayout</code> 又继承自 <code>ViewGroup</code>。所以这个存子节点的“盒子”，其实是写在所有容器的老祖宗 <code>ViewGroup.java</code> 里面的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewGroup.java 源码</span></span><br><span class="line"><span class="meta">@UnsupportedAppUsage</span></span><br><span class="line"><span class="keyword">private</span> View[] mChildren; <span class="comment">// 👈 破案了！就是一个纯纯的 View 类型的数组！</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> mChildrenCount; <span class="comment">// 记录当前数组里真正装了多少个 View</span></span><br></pre></td></tr></table></figure>
-<p>没错，不管是 <code>DecorView</code> 里的状态栏背景和 <code>mSubDecor</code>，还是你自己写的 <code>LinearLayout</code> 里的几个 <code>Button</code>，它们在内存里的本质，<strong>就是挨个排在这个 <code>View[]</code> 数组里面的对象引用</strong>。</p>
-<h3 id="3-2-🤔-深度架构思考：为什么用数组，坚决不用链表？"><strong>3.2 🤔 深度架构思考：为什么用数组，坚决不用链表？</strong></h3>
-<p>“既然界面的 View 是动态添加（<code>addView</code>）和删除（<code>removeView</code>）的，链表的插入和删除是 O(1)，数组是 O(n)，那为什么 Google 偏偏要用数组？</p>
-<ol>
-<li>渲染性能的生死线：CPU 缓存友好性（Cache Locality）</li>
-</ol>
-<p>手机屏幕一秒钟要刷新 60 次（甚至 120 次）。这意味着系统每隔 16 毫秒，就要把整棵视图树极其疯狂地遍历一遍（执行 <code>measure</code>、<code>layout</code>、<code>draw</code>）。</p>
-<ul>
-<li><strong>链表：</strong> 节点在内存里是<strong>随机、分散</strong>存放的。CPU 去读链表时，缓存命中率极低，找下一个节点需要不停地去主内存里寻址，极其拖慢渲染速度。</li>
-<li><strong>数组：</strong> 在内存中是<strong>连续分配</strong>的！CPU 在读取第 0 个 View 时，会顺便把后面的第 1、2、3 个 View 全加载到 L1/L2 高速缓存里。遍历数组的速度，在底层硬件层面简直是碾压链表的。</li>
-</ul>
-<ol start="2">
-<li>极致的随机访问速度：O(1)</li>
-</ol>
-<p>你在代码里经常会用到 <code>ViewGroup.getChildAt(int index)</code> 这个方法吧？</p>
-<p>因为底层是 <code>mChildren</code> 数组，系统只需要执行 <code>mChildren[index]</code>，瞬间就能拿到对应的 View。如果是链表，还得从头开始极其痛苦地遍历过去。</p>
-<ol start="3">
-<li>动态扩容机制（类似 ArrayList）</li>
-</ol>
-<p>既然是数组，容量不够了怎么办？</p>
-<p><code>ViewGroup</code> 内部实现了一个极其高效的动态扩容机制。当 <code>addView()</code> 发现 <code>mChildren</code> 满了时，它会极其果断地 <code>new</code> 一个更大的数组（通常是原来容量的 1.5 倍或特定步长），然后用底层极其高效的 native 方法 <code>System.arraycopy()</code>，把老数组的数据瞬间“拍”到新数组里。</p>
-<h3 id="3-3-具象化：DecorView-的数组里到底装了什么？"><strong>3.3 具象化：DecorView 的数组里到底装了什么？</strong></h3>
-<p>现在我们把前面的知识全串起来。当你启动 App，<code>DecorView</code> 刚刚建好，你的 XML 还没塞进去时，它的 <code>mChildren</code> 数组在内存里看起来是这样的：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DecorView 的 mChildren 数组:</span><br><span class="line">[0] -&gt; View (负责画状态栏半透明背景色的那块布)</span><br><span class="line">[1] -&gt; View (负责画底部导航栏黑色的那块布)</span><br><span class="line">[2] -&gt; LinearLayout (也就是 mSubDecor，它把屏幕上下分区)</span><br><span class="line">[3] -&gt; null</span><br><span class="line">[4] -&gt; null</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>而那个 <code>mSubDecor</code> (LinearLayout) 自己也有一个 <code>mChildren</code> 数组：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mSubDecor 的 mChildren 数组:</span><br><span class="line">[0] -&gt; ViewStub (预留给 ActionBar / TitleBar 的位置)</span><br><span class="line">[1] -&gt; FrameLayout (ID 就是 android.R.id.content！那个空房间！)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/setContentView/2.png" alt="linearlayout-button"></p>
-<h1>视图的真实引用链</h1>
-<h2 id="1-Activity-手里只有“管家”">1. Activity 手里只有“管家”</h2>
-<p>如果你去 <code>Activity.java</code> 的源码里搜索，会发现它虽然没有 View 变量，但它死死攥着一个东西：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Activity.java 源码</span></span><br><span class="line"><span class="keyword">private</span> Window mWindow;</span><br></pre></td></tr></table></figure>
-<p>Activity 只认识 <code>Window</code>（运行时其实就是 <code>PhoneWindow</code>）。Activity 的潜台词是：“我不管具体的 View 长什么样，我只管发号施令。有事我直接找管家 <code>mWindow</code>。”</p>
-<h4 id="2-管家-PhoneWindow-手里才有“房子”">2. 管家 PhoneWindow 手里才有“房子”</h4>
-<p>顺着线索，我们跑到 <code>PhoneWindow.java</code> 里面一看，果然，赃物全在这里：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PhoneWindow.java 源码</span></span><br><span class="line"><span class="keyword">private</span> DecorView mDecor;            <span class="comment">// 皇城（屏幕根节点）</span></span><br><span class="line">ViewGroup mContentParent;            <span class="comment">// 内城（装你 XML 的那个 android.R.id.content 盒子）</span></span><br></pre></td></tr></table></figure>
-<p>原来，<strong>真正的 View 对象，是作为成员变量存在 <code>PhoneWindow</code> 里的！</strong></p>
-<h3 id="💡-架构师的思考：为什么要这么设计？">💡 架构师的思考：为什么要这么设计？</h3>
-<p>Google 为什么要搞这么麻烦？为什么不直接在 Activity 里写一个 <code>View mView</code>？</p>
-<p>这其实是极其经典的面向对象设计原则：<strong>单一职责原则（SRP）与解耦</strong>。</p>
-<ol>
-<li><strong>Activity 的核心职责是“管事”</strong>：它负责和底层的操作系统（AMS）打交道，接收生命周期（启动、暂停、销毁），处理跨组件通信（Intent）。它应该是一个<strong>逻辑控制器</strong>。</li>
-<li><strong>Window 的核心职责是“管画”</strong>：它负责和屏幕显示系统（WMS）打交道，管理所有的 View 树，处理事件分发、背景颜色、状态栏特征。</li>
-</ol>
-<blockquote>
-<h3 id="💡-架构师的思考：为什么要这么设计？-2">💡 架构师的思考：为什么要这么设计？</h3>
-<p>Google 为什么要搞这么麻烦？为什么不直接在 Activity 里写一个 <code>View mView</code>？</p>
-<p>这其实是极其经典的面向对象设计原则：<strong>单一职责原则（SRP）与解耦</strong>。</p>
-<ol>
-<li><strong>Activity 的核心职责是“管事”</strong>：它负责和底层的操作系统（AMS）打交道，接收生命周期（启动、暂停、销毁），处理跨组件通信（Intent）。它应该是一个<strong>逻辑控制器</strong>。</li>
-<li><strong>Window 的核心职责是“管画”</strong>：它负责和屏幕显示系统（WMS）打交道，管理所有的 View 树，处理事件分发、背景颜色、状态栏特征。</li>
-</ol>
-<p>试想一下，如果未来 Android 出了一个没有实体屏幕的设备（比如纯语音助理，或者某种后台虚拟容器），只要把 <code>PhoneWindow</code> 换成一个 <code>VirtualWindow</code> 或者 <code>NullWindow</code>，<code>Activity</code> 的逻辑代码一行都不用改，照样能完美运行！这就是解耦的威力。</p>
-</blockquote>
-<p>现在，再回头看AppCompatActivity的<code>initViewTreeOwners()</code>代码，是不是瞬间就有一种“醍醐灌顶”的感觉了？</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewTreeLifecycleOwner.set(getWindow().getDecorView(), this);</span><br></pre></td></tr></table></figure>
-<p>Activity 发现自己马上要开始生命周期了，它心想：“哎呀，我身上没有 View 呀，我怎么把我的生命周期告诉那些 UI 控件呢？” 于是，它<strong>越级</strong>了！ 它对自己说：“去，把管家叫来（<code>getWindow()</code>），把管家手里管着的那座皇城给我拿过来（<code>getDecorView()</code>），然后把代表我身份的标签（<code>this</code>）死死地贴在城墙上（<code>set(...)</code>）！</p>
-
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/04/">
+            <span class="card-archive-list-date">
+              四月 2026
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaoyu-liguo.github.io/2026/03/08/setcontentview-source-code/" data-id="cmmiwxxar000thj8o38t32e4v" data-title="源码解密：setContentView 之后，到底发生了什么？" class="article-share-link"><span class="fa fa-share">分享</span></a>
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              三月 2026
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
       
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/02/">
+            <span class="card-archive-list-date">
+              二月 2026
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
       
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/12/">
+            <span class="card-archive-list-date">
+              十二月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/setContentView/" rel="tag">setContentView</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-android-ui-rendering-process" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/02/10/android-ui-rendering-process/" class="article-date">
-  <time class="dt-published" datetime="2026-02-10T11:30:00.000Z" itemprop="datePublished">2026-02-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/02/10/android-ui-rendering-process/">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>很多开发者以为，在 <code>Activity</code> 的 <code>onCreate</code> 里调用完 <code>setContentView</code>，屏幕上就应该有画面了。但如果此时立刻去获取一个 View 的宽高（<code>view.getWidth()</code>），你会发现结果永远是 <strong>0</strong>！ <strong>因为在 <code>onCreate</code> 阶段，系统只是在内存里建好了一棵枯燥的 View 树，根本还没有开始画！</strong>”</p>
-<p>答案就藏在 Android 主线程的大总管 —— <strong><code>ActivityThread.java</code></strong> 里。系统在准备回调 Activity 的 <code>onResume()</code> 时，才真正吹响了渲染的冲锋号。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ActivityThread.java 中的 handleResumeActivity 节选</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleResumeActivity</span><span class="params">(IBinder token, <span class="type">boolean</span> finalStateRequest, <span class="type">boolean</span> isForward, String reason)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 回调我们写的 onResume()，此时屏幕依然是黑的！</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">ActivityClientRecord</span> <span class="variable">r</span> <span class="operator">=</span> performResumeActivity(token, finalStateRequest, reason);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">Activity</span> <span class="variable">a</span> <span class="operator">=</span> r.activity;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 拿到我们内存里建好的皇城 DecorView</span></span><br><span class="line">    <span class="type">View</span> <span class="variable">decor</span> <span class="operator">=</span> r.window.getDecorView();</span><br><span class="line">    decor.setVisibility(View.INVISIBLE); </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 拿到窗口管理器</span></span><br><span class="line">    <span class="type">ViewManager</span> <span class="variable">wm</span> <span class="operator">=</span> a.getWindowManager();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4. ⚠️ 见证奇迹的终极发令枪：把 DecorView 喂给 WindowManager！</span></span><br><span class="line">    wm.addView(decor, l); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>揭秘 <code>a.getWindowManager()</code> 的真面目</strong></p>
-<p>在代码里，<code>a</code> 就是我们的 <code>Activity</code>。当我们调用 <code>a.getWindowManager()</code> 时，返回的类型虽然写着 <code>ViewManager</code>（或者是它的子接口 <code>WindowManager</code>），它的真实实现类 —— <strong><code>WindowManagerImpl</code></strong></p>
-<ol>
-<li><strong>它是 Activity 的“私人大堂经理”</strong></li>
-</ol>
-<p>每当系统启动一个 Activity（在底层的 <code>Activity.attach()</code> 方法里），系统不仅会给它发一个 <code>PhoneWindow</code>，还会专门为这个 Activity <code>new</code> 一个专属的 <code>WindowManagerImpl</code>。</p>
-<p>这个大堂经理手里死死攥着两样东西：</p>
-<ul>
-<li>你当前的 <code>Context</code>（也就是这个 Activity）</li>
-<li>你当前的屏幕设备（因为有的手机可能外接了显示器，它得知道画在哪块屏幕上）</li>
-</ul>
-<ol start="2">
-<li><strong>为什么要有这个大堂经理</strong>？</li>
-</ol>
-<p>如果所有 Activity 都直接去找全局系统服务，一旦你把 Activity 销毁了，系统如果忘记清理，就会导致极其严重的<strong>内存泄漏</strong>。 所以，Google 设计了这个“大堂经理”（<code>WindowManagerImpl</code>）。你 Activity 要加弹窗、加视图，都找你的私人经理。等你 Activity 销毁时，这个经理会负责把你在这个页面上加的所有 View 全部清理掉！</p>
-<h4 id="3-大堂经理背后的“终极-Boss”">3. 大堂经理背后的“终极 Boss”</h4>
-<p>私人经理 <code>WindowManagerImpl</code> 其实也是个“甩手掌柜”。当你调用他的 <code>addView</code> 时，他会在内部直接呼叫一个叫 <strong><code>WindowManagerGlobal</code></strong> 的家伙。 <code>WindowManagerGlobal</code> 是一个<strong>全局单例</strong>（整个 App 进程只有他一个）。所有的跨进程通信、和底层硬件（WMS）的对接、以及 <code>new ViewRootImpl()</code>（创建包工头），<strong>全都是这个全局 Boss 在干！</strong></p>
-<hr>
-<p><strong><code>wm.addView()</code> 到底触发了什么？</strong></p>
-<p>当我们调用 <code>wm.addView(decor, l)</code> 时，前面提到的那个**全局 Boss（<code>WindowManagerGlobal</code>）**立刻干了两件事：</p>
-<ol>
-<li><code>new</code> 了一个名叫 <strong><code>ViewRootImpl</code></strong> 的超级包工头。</li>
-<li>调用 <code>root.setView(decor, ...)</code>，把你的皇城（DecorView）正式交给了包工头。</li>
-</ol>
-<h1>一、幕后黑手 <code>ViewRootImpl</code> 的诞生</h1>
-<p>别看它的名字里带个 <code>View</code>，<strong>它根本不是一个 View！</strong> 它不继承自任何 View 类，它是连接 WindowManager 和 整个 View 树的“绝对纽带”。 可以把它理解为一个<strong>专属包工头</strong>。</p>
-<p>在 Android 里，一个 Activity 对应一棵以 <code>DecorView</code> 为首的视图树；而每一棵视图树，系统都会为它专门配备唯一的一个 <code>ViewRootImpl</code>。</p>
-<p>在 <code>WindowManagerGlobal</code> 内部，系统调用了 <code>root.setView(view, ...)</code>。当顺着源码进入到 <code>ViewRootImpl.setView()</code> 这个方法时，会发现这个包工头一上任，立刻干了两件极其硬核的大事。</p>
-<p>这就是包工头的“两板斧”：<strong>对内搞定渲染节奏，对外搞定系统地皮。</strong></p>
-<h2 id="🪓-第一板斧：对内发起渲染请求-requestLayout">🪓 第一板斧：对内发起渲染请求 (<code>requestLayout</code>)</h2>
-<p>在 <code>setView</code> 方法的开头，包工头立刻调用了一个极其重要的方法：<code>requestLayout()</code>。</p>
-<blockquote>
-<p><strong>💡 破案时刻：</strong> 平时在开发中，如果动态改变了一个 View 的大小（比如把一段很长的文字塞进 TextView），往往需要调用 <code>view.requestLayout()</code>。 这个方法最终都会顺藤摸瓜，一路调用到 <code>ViewRootImpl</code> 的 <code>requestLayout()</code> 这里！</p>
-</blockquote>
-<p>它里面干了什么？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewRootImpl.java 源码节选</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">requestLayout</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!mHandlingLayoutInLayoutRequest) &#123;</span><br><span class="line">        checkThread(); <span class="comment">// ⚠️ 经典的检查：是否在主线程更新 UI？</span></span><br><span class="line">        mLayoutRequested = <span class="literal">true</span>;</span><br><span class="line">        scheduleTraversals(); <span class="comment">// 预约三大战役！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>看到那个 <code>checkThread()</code> 了吗？<strong>这就是为什么“只有主线程才能更新 UI”的万恶之源！</strong> 每次要画图，包工头都会极其严厉地查你的身份证（线程 ID），不是主线程直接抛异常崩溃！</p>
-<p>查完之后，它调用了 <strong><code>scheduleTraversals()</code></strong>。 注意，这里是 <em>schedule</em>（预约/排期），而不是立刻执行。它其实是在向系统底层的 <strong>Choreographer（编舞者）</strong> 发送消息：“我准备好画图了，等下一个屏幕刷新信号（VSYNC）到来时，请立刻叫醒我！”</p>
-<h2 id="第二板斧：对外向系统申请“地皮”-跨进程-IPC">第二板斧：对外向系统申请“地皮” (跨进程 IPC)</h2>
-<p>App 只是一个普通的进程，它自己是没有权利直接在手机屏幕上乱画的。手机屏幕的绝对掌控者，是运行在系统核心进程里的 <strong>WMS (WindowManagerService)</strong>。</p>
-<p>包工头想要画图，必须得先向系统申请一块画布。所以在 <code>setView</code> 的后半段，有一句极其重量级的跨进程通信（Binder）代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewRootImpl.java 的 setView 后半段</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// ⚠️ 极其硬核的 IPC 调用！跨越进程边界去见 WMS 大佬</span></span><br><span class="line">    res = mWindowSession.addToDisplayAsUser(mWindow, mSeq, mWindowAttributes, ...);</span><br><span class="line">&#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过这句代码，包工头拿着你的 <code>DecorView</code> 的尺寸和参数，跑到系统底层去敲门：“WMS 大哥，我是 FirstActivity，我马上要开工了，给我分配一块屏幕上的 Surface（画布）吧！”</p>
-<p>当包工头对外成功向 WMS 申请到了画布，对内又向 Choreographer 预约好了档期。接下来，万事俱备。</p>
-<p>当屏幕硬件的 VSYNC（垂直同步）信号如期而至，系统会准时唤醒包工头。此时，包工头将极其冷酷地执行那个我们在 <code>requestLayout</code> 里看到的预约——也就是 Android 渲染史上最壮观、最复杂、长达近千行的史诗级方法：<strong><code>performTraversals()</code>（执行遍历）！</strong></p>
-<p>在这个方法里，从大树的根部（DecorView）开始，著名的 Measure（测量）、Layout（摆放）、Draw（绘制）三大战役，正式打响！</p>
-<h1>二、三大战役 <code>performTraversals()</code></h1>
-<p>当 16.6ms 的 VSYNC 信号如期而至，系统底层的 Choreographer（编舞者）准时唤醒了包工头 <code>ViewRootImpl</code>。 此时，包工头极其冷酷地按下了核按钮，执行了 Android UI 渲染史上最著名、最核心的方法：<strong><code>performTraversals()</code></strong>。</p>
-<p>扒开这个长达近千行的方法，去掉各种繁杂的状态判断，会发现它的灵魂极其纯粹。包工头带着 <code>DecorView</code>，自顶向下（从大树的根部到每一片叶子），严格按顺序打响了**“三大战役”**：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ViewRootImpl.java 中 performTraversals() 的核心骨架（伪代码精简版）</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">performTraversals</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// ... 准备工作</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 📏 第一战：测量 (Measure)</span></span><br><span class="line">    <span class="keyword">if</span> (layoutRequested) &#123;</span><br><span class="line">        performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 📍 第二战：布局 (Layout)</span></span><br><span class="line">    <span class="keyword">if</span> (didLayout) &#123;</span><br><span class="line">        performLayout(lp, mWidth, mHeight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 🎨 第三战：绘画 (Draw)</span></span><br><span class="line">    <span class="keyword">if</span> (!cancelDraw) &#123;</span><br><span class="line">        performDraw();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="1-第一战：测量-Measure-——-“你有多大？”">1. 第一战：测量 (Measure) —— “你有多大？”</h2>
-<p>包工头调用 <code>performMeasure()</code>，从 <code>DecorView</code> 开始往下发问。</p>
-<ul>
-<li>
-<p>包工头问 LinearLayout：“你需要多大空间？”</p>
-</li>
-<li>
-<p>LinearLayout 转头去问肚子里的 Button 和 TextView：“你们的内容有多宽多高？” 经过一轮极其复杂的计算，整棵树上所有的 View，<strong>第一次拥有了确定的宽和高（MeasuredWidth / MeasuredHeight）</strong>。</p>
-<blockquote>
-<p>(💡 这就是为什么在 <code>onCreate</code> 里直接调 <code>view.getWidth()</code> 永远是 0，因为代码跑到那里时，第一战还没打！)</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="1-1-Measure-第一战的“二进制魔法”">1.1. Measure 第一战的“二进制魔法”</h3>
-<p><strong>1️⃣极致压缩：什么是 MeasureSpec？</strong></p>
-<p>在包工头发起 <code>performMeasure()</code> 时，面临着一个极其严峻的性能考验： 手机屏幕一秒钟刷新 60 次（甚至 120 次），这意味着系统在极短的时间内，要带着成百上千个 View 疯狂地计算大小。如果在测量时频繁地 <code>new</code> 对象来传递数据，瞬间就会触发系统的 GC（垃圾回收），导致极其严重的画面卡顿。</p>
-<p>为了抠这点性能，Google 工程师丧心病狂地设计出了 <strong><code>MeasureSpec</code></strong>。</p>
-<p><code>MeasureSpec</code> 翻译过来叫“测量规格”。它并不是一个对象，它是一个<strong>极其纯粹的 32 位 <code>int</code> 整型数字</strong>！</p>
-<p>工程师利用了二进制的位运算（Bitwise Operations），硬生生地把<strong>两个完全不同的信息，塞进了一个 <code>int</code> 变量里</strong>：</p>
-<ul>
-<li><strong>高 2 位（SpecMode）：</strong> 代表测量的<strong>模式</strong>。</li>
-<li><strong>低 30 位（SpecSize）：</strong> 代表测量的<strong>具体大小</strong>（像素值）。</li>
-</ul>
-<p>当拿着这个 <code>int</code> 数字时，只需要通过系统的按位与（<code>&amp;</code>）和移位（<code>&gt;&gt;</code>）操作，就能瞬间解包出 Mode 和 Size，<strong>全程 0 对象分配，性能快到起飞！</strong></p>
-<p><strong>2️⃣父与子的谈判：三大 SpecMode</strong></p>
-<p>在递归遍历时，父容器（比如 LinearLayout）就是通过 <code>MeasureSpec</code> 向子 View（比如 Button）下达测量命令的。<code>SpecMode</code> 共有三种，它们完美对应了你在 XML 里写的那些属性：</p>
-<p><strong><code>EXACTLY</code>（精确模式）：“强权老爸”</strong></p>
-<ul>
-<li><strong>场景</strong>：你在 XML 里写了 <code>layout_width=&quot;100dp&quot;</code> 或者 <code>match_parent</code>。</li>
-<li><strong>父容器潜台词</strong>：“儿子，不管你内容有多少，我都已经把你的大小定死了！给你 100 像素，多一点都不行，少一点也不行！”</li>
-</ul>
-<p><strong><code>AT_MOST</code>（最大模式）：“开明老爸”</strong></p>
-<ul>
-<li><strong>场景</strong>：你在 XML 里写了 <code>layout_width=&quot;wrap_content&quot;</code>。</li>
-<li><strong>父容器潜台词</strong>：“儿子，你先自己算算你需要多大。但我最多只能给你 800 像素（屏幕宽度），只要不超过这个值，你要多大自己定！”</li>
-</ul>
-<p><strong><code>UNSPECIFIED</code>（无限制模式）：“土豪老爸”</strong></p>
-<ul>
-<li><strong>场景</strong>：极其罕见，通常出现在 <code>ScrollView</code> 或 <code>RecyclerView</code> 的底层测量中。</li>
-<li><strong>父容器潜台词</strong>：“儿子，老爸我有无限的滚动空间，你想要多大就有多大，哪怕超出屏幕也没关系！”</li>
-</ul>
-<p><strong>3️⃣递归回溯：一场自底向上的汇报演出</strong></p>
-<p>弄懂了 <code>MeasureSpec</code> 这个“谈判工具”，我们再看测量的真实流程，这是完美的**“递归回溯”**。</p>
-<p>测量是一场标准的<strong>树形 DFS（深度优先搜索）</strong>。 以一个 <code>LinearLayout</code> 里包着一个 <code>TextView</code> 为例，流程是这样的：</p>
-<ol>
-<li><strong>递（向下传达约束）：</strong> 包工头给 <code>LinearLayout</code> 下达 <code>MeasureSpec</code>（比如最大 1080 像素）。 <code>LinearLayout</code> 发现自己有儿子，于是它不能马上决定自己的大小。它拿着老爸给的约束，结合 <code>TextView</code> 的 <code>LayoutParams</code>，生成一个新的 <code>MeasureSpec</code>，传给 <code>TextView</code> 的 <code>measure()</code> 方法。</li>
-<li><strong>触底（叶子节点自我测量）：</strong> <code>TextView</code> 收到指令。它是叶子节点，没有儿子了。于是它老老实实地调用底层的文本渲染引擎，计算出自己那串文字到底需要占几个像素。算完之后，调用 <code>setMeasuredDimension(width, height)</code>，把结果保存在自己肚子里。</li>
-<li><strong>归（向上回溯汇报）：</strong> <code>TextView</code> 测量完毕，出栈。<code>LinearLayout</code> 终于拿到了儿子的真实大小。它把儿子的宽加起来，再加上自己的 padding（内边距），最终算出了自己的总大小，然后也调用 <code>setMeasuredDimension</code> 保存起来。</li>
-<li>一路向上回溯，直到最顶层的 <code>DecorView</code> 算完，<strong>整个第一战（Measure）宣告彻底结束！</strong></li>
-</ol>
-<h2 id="2-第二战：布局-Layout-——-“你站哪儿？”">2. 第二战：布局 (Layout) —— “你站哪儿？”</h2>
-<p>大小确定了，接下来排座位。包工头调用 <code>performLayout()</code>，再次从上往下发号施令： “LinearLayout，你占据屏幕上半部分！Button，你站在 LinearLayout 内部坐标为 (X:50, Y:100) 的位置！” 打完这一战，所有的 View 都拥有了<strong>相对于父容器的四个顶点真实坐标（Left, Top, Right, Bottom）</strong>。</p>
-<h2 id="3-第三战：绘画-Draw-——-“给你画笔，上色！”">3. 第三战：绘画 (Draw) —— “给你画笔，上色！”</h2>
-<p>万事俱备，只欠上色。包工头调用 <code>performDraw()</code>，拿出之前向系统申请好的 <code>Surface</code>（物理画布），并生成一个 <code>Canvas</code>（画笔）。 包工头大吼一声：“拿到画笔的，依次把自己画在画布上！” 树上的 View 们开始极其有纪律地作画：</p>
-<ol>
-<li>画自己的背景（Background）。</li>
-<li>画自己的内容（比如 TextView 渲染文字，ImageView 画图片）。</li>
-<li>如果自己是容器，就把画笔递给孩子们（dispatchDraw），让孩子们接着画。</li>
-</ol>
-<h2 id="4-上色">4. 上色</h2>
-<p>当 <code>performDraw()</code> 执行完毕，那块 <code>Surface</code> 画布上已经画满了绚丽的 UI 像素。</p>
-<p>但这块画布目前还在 App 的进程内存里。包工头的最后一个动作，是把这块画好的 <code>Surface</code> 缓冲区，一脚踢给系统专门负责合成画面的终极硬件 Boss —— <strong><code>SurfaceFlinger</code></strong>！</p>
-<p><code>SurfaceFlinger</code> 拿到你的画面，再拿到系统顶部状态栏的画面，将它们瞬间合成，直接送往 GPU 和手机屏幕硬件。</p>
-<h1>三、终极大 Boss <code>SurfaceFlinger</code></h1>
-<p>当包工头 <code>ViewRootImpl</code> 极其辛苦地指挥完 Measure、Layout、Draw 三大战役后，UI 像素已经被一笔一画地填满在了那块名为 <code>Surface</code> 的物理画布上。</p>
-<p>但此时，面临着一个极其严峻的系统级挑战： <strong>App 进程被隔离在沙箱里，它绝对没有权限去直接操作手机的物理硬件屏幕！</strong> 屏幕的绝对控制权，掌握在底层的系统服务进程手中。</p>
-<p>那么，App 是怎么把画好的画面交出去的呢？这就轮到 Android 渲染引擎的终极大 Boss —— <strong>SurfaceFlinger</strong> 登场了！</p>
-<h2 id="1-跨进程的性能狂魔：共享内存-GraphicBuffer">1. 跨进程的性能狂魔：共享内存 (GraphicBuffer)</h2>
-<p>很多人会想当然地以为：“既然不在一个进程，那肯定是用 Binder 跨进程把画布传过去呗！” <strong>大错特错！</strong></p>
-<blockquote>
-<p><strong>💡 极客思考：为什么不能用 Binder？</strong> 一个 1080 x 1920 屏幕的一帧画面，如果用 ARGB_8888 格式，大小约为 <code>1080 * 1920 * 4 bytes ≈ 8MB</code>。 而 Android 系统的 Binder 事务缓冲区极限只有 <strong>1MB</strong> 出头！如果用 Binder 传画面，App 瞬间就会抛出 <code>TransactionTooLargeException</code> 当场崩溃！</p>
-</blockquote>
-<p>为了解决这个物理级难题，Google 引入了极其暴力的 <strong>BufferQueue（缓冲队列）</strong> 和 <strong>匿名共享内存（Ashmem / GraphicBuffer）</strong> 机制。</p>
-<ul>
-<li><strong>App（生产者）：</strong> 向 BufferQueue 申请一块内存，在里面画画。画完之后，不需要拷贝庞大的像素数据，只需要通过 Binder 把这块内存的**文件描述符（句柄）**极其轻量地传给系统。</li>
-<li><strong>SurfaceFlinger（消费者）：</strong> 收到句柄后，直接映射这块物理内存。<strong>全程零拷贝（Zero-Copy）！</strong> 性能瞬间拉满！</li>
-</ul>
-<h2 id="2-大-Boss-的真正本职工作：图层合成-Composition">2. 大 Boss 的真正本职工作：图层合成 (Composition)</h2>
-<p>当 SurfaceFlinger 从队列里拿到 App 画好的那块玻璃（Surface）时，它面临的其实是一堆玻璃：</p>
-<ul>
-<li>顶部的<strong>系统状态栏</strong>（时间、电量）是一块玻璃。</li>
-<li>底部的<strong>系统导航栏</strong>（三大金刚键/小白条）是一块玻璃。</li>
-<li><strong>App 界面</strong>是一块玻璃。</li>
-<li>如果你弹出了一个 Toast 或者悬浮窗，那又是一块额外的玻璃。</li>
-</ul>
-<p>SurfaceFlinger 的核心工作根本不是“画图”，而是**“合成（Composite）”**！ 它就像一个极其冷酷的千层饼大师，按照 Z 轴（Z-order）的上下顺序，把这些来自不同进程的玻璃板层层叠加上去。如果 App 背景是半透明的，它还会利用 GPU 进行极其复杂的 Alpha 混合运算，算出最终透过去的颜色。</p>
-<h2 id="3-终极一跃：提交给硬件-HWC">3. 终极一跃：提交给硬件 (HWC)</h2>
-<p>一切就绪！ 当 VSYNC 信号再次响起，SurfaceFlinger 会把最终合成完毕的一整块“完美画面”，直接提交给硬件层的 <strong>HWC（Hardware Composer / 硬件合成器）</strong> 和 <strong>Display Controller（显示控制器）</strong>。</p>
-<p>控制器将数字信号转化为极其微弱的电流，以极光般的速度扫过手机屏幕上的几百万个发光二极管（OLED/LCD 像素点）。</p>
-<hr>
-<p>至此，在 MainActivity 里敲下的那行极其普通的 <code>setContentView(R.layout.activity_main)</code>，跨越了生命周期、跨越了 View 树的重重解剖、跨越了 Binder 进程边界、跨越了共享内存，最终化作了用户指尖那一抹最绚丽的色彩！</p>
-<p>最后，再整理一下一个关键的元素：</p>
-<p><img src="/images/ActivityThread-SurfaceFlinger/1.png" alt="1"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaoyu-liguo.github.io/2026/02/10/android-ui-rendering-process/" data-id="cmmiwxxap0005hj8o4nvpggwv" data-title="源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI%E6%B8%B2%E6%9F%93/" rel="tag">UI渲染</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ViewRootImpl/" rel="tag">ViewRootImpl</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Network-HTTP-TCP-Interview" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/02/06/Network-HTTP-TCP-Interview/" class="article-date">
-  <time class="dt-published" datetime="2026-02-06T12:30:00.000Z" itemprop="datePublished">2026-02-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/02/06/Network-HTTP-TCP-Interview/">基础的网络知识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>网络基础是考察程序员底层内功的试金石。今天系统性梳理一下 HTTP 和 TCP/IP 协议族中那些最重要的知识点</p>
-<h1>一、TCP/IP网络结构</h1>
-<p>计算机网络体系结构通常有三种经典的划分方式：OSI 七层模型、TCP/IP 四层模型，以及结合两者优点的五层协议（教学常用）。</p>
-<p>在实际工业界试中，我们最常讨论的是 <strong>TCP/IP 四层模型</strong>。它们之间的对应关系如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">OSI 七层模型</th>
-<th style="text-align:left">TCP/IP 四层模型</th>
-<th style="text-align:left">核心功能与常见协议</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">应用层、表示层、会话层</td>
-<td style="text-align:left"><strong>应用层 (Application)</strong></td>
-<td style="text-align:left">为用户应用提供接口 (HTTP, HTTPS, DNS, FTP)</td>
-</tr>
-<tr>
-<td style="text-align:left">传输层</td>
-<td style="text-align:left"><strong>传输层 (Transport)</strong></td>
-<td style="text-align:left">提供端到端的通信连接 (TCP, UDP)</td>
-</tr>
-<tr>
-<td style="text-align:left">网络层</td>
-<td style="text-align:left"><strong>网络层 (Internet)</strong></td>
-<td style="text-align:left">负责数据包的路由和转发 (IP, ICMP)</td>
-</tr>
-<tr>
-<td style="text-align:left">数据链路层、物理层</td>
-<td style="text-align:left"><strong>网络接口层 (Network Access)</strong></td>
-<td style="text-align:left">负责底层硬件的物理传输 (Ethernet, Wi-Fi, ARP)</td>
-</tr>
-</tbody>
-</table>
-<p>下面拿 TCP/IP 四层模型做详细说明。理解这四层，是后续排查网络疑难杂症的基础。</p>
-<h2 id="1-应用层-Application-Layer">1. 应用层 (Application Layer)</h2>
-<p>用户日常访问的网页、使用的 App 几乎都是直接在应用层上实现的。它<strong>只关心为用户提供功能，不关心底层数据如何传输</strong>。</p>
-<ul>
-<li><strong>常见协议</strong>：HTTP、HTTPS、DNS、FTP 等。</li>
-<li><strong>开发映射</strong>：我们在业务中使用的 Retrofit、OkHttp 发起的网络请求，或者用 WebView 加载网页，本质上都是在构建和解析应用层的数据报文。</li>
-</ul>
-<h2 id="2-传输层-Transport-Layer">2. 传输层 (Transport Layer)</h2>
-<p>应用层决定了“要传什么”，而传输层则是<strong>为应用层提供端到端的网络支持，关心“怎么收发数据”</strong>。</p>
-<ul>
-<li><strong>常见协议</strong>：TCP（保证可靠交付）、UDP（追求极致速度）。</li>
-<li><strong>开发映射</strong>：如果我们要在 App 里实现 IM 即时通讯或者直播推流，底层用到的 Socket 编程就是直接在这层与操作系统内核打交道。</li>
-</ul>
-<h2 id="3-网络层-Internet-Layer">3. 网络层 (Internet Layer)</h2>
-<p>数据要从一台手机跨越千山万水到达远端服务器，中间要经过极其复杂的路由器和交换机。网络层负责<strong>寻址和路由选择</strong>，决定数据包怎么从源设备一步步“跳”到目的设备。</p>
-<ul>
-<li><strong>常见协议</strong>：IPv4、IPv6、ICMP（平时排查弱网用的 <code>ping</code> 命令就基于此）。</li>
-</ul>
-<h2 id="4-网络接口层-Network-Access-Layer">4. 网络接口层 (Network Access Layer)</h2>
-<p>数据要彻底实现从一台设备通过 Wi-Fi 或蜂窝网络到达另一台设备，需要最底层的链路级别支持，它负责将上层的数字信号转换为物理介质中的电信号或无线电波。</p>
-<ul>
-<li><strong>常见协议</strong>：ARP 协议（通过 IP 获取网卡 MAC 地址）、以太网协议。</li>
-</ul>
-<h1>二、在浏览器输入网址后发生了什么？</h1>
-<p>这是一道可以无限深挖的综合性问题。从宏观的应用层来看，整个过程的第一步是封装请求：</p>
-<h3 id="1-URL-解析">1. URL 解析</h3>
-<p>当我们在浏览器输入一个 URL 时，浏览器首先要对其进行解析，拆解出目标地址和所需资源。</p>
-<blockquote>
-<p><strong>URL 标准结构</strong> = <code>访问协议 (http/https) + :// + Web 服务器名称 (域名) + 资源路径</code></p>
-</blockquote>
-<h3 id="2-DNS-域名解析-获取目标-IP">2. DNS 域名解析 (获取目标 IP)</h3>
-<p>解析完 URL 后，浏览器需要根据域名去寻找目标服务器的真实 IP 地址。寻找 IP 的过程有一套严格的<strong>降级查找机制</strong>：</p>
-<ol>
-<li><strong>查本地缓存</strong>：浏览器自身缓存 -&gt; 操作系统缓存 -&gt; 本地 <code>hosts</code> 文件。</li>
-<li><strong>查 DNS 服务器</strong>：如果本地都没有记录，就会向本地域名服务器发送 DNS 请求（通常会经过根 DNS 服务器、顶级 DNS 服务器、权威 DNS 服务器的查询过程）。</li>
-</ol>
-<h3 id="3-封装-HTTP-请求消息">3. 封装 HTTP 请求消息</h3>
-<p>拿到了目的 IP，浏览器就可以正式封装要在应用层发送的 HTTP 请求报文了。</p>
-<p>HTTP 消息的结构非常严谨，通常由四个部分组成：</p>
-<blockquote>
-<p><strong>HTTP 消息 = 请求行/响应行 + 请求头 (Headers) + 空行 (CRLF) + 请求体 (Body)</strong></p>
-</blockquote>
-<h1>三、各个协议部分细节</h1>
-<h2 id="1-HTTP">1. HTTP</h2>
-<h3 id="1-1-http的请求方法">1.1 http的请求方法</h3>
-<p>HTTP 请求行的开头就是请求方法。官方定义的方法类型有多种，这里以面试中最常被对比的 GET 和 POST 为例说明：</p>
-<ul>
-<li><strong>GET</strong>：一般用于<strong>获取资源</strong>。它对服务器资源不会发生更改，具有<strong>幂等性</strong>。例如我们请求接口查看“今天是星期几”， 无论用户查看多少次，都不影响结果和服务器状态。GET 的请求参数通常直接暴露拼接在 URL 中（例如 <code>/?zone=zh</code>）。</li>
-<li><strong>POST</strong>：一般用于<strong>操作/提交资源</strong>。它通常会改变服务器状态，<strong>不具有幂等性</strong>。例如电商付款，用户如果 （因网络卡顿等原因）重复发起了 N 次 POST 扣款请求，如果没有做特殊处理，账户余额就会被扣款 N 次， 商家也会新增 N 个订单。 POST 的参数通常封装在请求体 (Body) 中。</li>
-</ul>
-<h3 id="1-2-HTTP-的状态码">1.2 HTTP 的状态码</h3>
-<p>HTTP 响应报文的开头就是状态码。虽然在实际业务开发中，我们经常会在响应体（Body）里与后端自定义业务状态码，但在底层的 HTTP 协议层面，官方推荐的标准分类是：</p>
-<ul>
-<li>1xx (信息提示)：请求已被接收，还需要后续处理。</li>
-<li>2xx (成功)：服务器已成功接收并处理了请求。</li>
-<li>3xx (重定向)：需要客户端采取进一步的操作才能完成请求。</li>
-<li>4xx (客户端错误)：客户端的请求有误，服务器无法处理。</li>
-<li>5xx (服务端错误)：服务器在处理请求的过程中发生了内部错误。</li>
-</ul>
-<h3 id="1-3-HTTP-版本的演进">1.3 HTTP 版本的演进</h3>
-<ul>
-<li><strong>HTTP/1.0</strong>：<strong>短连接</strong>。每次发送请求都需要重新建立 TCP 连接（即经历完整的“三次握手”和“四次挥手”），网络开销极大。</li>
-<li><strong>HTTP/1.1</strong>：<strong>长连接（Keep-Alive）</strong>。默认开启长连接，允许多个 HTTP 请求复用同一个 TCP 连接，省去了频繁连接的开销。
-<ul>
-<li><strong>致命痛点</strong>：存在**“队头阻塞 (Head-of-line blocking)”**。在一个 TCP 连接中，如果前面的请求响应太慢，后面的请求只能排队干等。</li>
-</ul>
-</li>
-<li><strong>HTTP/2.0</strong>：<strong>性能的全面跨越</strong>。
-<ul>
-<li><strong>多路复用（Multiplexing）</strong>：彻底解决了 HTTP 层的队头阻塞。多个请求可以同时在一个 TCP 连接上并发、交错地发送和接收，谁先处理完谁就先回来，极大提升了加载速度。</li>
-<li><strong>头部压缩（HPACK）</strong>：HTTP/1.1 每次都会发送大量重复的 Header（如 User-Agent、Cookie），HTTP/2 引入了字典机制，把头部压缩得非常小。</li>
-<li><strong>二进制分帧</strong>：放弃了纯文本传输，改用更高效、更易于机器解析的二进制格式。</li>
-</ul>
-</li>
-<li><strong>HTTP/3.0 (面试加分项)</strong>：<strong>底层协议的革命</strong>。因为 HTTP/2 依然基于 TCP，TCP 本身的丢包重传机制会导致 TCP 层面的队头阻塞。HTTP/3 直接抛弃了 TCP，底层改用基于 UDP 的 <strong>QUIC 协议</strong>。它不仅连接速度极快，而且在移动端经常切换网络（比如从 Wi-Fi 切到 4G）时不会断线重连，这对于客户端的弱网优化意义重大。</li>
-</ul>
-<h3 id="2-HTTPS：给“裸奔”的-HTTP-穿上铠甲">2. HTTPS：给“裸奔”的 HTTP 穿上铠甲</h3>
-<p>HTTP 默认是明文传输的，无论是把参数拼在 URL 里还是放在 Body 里，在抓包工具和中间路由器眼里都是在“裸奔”。为了解决安全问题，HTTPS 应运而生。</p>
-<blockquote>
-<p><strong>HTTPS = HTTP + TLS/SSL（安全层）</strong></p>
-</blockquote>
-<p>HTTPS 并不是一种全新的协议，而是把 HTTP 原本直接交给 TCP 的明文数据，先交给 TLS 层进行加密，再由 TCP 传输。它通过三大核心机制保障安全：</p>
-<ol>
-<li><strong>混合加密（机密性）</strong>：采用“非对称加密”来安全地传输密钥，再用“对称加密”来高效地加密实际的业务数据。</li>
-<li><strong>摘要算法（完整性）</strong>：类似数据的“指纹”，防止数据在传输过程中被黑客篡改。</li>
-<li><strong>数字证书（身份认证）</strong>：通过 CA 机构颁发的证书，加上“链式校验”，防止中间人冒充目标服务器。</li>
-</ol>
-<h4 id="2-1-TLS-握手到底是怎么协商出密钥的？">2.1 TLS 握手到底是怎么协商出密钥的？</h4>
-<p><em>(以经典的 TLS 1.2 / RSA 密钥交换为例，TCP 三次握手完成后，开始 TLS 握手)</em></p>
-<ol>
-<li>客户端打招呼 (Client Hello)：客户端向服务端发送支持的加密套件列表，并生成一个 <code>客户端随机数 (Random 1)</code>。</li>
-<li>服务端回应 (Server Hello + Certificate)：服务端确认加密算法，生成一个 <strong><code>服务端随机数 (Random 2)</code></strong>，并把自己的**数字证书（内含服务器公钥）**发送给客户端。</li>
-<li><strong>客户端验证与生成密钥</strong>：
-<ul>
-<li>客户端使用本地内置的 CA 机构公钥，验证服务器证书的真实性。</li>
-<li>验证通过后，客户端生成第三个随机数，称为 <code>Pre-Master Secret (预主密钥)</code>。</li>
-<li>客户端用<strong>服务器的公钥</strong>将这个预主密钥加密，发送给服务端。</li>
-</ul>
-</li>
-<li><strong>服务端解密</strong>：服务端收到后，用自己的<strong>私钥</strong>解密，得到 <code>Pre-Master Secret</code>。</li>
-<li><strong>生成最终对称密钥</strong>：此时，双方手里都有了同样的三个要素：<code>Random 1</code> + <code>Random 2</code> + <code>Pre-Master Secret</code>。双方使用同样的算法，用这三个要素计算出最终的**“会话密钥”**。</li>
-</ol>
-<p>至此，握手完成。接下来双方的 HTTP 通信，都只用这个“会话密钥”进行极其高效的<strong>对称加解密</strong>，黑客即使抓包也只能看到一堆乱码。</p>
-<h4 id="2-2-既然-HTTPS-这么安全，为什么-Charles-Fiddler-还能抓到密码？">2.2 既然 HTTPS 这么安全，为什么 Charles/Fiddler 还能抓到密码？</h4>
-<p>很多人了解了HTTPS后会有疑问：“既然 HTTPS 加密了，为什么我们在开发时用抓包工具依然能看到明文数据？抓包的原理是什么？”</p>
-<p>答案是：<strong>抓包本质上是一次“合法的中间人攻击 (MITM)”，核心在于你主动信任了代理工具的 CA 证书。</strong></p>
-<p>正常的直连流程是：<code>客户端 &lt;====&gt; 服务器</code>。<br>
-而打开抓包工具（如 Charles）后，流程变成了：<code>客户端 &lt;====&gt; Charles &lt;====&gt; 服务器</code>。</p>
-<p><strong>具体的“欺骗”过程如下：</strong></p>
-<ol>
-<li><strong>拦截请求</strong>：客户端向真实服务器发起 HTTPS 连接，Charles 在中间拦截了这个请求。</li>
-<li><strong>伪造证书</strong>：Charles 伪装成服务器，给自己动态签发了一张伪造的数字证书，发给客户端。</li>
-<li><strong>关键的一步 (CA 的作用)</strong>：正常情况下，客户端（手机）发现这张证书不是正规机构（如 DigiCert）签发的，会直接报“证书不可信”并断开连接。<strong>但是</strong>，我们在配置抓包环境时，都会<strong>手动把 Charles 的根证书 (Root CA) 下载并安装到手机的“受信任的凭据”列表中</strong>。</li>
-<li><strong>握手成功</strong>：客户端校验时，发现这本伪造证书的根证书竟然在系统信任列表里！于是乖乖地用 Charles 的公钥加密了预主密钥（Pre-Master Secret）。</li>
-<li><strong>双向解密</strong>：Charles 用自己的私钥解开拿到密钥，这就和客户端建立了第一段加密连接。随后，Charles 再以客户端的身份，去和真正的服务器完成第二段标准的 HTTPS 握手。</li>
-</ol>
-<p>最终，所有数据都在 Charles 这里经历了一次**“解密 -&gt; 记录明文 -&gt; 重新加密”**的过程。</p>
-<blockquote>
-<p><strong>💡Android 7.0 的网络安全限制</strong><br>
-面试官如果深挖，一定要抛出这个知识点：<strong>从 Android 7.0 (API 24) 开始，系统默认不再信任用户手动安装的 CA 证书（只信任系统内置的）。</strong><br>
-这就是为什么在新版 Android 手机上抓包，经常会遇到网络请求直接 Crash 或者抓不到 HTTPS 的原因。解决办法是在 Android 工程的 <code>res/xml/network_security_config.xml</code> 中，显式配置 <code>&lt;trust-anchors&gt;</code>，允许在 debug 模式下信任用户证书。</p>
-</blockquote>
-<h2 id="2-TCP-核心解析">2. TCP 核心解析</h2>
-<p>应用层（如 HTTP）往往不管怎么收发数据，网络层（如 IP）往往不管是否丢包、是否乱序，而 <strong>TCP 就是来兜底保障数据可靠传输的（提供可靠性和流量控制）</strong>。</p>
-<blockquote>
-<p><strong>TCP = 面向连接 + 可靠 + 字节流</strong></p>
-</blockquote>
-<ul>
-<li><strong>面向连接</strong>：一对一通信（相对的，UDP 可以一对多）。</li>
-<li><strong>可靠</strong>：无论网络链路发生什么变化，保证数据包可以被完整传送到目的地。</li>
-<li><strong>字节流</strong>：通过 TCP 协议传输时，消息可能会被操作系统分组成多个 TCP 报文，字节就是最小单位，它没有固定的业务边界。</li>
-</ul>
-<h3 id="2-1-TCP-与-UDP-的报文结构对比">2.1 TCP 与 UDP 的报文结构对比</h3>
-<p><strong>TCP 报文核心字段</strong>：</p>
-<ul>
-<li><strong>序列号 (Sequence Number)</strong>：建立连接时生成的随机数字作为初始值。发送端每发送一次数据，就累加一次该数据字节数的大小。<strong>（核心作用：解决网络乱序问题）</strong></li>
-<li><strong>确认应答号 (Acknowledgment Number)</strong>：期望下一次收到的序列号。<strong>（核心作用：解决丢包问题）</strong></li>
-</ul>
-<p><strong>浅提 UDP</strong>：</p>
-<ul>
-<li><strong>UDP 报文</strong> = (源端口，目标端口) + (包长度，校验和) + 数据。</li>
-<li>它是没有复杂控制机制的、面向 IP 的无连接通信服务。</li>
-</ul>
-<h3 id="2-2-TCP-vs-UDP">2.2 TCP vs UDP</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">对比维度</th>
-<th style="text-align:left">TCP</th>
-<th style="text-align:left">UDP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><strong>连接性</strong></td>
-<td style="text-align:left">面向连接</td>
-<td style="text-align:left">无连接</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>通信对象</strong></td>
-<td style="text-align:left">严格的一对一</td>
-<td style="text-align:left">一对一、一对多、多对多</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>可靠性</strong></td>
-<td style="text-align:left">可靠交付</td>
-<td style="text-align:left">最大努力交付（可用 QUIC 在应用层补救）</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>传输机制</strong></td>
-<td style="text-align:left">有拥塞控制和流量控制</td>
-<td style="text-align:left">无复杂的控制机制</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>传输形态</strong></td>
-<td style="text-align:left">面向字节流（无边界，保证有序）</td>
-<td style="text-align:left">面向数据报（有边界，可能乱序）</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>分片策略</strong></td>
-<td style="text-align:left">数据大于 MSS 会在<strong>传输层</strong>分片</td>
-<td style="text-align:left">数据大于 MTU 会在 <strong>IP 层</strong> 分片</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>首部开销</strong></td>
-<td style="text-align:left">较长 (通常 20 字节以上)</td>
-<td style="text-align:left">极小 (仅 8 字节)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-3-图解-TCP-三次握手">2.3 图解 TCP 三次握手</h3>
-<p><img src="/images/tcp-handshake.png" alt="TCP三次握手"></p>
-<ol>
-<li><strong>第一次握手</strong>：客户端发送 <code>SYN</code> 报文（携带随机生成的 <code>client_seq</code>），进入 <code>SYN_SENT</code> 状态。</li>
-<li><strong>第二次握手</strong>：服务端接收后，发送 <code>SYN + ACK</code> 报文（确认号为 <code>client_seq + 1</code>，并携带自己的 <code>server_seq</code>），进入 <code>SYN_RCVD</code> 状态。</li>
-<li><strong>第三次握手</strong>：客户端发送 <code>ACK</code> 报文（确认号为 <code>server_seq + 1</code>），进入 <code>ESTABLISHED</code> (稳定连接) 状态。<strong>此时的 ACK 报文是可以携带业务数据的。</strong><br>
-<em>(服务端收到 ACK 后，也进入 <code>ESTABLISHED</code> 状态)</em></li>
-</ol>
-<h4 id="灵魂拷问-1：为什么是三次握手？两次不行吗？">灵魂拷问 1：为什么是三次握手？两次不行吗？</h4>
-<ul>
-<li><strong>防止历史连接（最核心原因）</strong>：防止旧的迟到连接请求突然到达服务端，导致服务端错误建立连接。</li>
-<li><strong>同步双方序列号</strong>：确保双方都有机会发送和确认彼此的初始序列号。</li>
-<li><strong>避免资源浪费</strong>：防止服务端因失效请求而一直白白分配内存等资源。</li>
-</ul>
-<h4 id="灵魂拷问-2：为什么初始序列号要随机？">灵魂拷问 2：为什么初始序列号要随机？</h4>
-<p>如果每次都使用相同的初始序列号，那么网络中滞留的<strong>历史报文</strong>极有可能会被下一个相同四元组的新连接错误接收。<em>(注：序列号的生成基于时钟，每 4 微秒 +1，极难重复)</em>。</p>
-<h3 id="2-4-图解-TCP-四次挥手">2.4 图解 TCP 四次挥手</h3>
-<p>当客户端和服务端的数据传输完毕后，就需要断开连接。断开连接的过程需要经过四次交互，也就是常说的“四次挥手”。</p>
-<p><img src="/images/tcp-four-way-handshake.png" alt="TCP四次挥手"></p>
-<ol>
-<li><strong>第一次挥手</strong>：客户端发送 <code>FIN</code> 报文（表示自己没有数据要发了），进入 <code>FIN_WAIT_1</code> 状态。</li>
-<li><strong>第二次挥手</strong>：服务端收到 <code>FIN</code> 报文后，回复 <code>ACK</code> 报文，进入 <code>CLOSE_WAIT</code> 状态。
-<ul>
-<li><em>（此时客户端收到 ACK 后，进入 <code>FIN_WAIT_2</code> 状态。此时 TCP 连接处于“半关闭”状态，即客户端不发了，但服务端如果还有数据，依然可以继续发给客户端）</em>。</li>
-</ul>
-</li>
-<li><strong>第三次挥手</strong>：服务端的数据也发送完毕了，于是发送 <code>FIN</code> 报文给客户端，进入 <code>LAST_ACK</code> 状态。</li>
-<li><strong>第四次挥手</strong>：客户端收到服务端的 <code>FIN</code> 报文，回复 <code>ACK</code> 报文，进入 <strong><code>TIME_WAIT</code></strong> 状态。
-<ul>
-<li><em>(服务端收到这个 ACK 后，立刻进入 <code>CLOSED</code> 状态，彻底关闭连接)</em>。</li>
-</ul>
-</li>
-<li><strong>最终关闭</strong>：客户端在 <code>TIME_WAIT</code> 状态等待 <strong>2MSL</strong>（报文最大生存时间的 2 倍）后，如果没有收到服务端的重传，才会进入真正的 <code>CLOSED</code> 状态。</li>
-</ol>
-<h4 id="灵魂拷问-1：为什么建立连接是三次，挥手却需要四次？">灵魂拷问 1：为什么建立连接是三次，挥手却需要四次？</h4>
-<p>因为 TCP 是全双工通信，存在**“半关闭”**状态。单向发送的 <code>FIN</code> 只代表该方的数据发送完毕，不代表对方也没有数据要发送。因此，服务端的 <code>ACK</code>（确认收到断开请求）和 <code>FIN</code>（服务端自己也准备好断开了）通常是分两步发送的。</p>
-<h4 id="灵魂拷问-2：为什么主动关闭的一方需要-TIME-WAIT-状态，且要等待-2MSL？">灵魂拷问 2：为什么主动关闭的一方需要 TIME_WAIT 状态，且要等待 2MSL？</h4>
-<p>这是面试官极其喜欢深挖的考点：</p>
-<ul>
-<li><strong>防止历史数据干扰</strong>：保证网络中该连接产生的哪怕是最迟到的数据包，也都在这 2MSL 内自然消亡。防止它们被后续使用相同“四元组”的新连接错误接收。</li>
-<li><strong>保证被动关闭的一方能可靠地断开</strong>：如果客户端最后发送的那个 <code>ACK</code> 报文在网络中丢失了，服务端会因为没收到确认而重发 <code>FIN</code>。<code>TIME_WAIT</code> 状态确保客户端有足够的时间去接收这个重传的 <code>FIN</code> 并再次回复 <code>ACK</code>。</li>
-</ul>
-<h2 id="3-WebSocket：真正的全双工自由">3. WebSocket：真正的全双工自由</h2>
-<p>有不少人存在一个直击灵魂的疑惑：<strong>TCP 本身是全双工的，但基于 TCP 的 HTTP 却是一问一答的（而且只能由客户端主动发问，服务器被动应答），这难道不是半双工吗？</strong><br>
-❓❓❓ ❓❓❓ ❓❓❓</p>
-<p>其实，前辈们早就意识到了 HTTP 这个“不主动”的缺陷，所以在 WebSocket 诞生之前，业界妥协出了“短轮询”和“长轮询”的方案。比如很多网站的“扫码登录”页面，底层用的就是长轮询。</p>
-<ul>
-<li><strong>短轮询（Short Polling）</strong>：客户端像个复读机一样不断发送小请求（“我登录成功了吗？”“现在呢？”“成功了吗？”…），极其消耗服务器和网络资源。</li>
-<li><strong>长轮询（Long Polling）</strong>：HTTP 请求发送后，服务器如果没数据，就先憋着不回响应，把这个连接挂起（设置较长的超时时间）。这样就留给服务器足够的时间去处理业务，一旦用户在手机上点了确认，服务器立刻顺着这条挂起的连接返回“登录成功”。</li>
-</ul>
-<p>虽然有这两种方法，但是对于需要<strong>高频、双向交互</strong>的场景，轮询就显得极其鸡肋了。比如你逛着某宝，不小心点到了右下角弹出的绚丽广告，打开了一个“一刀999”的页游。你甚至什么都不用操作，屏幕里的角色自己就开始疯狂打怪、掉装备、全服广播。这种服务器需要高频向客户端主动推送数据的场景，<strong>WebSocket 它来了！</strong></p>
-<h3 id="3-1-WebSocket-的握手与数据帧">3.1 WebSocket 的握手与数据帧</h3>
-<p>WebSocket 是应用层的协议，它的唯一目的就是实现真正的全双工通信。</p>
-<p><img src="/images/websocket-handshake-and-communication.png" alt="WebSocket握手与通信时序图"></p>
-<ul>
-<li><strong>借鸡生蛋的握手</strong>：WebSocket 的建立是“踩在 HTTP 的肩膀上”完成的。TCP 三次握手完成后，客户端会发送一个特殊的 HTTP 请求（Header 里带有 <code>Upgrade: websocket</code>）。服务器如果支持，就会返回一个经典的 <strong><code>101 Switching Protocols</code> (协议转换)</strong> 状态码。这一来一回的 HTTP 握手结束后，这条连接就正式升级为 WebSocket，<strong>从此以后和 HTTP 再无半点瓜葛</strong>。</li>
-<li><strong>数据帧 (Frame)</strong>：WebSocket 传输的数据不叫报文，叫“帧”。它的数据格式设计得非常精巧，可以粗略理解为 <code>数据头 + 消息体</code>。因为消息头里明确包含了<strong>消息体的长度</strong>，所以接收方能够精确地切分数据，这也就极其优雅地<strong>解决了底层 TCP 的粘包问题</strong>。</li>
-</ul>
-<h2 id="4-RPC：把“网络调用”伪装成“本地调用”">4. RPC：把“网络调用”伪装成“本地调用”</h2>
-<p>总有人喜欢问一个极其宽泛且带有误导性的问题：“既然有了 HTTP，为什么还要有 RPC？”</p>
-<p>很多初学者不知道怎么回答，是因为没看透本质。</p>
-<p><strong>核心真相：RPC 根本不是某一个具体的网络协议，而是一种“架构设计理念”。</strong></p>
-<ul>
-<li><strong>HTTP 是一种具体的通信规范</strong>（规定了请求头、状态码、报文长什么样）。</li>
-<li><strong>RPC (Remote Procedure Call，远程过程调用) 是一种行为</strong>。它的终极目的是**“让调用远程服务，就像调用本地方法一样简单”**。像 <code>gRPC</code>、<code>Thrift</code>、<code>Dubbo</code> 这些具体的 RPC 框架，就是为了帮你把底层的网络打包、寻址、序列化等脏活累活全封装起来。</li>
-</ul>
-<h3 id="4-1-灵魂反击：如何回答“有了-HTTP-为什么还要-RPC”？">4.1 灵魂反击：如何回答“有了 HTTP 为什么还要 RPC”？</h3>
-<p>如果在遇到这个问题，你是否和我一样不知从何讲起：</p>
-<ol>
-<li><strong>两者根本不在一个维度，甚至可以融合</strong>
-<ul>
-<li>RPC 的底层传输层不仅可以基于 TCP 直接写，<strong>它完全也可以基于 HTTP 协议！</strong> 比如目前极其主流的 Google <code>gRPC</code>，它的底层就是雷打不动的 <strong>HTTP/2</strong> 协议。</li>
-</ul>
-</li>
-<li><strong>应用场景不同（内外有别）</strong>
-<ul>
-<li><strong>HTTP 主外（B2C）</strong>：像浏览器、手机 App 访问后端服务器，面对的是全世界各种各样的客户端。它需要跨语言、跨平台，主打一个“通用、标准、无脑兼容”。所以 HTTP 往往使用 JSON/XML 这种可读性强但体积大的文本格式。</li>
-<li><strong>RPC 主内（B2B）</strong>：通常用于公司内部的<strong>微服务与微服务之间</strong>的通信（比如阿里的订单服务调用库存服务）。既然都是“自家程序员写的代码”，追求的就是极致的效率。所以 RPC 框架往往采用极致压缩的二进制流（如 Protobuf），抛弃了臃肿的 HTTP Header，体积更小，速度飞快。</li>
-</ul>
-</li>
-<li><strong>开发体验的极致追求</strong>
-<ul>
-<li>写 HTTP 请求，哪怕用 Retrofit，你也得关心 URL 地址、请求方法（GET/POST）、HTTP 状态码解析。</li>
-<li>用 RPC 框架，你只需要在代码里写 <code>userService.getUserInfo(uid)</code>，至于这行代码是怎么变成二进制、怎么跨越千山万水飞到另一台机房的服务器上并带回结果的，你完全不需要关心。这就是 RPC 的魅力。</li>
-</ul>
-</li>
-</ol>
-<h1></h1>
-<hr>
-<p><strong>总结</strong>：在真实的 Android 开发中，虽然有 Retrofit 和 OkHttp 帮我们封装好了底层的网络请求，但理解这些协议栈的细节，是我们进行弱网优化、排查连接超时问题的根本所在。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaoyu-liguo.github.io/2026/02/06/Network-HTTP-TCP-Interview/" data-id="cmmiwxxao0004hj8o6u9o2wga" data-title="基础的网络知识" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP&#x2F;IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Android四大组件之Activity详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/" class="article-date">
-  <time class="dt-published" datetime="2026-02-03T15:40:00.000Z" itemprop="datePublished">2026-02-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/">Android四大组件之Activity详解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1>一、 什么是 Activity？</h1>
-<p>Activity 是 Android四大组件之一，是一种可以包含用户界面的组件，主要用于和用户进行交互。</p>
-<h2 id="1-Activity-的基本用法">1. Activity 的基本用法</h2>
-<p>要让一个 Activity 真正跑起来，必须经过以下几个关键步骤：</p>
-<ol>
-<li><strong>创建：</strong> 继承 <code>AppCompatActivity</code> 并重写 <code>onCreate()</code> 方法。</li>
-<li><strong>绑定视图：</strong> 在 <code>onCreate()</code> 中调用 <code>setContentView(R.layout.xxx)</code> 加载布局。</li>
-<li><strong>注册（极其重要）：</strong> 所有的 Activity 必须在 <code>AndroidManifest.xml</code> 中进行注册，否则启动直接崩溃。</li>
-</ol>
-<h2 id="2-Activity-的生命周期（核心重点）">2. Activity 的生命周期（核心重点）</h2>
-<p>它描述了一个界面从诞生到销毁的完整过程。</p>
-<p><img src="/images/Activity/activity-lifecycle-flow.png" alt="Activity生命周期"></p>
-<p>主要包含 7 个核心回调方法：</p>
-<ul>
-<li><strong><code>onCreate()</code></strong>：Activity 正在被创建（初始化数据、加载布局）。</li>
-<li><strong><code>onStart()</code></strong>：Activity 正在启动（即将可见，但还不能交互）。</li>
-<li><strong><code>onResume()</code></strong>：Activity 已经可见，并且获取了焦点（用户可以开始疯狂点击了）。</li>
-<li><strong><code>onPause()</code></strong>：Activity 正在暂停（通常是因为弹出了一个对话框，或者正准备去别的界面。此时可见，但失去焦点）。</li>
-<li><strong><code>onStop()</code></strong>：Activity 即将停止（完全不可见，被压在后台了）。</li>
-<li><strong><code>onDestroy()</code></strong>：Activity 即将销毁（回收资源，寿终正寝）。</li>
-<li><strong><code>onRestart()</code></strong>：Activity 重新启动（从后台重新回到前台时触发）。</li>
-</ul>
-<h2 id="3-Activity-的启动模式-LaunchMode">3.  Activity 的启动模式 (LaunchMode)</h2>
-<p>在复杂的业务场景中（比如点通知栏、或者连续打开同一个界面），我们需要配置不同的启动模式来管理 Activity 返回栈（Task Stack）。</p>
-<p>四种主流启动模式：</p>
-<ol>
-<li><strong>Standard (标准模式)</strong>：默认模式，不管栈里有没有，每次都无脑 <code>new</code> 一个新实例。</li>
-<li><strong>SingleTop (栈顶复用)</strong>：如果它已经在栈的最顶端，就直接用，不新建；如果不在顶端，还是会新建。</li>
-<li><strong>SingleTask (栈内复用)</strong>：极其霸道。只要栈里有它，就把它上面所有的 Activity 全部踢出栈，让它重见天日（常用于 App 的 MainActivity）。</li>
-<li><strong>SingleInstance (单实例)</strong>：最孤独的模式。系统会专门为它开辟一个新的返回栈，并且这个栈里只能有它一个人（常用于系统的通话界面、闹钟界面）。</li>
-</ol>
-<h2 id="4-源码跟踪Activity">4. 源码跟踪Activity</h2>
-<p>我们新建一个Activity时，androidstiod会自动生成下面代码：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FirstActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可见，我们的Activity继承了AppCompatActivity，然后重写了onCreat()方法，初始状态就只调用了父类的onCreat（）方法，我们可以根据需要在onCreat中添加需要的业务逻辑。</p>
-<p>我的Activity都是继承AppCompatActivity，AppCompatActivity又继承FragmentActivity，FragmentActivity又继承了ComponentActivity，他们各有独自负责的内容，大致可以理解为AppCompactActivity关注UI碎片化问题，FragementActivity关注碎片化页面问题，ComponentActivity关注架构问题。</p>
-<p><img src="/images/Activity/activity-inheritance-hierarchy.png" alt="Activity现代继承体系图"></p>
-<h1>二、 AppCompatActivity</h1>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppCompatActivity</span> <span class="title">extends</span> <span class="title">FragmentActivity</span> <span class="title">implements</span> <span class="title">AppCompatCallback</span>,</span><br><span class="line">        <span class="type">TaskStackBuilder.SupportParentable</span>, <span class="type">ActionBarDrawerToggle.DelegateProvider</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> String DELEGATE_TAG = <span class="string">&quot;androidx:appcompat&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> AppCompatDelegate mDelegate;</span><br><span class="line">    <span class="keyword">private</span> Resources mResources;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Default constructor for AppCompatActivity. All Activities must have a default constructor</span></span><br><span class="line"><span class="comment">     * for API 27 and lower devices or when using the default</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> android.app.AppComponentFactory&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> AppCompatActivity() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        initDelegate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>跟踪进去，可见AppCompatActivity继承FragmentActivity，实现了三个接口。可见AppCompactActivity就调用了父类构造方法，和执行了initDelegate方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> override val savedStateRegistry: SavedStateRegistry</span><br><span class="line">        <span class="title function_">get</span><span class="params">()</span> = savedStateRegistryController.savedStateRegistry</span><br><span class="line"><span class="keyword">final</span> override fun <span class="title function_">addOnContextAvailableListener</span><span class="params">(listener: OnContextAvailableListener)</span> &#123;</span><br><span class="line">        contextAwareHelper.addOnContextAvailableListener(listener)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DELEGATE_TAG</span> <span class="operator">=</span> <span class="string">&quot;androidx:appcompat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initDelegate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> Directly connect AppCompatDelegate to SavedStateRegistry</span></span><br><span class="line">    getSavedStateRegistry().registerSavedStateProvider(DELEGATE_TAG,</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">SavedStateRegistry</span>.SavedStateProvider() &#123;</span><br><span class="line">                <span class="meta">@NonNull</span></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> Bundle <span class="title function_">saveState</span><span class="params">()</span> &#123;</span><br><span class="line">                    <span class="type">Bundle</span> <span class="variable">outState</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">                    getDelegate().onSaveInstanceState(outState);</span><br><span class="line">                    <span class="keyword">return</span> outState;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    addOnContextAvailableListener(<span class="keyword">new</span> <span class="title class_">OnContextAvailableListener</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onContextAvailable</span><span class="params">(<span class="meta">@NonNull</span> Context context)</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">AppCompatDelegate</span> <span class="variable">delegate</span> <span class="operator">=</span> getDelegate();</span><br><span class="line">            delegate.installViewFactory();</span><br><span class="line">            delegate.onCreate(getSavedStateRegistry()</span><br><span class="line">                    .consumeRestoredStateForKey(DELEGATE_TAG));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可见这里就做了两件事，getSavedStateRegistry().registerSavedStateProvider和addOnContextAvailableListener，实现的功能是“注册状态保存”机制（防崩溃/防被杀）“ + ”拦截 XML 布局“。</p>
-<p>第一件事：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">final override val savedStateRegistry: SavedStateRegistry</span><br><span class="line">    get() = savedStateRegistryController.savedStateRegistry</span><br></pre></td></tr></table></figure>
-<p>registerSavedStateProvider是ComponentActivity的一个只读属性（ComponentActivity它是Activity的超能力扩展包，在Activity基础上实现了Lifecycle、ViewModel、SavedStateRegistry、OnBackPressedDispatcherOwner等扩展功能，希望后续能写一篇详细解析），类型是SavedStateRegistry（savedStateRegistryController是ComponentActivity的一个注册表控制器）。SavedStateRegistry可以理解为“注册表”。</p>
-<p>SavedStateRegistry的registerSavedStateProvider方法如下：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> components = SafeIterableMap&lt;String, SavedStateProvider&gt;()</span><br><span class="line"></span><br><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">registerSavedStateProvider</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    key: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    provider: <span class="type">SavedStateProvider</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> previous = components.putIfAbsent(key, provider)</span><br><span class="line">    require(previous == <span class="literal">null</span>) &#123;</span><br><span class="line">        (<span class="string">&quot;SavedStateProvider with the given key is&quot;</span> +</span><br><span class="line">            <span class="string">&quot; already registered&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>registerSavedStateProvider接收一个String和provider，然后把他们放入了map，（SafeIterableMap是一个特殊的map，希望后面有时间出一篇关于SafeIterableMap的，设计的思想也很巧妙，可以暂时理解为一个特殊的map就行）。</p>
-<ul>
-<li><strong>平时（注册阶段）：</strong> Activity 里的各种组件（比如 <code>AppCompatDelegate</code>，还有以后会学到的 <code>ViewModel</code>），在初始化时，都会去 Activity 的 <code>SavedStateRegistry</code> 里注册一个自己的名字（Key）和打包方法（<code>SavedStateProvider</code>）。 <em>(注：这里它内部用来装这些注册信息的，就是防崩溃神器 <code>SafeIterableMap</code>！)</em></li>
-<li><strong>临死前（汇总打包阶段）：</strong> 当系统触发 <code>onSaveInstanceState()</code> 准备大开杀戒时，Activity 会对自己的 <code>SavedStateRegistry</code> 喊一声：“快！把所有人的行李收上来！” <code>SavedStateRegistry</code> 就会遍历那个 <code>SafeIterableMap</code>，挨个调用组件们的打包方法，把大家零散的数据，全部塞进一个超级大的 <code>Bundle</code>（大行李箱）里，最后交给 Android 操作系统底层去保管。</li>
-<li><strong>重生时（分发恢复阶段）：</strong> 当用户再次切回你的 App，系统会重新创建这个 Activity，并且把那个装满数据的 <code>Bundle</code> 大行李箱原封不动地还给它。 这时候，各个组件就会拿着自己当初注册的名字（Key），去 <code>SavedStateRegistry</code> 里把自己的那部分数据认领回去，瞬间恢复死前的界面状态！</li>
-</ul>
-<p><img src="/images/Activity/saved-state-registry.png" alt="Activity 状态保存与恢复底层机制"></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> static <span class="keyword">final</span> String DELEGATE_TAG = <span class="string">&quot;androidx:appcompat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="keyword">interface</span> SavedStateProvider &#123;</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Called to retrieve a state from a component before being killed</span></span><br><span class="line"><span class="comment">         * so later the state can be received from [consumeRestoredStateForKey]</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * Returns `S` with your saved state.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">saveState</span><span class="params">()</span></span>: Bundle</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>所以我们的activity初始化在注册表里就是&lt;“androidx:appcompat” , Bundle实例&gt;</p>
-<p>第二件事：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">addOnContextAvailableListener(new OnContextAvailableListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> void onContextAvailable(<span class="meta">@NonNull</span> Context context) &#123;</span><br><span class="line">            <span class="keyword">final</span> AppCompatDelegate delegate = getDelegate();</span><br><span class="line">            delegate.installViewFactory();</span><br><span class="line">            delegate.onCreate(getSavedStateRegistry()</span><br><span class="line">                    .consumeRestoredStateForKey(DELEGATE_TAG));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p>AppCompatActivit()构造方法在执行时，它还只是一个刚刚被new出来的普通java对象，他的Context（上下文）还没有被系统赋予，没有Context，就没办法读取资源、加载主题等等。所以这段代码其实没办法直接执行，它是注册了一个监听器，</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> contextAwareHelper = ContextAwareHelper()</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">addOnContextAvailableListener</span><span class="params">(listener: <span class="type">OnContextAvailableListener</span>)</span></span> &#123;</span><br><span class="line">    contextAwareHelper.addOnContextAvailableListener(listener)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">addOnContextAvailableListener</span><span class="params">(listener: <span class="type">OnContextAvailableListener</span>)</span></span> &#123;</span><br><span class="line">        context?.let &#123; listener.onContextAvailable(it) &#125;</span><br><span class="line">        listeners.add(listener)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="keyword">interface</span> OnContextAvailableListener &#123;</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Called when the [ContextAware] object this listener was added to is associated to a</span></span><br><span class="line"><span class="comment">     * [Context].</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context The [Context] the [ContextAware] object is now associated with.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">onContextAvailable</span><span class="params">(context: <span class="type">Context</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ContextAwareHelper</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> listeners: MutableSet&lt;OnContextAvailableListener&gt; = CopyOnWriteArraySet()</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Volatile</span> <span class="keyword">private</span> <span class="keyword">var</span> context: Context? = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
-<p>ContextAwareHelper是一个集合，可以在里面存所有的监听器。</p>
-<ul>
-<li>Context 还没准备好，<code>ContextAwareHelper</code> 就会把这些监听器先记录</li>
-<li>Activity 的底层生命周期走到 <code>onCreate()</code>，真正的 <code>Context</code> 终于被系统赋予了，内部就会触发 <code>mContextAwareHelper.dispatchOnContextAvailable(this)</code>。Helper 就会遍历Set里所有的监听器，挨个调用它们的 <code>onContextAvailable(context)</code></li>
-<li>当 Activity 走向毁灭（<code>onDestroy</code>）时，为了防止那些监听器还死死抓着 Activity 的 Context 不放导致内存泄漏，Helper 内部会执行 <code>clearAvailableContext()</code>，把保存的引用全部置空，干干净净地离开。</li>
-</ul>
-<p>所以当activity有了自己的Context时，AppCompactActivity的initDelegate的第二部分就会执行</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">addOnContextAvailableListener(new OnContextAvailableListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> void onContextAvailable(<span class="meta">@NonNull</span> Context context) &#123;</span><br><span class="line">        <span class="keyword">final</span> AppCompatDelegate delegate = getDelegate();</span><br><span class="line">        delegate.installViewFactory();</span><br><span class="line">        delegate.onCreate(getSavedStateRegistry()</span><br><span class="line">                .consumeRestoredStateForKey(DELEGATE_TAG));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">AppCompatDelegate</span> <span class="variable">delegate</span> <span class="operator">=</span> getDelegate();</span><br></pre></td></tr></table></figure>
-<p>把真正干活的代理类 <code>AppCompatDelegate</code> 给叫出来。Activity 说：“环境准备好了，该你上场表演了。”</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate.installViewFactory();</span><br></pre></td></tr></table></figure>
-<p>抢在开发者重写的 <code>onCreate()</code> 里的 <code>setContentView(R.layout.xxx)</code> 之前，提前在系统底层安插一个“间谍工厂”。等会儿系统去解析 XML 布局时，这个工厂就会把普通的 <code>&lt;TextView&gt;</code> 拦截下来，悄悄替换成具备向下兼容和高亮特效的 <code>AppCompatTextView</code>。这就是为什么老手机也能跑出新 Material Design 效果的根本原因（这涤地方很有意思，计划后面写一篇做详细分析）。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate.onCreate(getSavedStateRegistry().consumeRestoredStateForKey(DELEGATE_TAG));</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p><strong><code>getSavedStateRegistry()</code></strong>：找到 Activity 专属的行李寄存处。</p>
-</li>
-<li>
-<p><strong><code>consumeRestoredStateForKey(DELEGATE_TAG)</code></strong>：拿出专门属于 Delegate 的那个“小行李箱”（里面存着比如当前是夜间模式还是日间模式的状态）。注意这里用的是 <code>consume</code>（消费），意思是用完就销毁，不留痕迹。</p>
-</li>
-<li>
-<p><strong><code>delegate.onCreate(...)</code></strong>：把这个装满记忆的小箱子喂给 Delegate，让它根据死前的状态完成初始化。</p>
-</li>
-</ul>
-<h1>三、 FragmentActivity</h1>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FragmentActivity</span> <span class="keyword">extends</span> <span class="title class_">ComponentActivity</span> <span class="keyword">implements</span></span><br><span class="line">        <span class="title class_">ActivityCompat</span>.OnRequestPermissionsResultCallback,</span><br><span class="line">        ActivityCompat.RequestPermissionsRequestCodeValidator &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FRAGMENTS_TAG</span> <span class="operator">=</span> <span class="string">&quot;android:support:fragments&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">FragmentController</span> <span class="variable">mFragments</span> <span class="operator">=</span> FragmentController.createController(<span class="keyword">new</span> <span class="title class_">HostCallbacks</span>());</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * A &#123;<span class="doctag">@link</span> Lifecycle&#125; that is exactly nested outside of when the FragmentController</span></span><br><span class="line"><span class="comment">     * has its state changed, providing the proper nesting of Lifecycle callbacks</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * TODO(b/127528777) Drive Fragment Lifecycle with LifecycleObserver</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">LifecycleRegistry</span> <span class="variable">mFragmentLifecycleRegistry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LifecycleRegistry</span>(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">boolean</span> mCreated;</span><br><span class="line">    <span class="type">boolean</span> mResumed;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">mStopped</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Default constructor for FragmentActivity. All Activities must have a default constructor</span></span><br><span class="line"><span class="comment">     * for API 27 and lower devices or when using the default</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> android.app.AppComponentFactory&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">FragmentActivity</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>其实这里FragmentActivity和前面AppCompatActivity的实现思想就很相近了，只是他们的发挥的作用不同。</p>
-<ul>
-<li>
-<p><strong>处理 UI 向下兼容</strong> 👉 找 <code>AppCompatDelegate</code> 注册监听，打包存状态，恢复切换 View。</p>
-</li>
-<li>
-<p><strong>处理 Fragment 恢复</strong> 👉 找 <code>FragmentManager</code> 注册监听，打包存状态，恢复 Fragment 栈。</p>
-</li>
-</ul>
-<p>跟进到FragmentActivity到初始化方法init中</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FRAGMENTS_TAG</span> <span class="operator">=</span> <span class="string">&quot;android:support:fragments&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">    getSavedStateRegistry().registerSavedStateProvider(FRAGMENTS_TAG, <span class="keyword">new</span> ...) &#123;</span><br><span class="line">    <span class="keyword">public</span> Bundle <span class="title function_">saveState</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">outState</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">        <span class="comment">// 1. 把所有 Fragment 的生命周期强行按到 ON_STOP</span></span><br><span class="line">        markFragmentsCreated();</span><br><span class="line">        mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 核心大招：一键打包所有 Fragment 的状态！</span></span><br><span class="line">        <span class="type">Parcelable</span> <span class="variable">p</span> <span class="operator">=</span> mFragments.saveAllState();</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="literal">null</span>) &#123;</span><br><span class="line">            outState.putParcelable(FRAGMENTS_TAG, p);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> outState;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">    addOnContextAvailableListener(<span class="keyword">new</span> <span class="title class_">OnContextAvailableListener</span>() &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onContextAvailable</span><span class="params">(<span class="meta">@NonNull</span> Context context)</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 给所有的 Fragment 注入肉身（Context 主机）</span></span><br><span class="line">        mFragments.attachHost(<span class="literal">null</span> <span class="comment">/*parent*/</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 拿着之前的取件码（FRAGMENTS_TAG），去寄存处取行李</span></span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">savedInstanceState</span> <span class="operator">=</span> getSavedStateRegistry()</span><br><span class="line">                .consumeRestoredStateForKey(FRAGMENTS_TAG);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 把行李丢给 FragmentManager，一键恢复现场！</span></span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">Parcelable</span> <span class="variable">p</span> <span class="operator">=</span> savedInstanceState.getParcelable(FRAGMENTS_TAG);</span><br><span class="line">            mFragments.restoreSaveState(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="🌟-架构级顿悟：异曲同工的“外包”哲学">🌟 架构级顿悟：异曲同工的“外包”哲学</h2>
-<p>如果将 <code>AppCompatActivity</code> 和 <code>FragmentActivity</code> 的源码放在一起对比，会发现一个极其优雅的现代 Android 架构思想——<strong>基于 <code>ComponentActivity</code> 基础设施的“代理与分发”</strong>。</p>
-<p>老祖宗 <code>ComponentActivity</code> 搭建好了两大核心基础设施：</p>
-<ol>
-<li><strong><code>ContextAwareHelper</code></strong>：负责监听 Context 的注入时机。</li>
-<li><strong><code>SavedStateRegistry</code></strong>：负责管理系统杀后台时的状态保存与恢复。</li>
-</ol>
-<p>而它的两个派生类，仅仅是雇佣了不同的“大管家”来对接这两套设施，发挥了完全不同的作用：</p>
-<ul>
-<li>
-<p>🎨 <strong>处理 UI 向下兼容 (<code>AppCompatActivity</code>)</strong></p>
-<ul>
-<li><strong>大管家：</strong> <code>AppCompatDelegate</code></li>
-<li><strong>核心动作：</strong> 注册监听 ➡️ 抢在 <code>onCreate</code> 前安装 <code>ViewFactory</code> 拦截器 ➡️ 打包/恢复主题与夜间模式状态 ➡️ 偷梁换柱替换原生 View。</li>
-</ul>
-</li>
-<li>
-<p>🧩 <strong>处理 Fragment 碎片恢复 (<code>FragmentActivity</code>)</strong></p>
-<ul>
-<li><strong>大管家：</strong> <code>FragmentManager</code> (底层被包装在 <code>FragmentController</code> 中)</li>
-<li><strong>核心动作：</strong> 注册监听 ➡️ 抢在 <code>onCreate</code> 前为 Fragment 注入宿主 Context ➡️ 打包/恢复 Fragment 实例与回退栈 ➡️ 完美还原死前的页面嵌套现场。</li>
-</ul>
-</li>
-</ul>
-<h2 id="🔬-源码跟进：剖析-FragmentActivity-init">🔬 源码跟进：剖析 <code>FragmentActivity.init()</code></h2>
-<p>顺着这个思路，我们直接跟进到 <code>FragmentActivity</code> 的 <code>init()</code> 方法中。你会发现，这段代码完美诠释了 Fragment 的“临终托孤”与“夺舍重生”：</p>
-<h3 id="阶段一：临终托孤（状态保存）">阶段一：临终托孤（状态保存）</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">getSavedStateRegistry().registerSavedStateProvider(FRAGMENTS_TAG, <span class="keyword">new</span> ...) &#123;</span><br><span class="line">    <span class="keyword">public</span> Bundle <span class="title function_">saveState</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">outState</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">        <span class="comment">// 1. 强行干预生命周期：把所有 Fragment 的状态压制到 ON_STOP</span></span><br><span class="line">        markFragmentsCreated();</span><br><span class="line">        mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 核心大招：序列化打包</span></span><br><span class="line">        <span class="type">Parcelable</span> <span class="variable">p</span> <span class="operator">=</span> mFragments.saveAllState(); </span><br><span class="line">        <span class="keyword">if</span> (p != <span class="literal">null</span>) &#123;</span><br><span class="line">            outState.putParcelable(FRAGMENTS_TAG, p);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> outState;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>当系统内存告急时，<code>SavedStateRegistry</code> 会回调这段逻辑。<code>FragmentActivity</code> 不会自己去挨个保存 Fragment，而是直接对 <code>FragmentController</code> (<code>mFragments</code>) 下达死命令：“把所有 Fragment 的属性、参数、回退栈全部序列化成 <code>Parcelable</code> 打包带走！</p>
-<h3 id="阶段二：借尸还魂（状态恢复）">阶段二：借尸还魂（状态恢复）</h3>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">addOnContextAvailableListener(new OnContextAvailableListener() &#123;</span><br><span class="line">    <span class="keyword">public</span> void onContextAvailable(<span class="meta">@NonNull</span> Context context) &#123;</span><br><span class="line">        <span class="comment">// 1. 注入灵魂：告诉底下的 Fragment，新的 Activity 宿主已经准备好了</span></span><br><span class="line">        mFragments.attachHost(<span class="literal">null</span> <span class="comment">/*parent*/</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 认领行李：拿着专属的 FRAGMENTS_TAG 取出包裹</span></span><br><span class="line">        Bundle savedInstanceState = getSavedStateRegistry()</span><br><span class="line">                .consumeRestoredStateForKey(FRAGMENTS_TAG);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 恢复现场：将数据甩给管家，一键重建所有 Fragment</span></span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="literal">null</span>) &#123;</span><br><span class="line">            Parcelable p = savedInstanceState.getParcelable(FRAGMENTS_TAG);</span><br><span class="line">            mFragments.restoreSaveState(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<hr>
-<h1>四、 ComponentActivity</h1>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">ComponentActivity</span>() :</span><br><span class="line">    androidx.core.app.ComponentActivity(),</span><br><span class="line">    ContextAware,</span><br><span class="line">    LifecycleOwner,</span><br><span class="line">    ViewModelStoreOwner,</span><br><span class="line">    HasDefaultViewModelProviderFactory,</span><br><span class="line">    SavedStateRegistryOwner,</span><br><span class="line">    OnBackPressedDispatcherOwner,</span><br><span class="line">    NavigationEventDispatcherOwner,</span><br><span class="line">    ActivityResultRegistryOwner,</span><br><span class="line">    ActivityResultCaller,</span><br><span class="line">    OnConfigurationChangedProvider,</span><br><span class="line">    OnTrimMemoryProvider,</span><br><span class="line">    OnNewIntentProvider,</span><br><span class="line">    OnMultiWindowModeChangedProvider,</span><br><span class="line">    OnPictureInPictureModeChangedProvider,</span><br><span class="line">    OnUserLeaveHintProvider,</span><br><span class="line">    MenuHost,</span><br><span class="line">    FullyDrawnReporterOwner&#123;...&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="🧩-ComponentActivity：全能的“斜杠”基座">🧩 ComponentActivity：全能的“斜杠”基座</h3>
-<p>在源码中，<code>ComponentActivity</code> 的定义长得惊人，因为它实现了超过 10 个接口。这意味着它不仅是一个 Activity，更是多种能力的<strong>提供者（Owner）</strong>：</p>
-<ul>
-<li><strong>接口化设计</strong>：它不直接实现逻辑，而是通过实现接口（如 <code>LifecycleOwner</code>），将能力委派给内部的 <code>Helper</code> 类。</li>
-<li><strong>默认开启 (open)</strong>：作为架构基石，它被标记为 <code>open class</code>，允许 <code>FragmentActivity</code> 等后续子类不断对其进行功能扩容。</li>
-</ul>
-<blockquote>
-<p><strong>深度思考</strong>：为什么不把所有功能都写在 <code>Activity</code> 原生类里？<br>
-<strong>答案</strong>：解耦。通过接口化，Google 可以让 <code>Fragment</code> 甚至自定义 View 也实现这些接口（如 <code>LifecycleOwner</code>），从而拥有一套通用的架构规范。</p>
-</blockquote>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">ComponentActivity</span>() :</span><br><span class="line">    androidx.core.app.ComponentActivity(),</span><br></pre></td></tr></table></figure>
-<p>子类ComponentActivity(FragementACtivity的直接父亲)是androidx.activity包，和androidx.core.app.ComponentActivity()只是类名同，这种设计哲学在Android中非常常见。</p>
-<ol>
-<li>androidx.core.app.ComponentActivity非常的轻量，源码（包括注释）就一百多行。</li>
-</ol>
-<p><img src="/images/Activity/androidx.core.app.ComponentActivity.png" alt="ComponentActivity"></p>
-<p>它唯一存在的目的就是<strong>解决最基本的系统兼容性问题</strong>（比如在老版本手机上模拟新的 <code>KeyEvent</code> 传递），几乎不涉及任何复杂的 Jetpack 架构（没有 ViewModel，没有 SavedState 等）。</p>
-<ol start="2">
-<li>androidx.activity.ComponentActivity开启了“疯狂叠 Buff”模式</li>
-</ol>
-<p>它实现了 <code>LifecycleOwner</code>、<code>ViewModelStoreOwner</code> 等那一长串接口。<strong>这才是我们平时真正使用的、具备完整 Jetpack 能力的 Activity 基座</strong></p>
-<ul>
-<li>
-<p>核心架构战队（Jetpack 的地基）</p>
-<ul>
-<li>
-<p><strong><code>LifecycleOwner</code></strong>：<strong>生命周期持有者</strong>。让 Activity 拥有了“感知生死”的能力。你可以直接观察它的生命周期，而不需要在 <code>onStart/onStop</code> 里写一堆逻辑。</p>
-</li>
-<li>
-<p><strong><code>ViewModelStoreOwner</code></strong>：<strong>ViewModel 仓库</strong>。让 Activity 有能力在配置更改（如旋转屏幕）时，依然能死死抓住 <code>ViewModel</code> 实例不放。</p>
-</li>
-<li>
-<p><strong><code>HasDefaultViewModelProviderFactory</code></strong>：<strong>默认工厂</strong>。它提供了一个默认的“厨师”，当你调用 <code>by viewModels()</code> 时，就是这个工厂帮你实例化 ViewModel 的。</p>
-</li>
-<li>
-<p><strong><code>SavedStateRegistryOwner</code></strong>：<strong>状态恢复官</strong>。这就是咱们之前聊的那个“寄存处”，负责在 App 被杀掉后恢复那点“临终记忆”。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>事件分发战队（告别逻辑耦合）</p>
-<ul>
-<li><strong><code>OnBackPressedDispatcherOwner</code></strong>：<strong>返回键分发者</strong>。你可以通过 <code>onBackPressedDispatcher</code> 给不同的 Fragment 单独设置返回逻辑，不用再在 Activity 里写一堆 <code>if/else</code>。</li>
-<li><strong><code>MenuHost</code></strong>：<strong>菜单宿主</strong>。现在的菜单（Toolbar 上的三个点）不再必须写在 Activity 里，通过它，Fragment 也可以自主管理自己的菜单。</li>
-<li><strong><code>NavigationEventDispatcherOwner</code></strong>：<strong>导航事件分发</strong>。专门处理 Activity 级别的导航事件传递。</li>
-</ul>
-</li>
-<li>
-<p>系统回调战队（感知外部环境）</p>
-<ul>
-<li><strong><code>OnConfigurationChangedProvider</code></strong>：当屏幕旋转、字体变大、语言切换时，通知感兴趣的人。</li>
-<li><strong><code>OnTrimMemoryProvider</code></strong>：<strong>内存整理通知</strong>。系统内存不足时，通知各个组件赶紧清理缓存，别被系统杀了。</li>
-<li><strong><code>OnMultiWindowModeChangedProvider</code> / <code>OnPictureInPictureModeChangedProvider</code></strong>：<strong>窗口模式感知</strong>。处理分屏和画中画模式的切换。</li>
-<li><strong><code>OnNewIntentProvider</code></strong>：当 Activity 的启动模式为 <code>singleTask</code> 重新进入时，通知新意图。</li>
-</ul>
-</li>
-<li>
-<p>权限与结果战队（再见 startActivityForResult）</p>
-<ul>
-<li><strong><code>ActivityResultRegistryOwner</code></strong> &amp; <strong><code>ActivityResultCaller</code></strong>：<strong>结果注册中心</strong>。 这是 <code>ActivityResultLauncher</code> 的底层支撑。让你用“注册回调”的方式去请求权限、拍照、选图片，彻底废弃了那个乱糟糟的 <code>requestCode</code> 匹配。</li>
-</ul>
-</li>
-<li>
-<p>其他特殊战队</p>
-<ul>
-<li><strong><code>ContextAware</code></strong>：<strong>上下文感知</strong>。正如我们之前聊的，确保在 <code>onCreate</code> 之前，大家能监听到 Context 已经准备好了。</li>
-<li><strong><code>OnUserLeaveHintProvider</code></strong>：<strong>离场提示</strong>。当用户按 Home 键导致 Activity 进入后台时的回调。</li>
-<li><strong><code>FullyDrawnReporterOwner</code></strong>：<strong>绘制报告者</strong>。用于性能优化，精确上报 Activity 什么时候才算“完全绘制完成”，帮助测量冷启动耗时。</li>
-</ul>
-</li>
-</ul>
-<p>这部分内容太丰富了，其中包含了非常多巧妙的实现，后面会分别开新文章做详细分析。</p>
-<hr>
-<h1>五、Activity</h1>
-<p>无论是早期的Android还是现代化的Activity，所有Activity的祖先必定是android.app.Activity。虽然Google设计的ComponentActivity已经让Activity不那么臃肿，单其实android.app.Activity内容是非常多的，这个类的源码有近万行，是一个非常大的类（Android称霸世界也不是只靠时运，也是不乏实力的）。</p>
-<p>（如果是要逐字阅读这一万行代码，我估计我会疯掉。看了很多技术博客和一些技术书籍，形成了浅显、片面且带有极强主观看法的看法。）</p>
-<p>Activity主要有四个核心点，核心生命周期（状态机）、窗体管理（View 的宿主）、交互分发（接线员）、组件间通讯（信使）。</p>
-<ul>
-<li>核心生命周期（状态机）：<code>performCreate</code>, <code>performStart</code>, <code>performResume</code>。
-<ul>
-<li>系统（ActivityThread）是通过这些 <code>performXXX</code> 方法来驱动 <code>onCreate</code>, <code>onStart</code> 的。这就是 Activity 的“心跳”</li>
-</ul>
-</li>
-<li>窗体管理（View 的宿主）: <code>mWindow</code>, <code>setContentView</code>, <code>attach</code>
-<ul>
-<li>Activity 本身不显示东西，它内部持有一个 <code>PhoneWindow</code>（大管家）。当你调用 <code>setContentView</code>，其实是把布局塞给了这个 Window。</li>
-</ul>
-</li>
-<li>交互分发（接线员）：<code>KeyEvent.Callback</code>, <code>Window.Callback</code>
-<ul>
-<li>所有的按键点击、触摸屏幕，都是先传给 Activity，再由它分发给 Window 或 View。</li>
-</ul>
-</li>
-<li>组件间通讯（信使）： <code>startActivityForResult</code>, <code>onActivityResult</code>。
-<ul>
-<li>它是怎么和别的 Activity 打交道的</li>
-</ul>
-</li>
-</ul>
-<p><img src="/images/Activity/Android-Activity.png" alt="Activity"></p>
-<p><strong>🚀 下一篇预告：</strong> 章幅有限，更好的方法是开辟一篇文章，深度切入这四大支柱的第一站——<strong>【核心生命周期】</strong>。我们将跟踪 <code>ActivityThread</code> 是如何通过 <code>performCreate</code> 敲响 Activity 的第一声大鼓的，敬请期待。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaoyu-liguo.github.io/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/" data-id="cmmiwxxan0001hj8o16621upe" data-title="Android四大组件之Activity详解" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" rel="tag">四大组件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Android-Project-Structure-Parsing" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/02/01/Android-Project-Structure-Parsing/" class="article-date">
-  <time class="dt-published" datetime="2026-02-01T06:19:13.000Z" itemprop="datePublished">2026-02-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/02/01/Android-Project-Structure-Parsing/">Android-Project-Structure-Parsing</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1>一、Android系统架构</h1>
-<p>安卓系统可以分为 Linux层 + 系统运行库 + 应用框架层 + 应用层。</p>
-<h2 id="1-Linux层">1. Linux层</h2>
-<p>Android系统是基于Linux内核的，这一层为系统提供了各种底层驱动，显示驱动、音频驱动、蓝牙驱动、WIFI驱动等等。</p>
-<h2 id="2-系统运行库">2. 系统运行库</h2>
-<p>通过C/C++库为Android提供主要的特性支持，SQLite库提供了数据库支持，OpenGL ES提供3D绘图，Webkit提供浏览器内核等等。<br>
-这里还包含Android运行时库，提供给Java/Kotlin开发者来编写应用。</p>
-<h3 id="虚拟机">虚拟机</h3>
-<p>相信听说过Java的人都听过JVM，为了实现Java的一次编译，到处运行，不同的平台（Mac、Linux、Windows，以及同系统不同版本）的JVM或多或少有差异，但是为上层提供的接口是相同的，都是识别一套 <code>.class</code> 文件规则。</p>
-<p>ART/Dalvik就是Android世界的虚拟机，所以各个手机厂商（华米OV）背后的硬件供应商不同，他们的ART也是不同的。不过现在Google正在试图削弱各手机厂商的权力，比如Google提出APEX…（里面的博弈交给时间）。</p>
-<h2 id="3-应用框架层">3. 应用框架层</h2>
-<p>提供各种构建应用程序可能使用的API。</p>
-<h2 id="4-应用层">4. 应用层</h2>
-<p>手机上的各种应用，桌面、联系人、游戏、小说、音乐等等。</p>
-<p><img src="/images/android-struct.png" alt="Android架构"></p>
-<hr>
-<h1>二、安卓项目结构</h1>
-<p>如果使用Android Studio新建一个普通的安卓项目，初始的内容主要包括：</p>
-<h2 id="1-编译器相关文件">1. 编译器相关文件</h2>
-<ul>
-<li><strong>.gradle, .idea, .iml</strong>：这些是IDE（编译器）自动生成的配置文件，通常在使用Git进行版本控制时会被忽略。</li>
-</ul>
-<h2 id="2-核心代码目录">2. 核心代码目录</h2>
-<ul>
-<li><strong>app</strong>：项目的代码、资源等内容全都在 <code>app</code> 目录下，这是编写应用程序主要的工作目录。核心包含：
-<ul>
-<li><strong>src/main/java</strong>：存放所有的Java/Kotlin源代码。</li>
-<li><strong>src/main/res</strong>：存放各种资源文件，如UI布局（layout）、图片（drawable/mipmap）和常量配置（values）。</li>
-<li><strong>src/main/AndroidManifest.xml</strong>：应用的全局配置清单，包含权限声明（如网络、存储）和四大组件注册。</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-构建与配置系统">3. 构建与配置系统</h2>
-<ul>
-<li><strong>gradle文件夹</strong>：包含Gradle Wrapper，用于统一团队的构建环境版本。</li>
-<li><strong>build.gradle</strong>：极其重要，分为项目级和模块级。用于配置SDK版本、包名（applicationId）以及引入第三方依赖库。</li>
-<li><strong>gradle.properties</strong>：全局的Gradle配置文件，可设置编译内存等优化参数。</li>
-<li><strong>gradlew / gradlew.bat</strong>：命令行执行脚本（分别对应Mac/Linux和Windows）。</li>
-<li><strong>settings.gradle</strong>：指定项目包含了哪些模块（Module），多模块开发时必用。</li>
-<li><strong>local.properties</strong>：指定本地Android SDK的绝对路径。由于每个人电脑路径不同，该文件绝对不能提交到Git仓库中。</li>
-</ul>
-<hr>
-<h1>三、app 模块核心目录</h1>
-<p><code>app</code> 是整个安卓项目中最核心的模块（Module），我们日常 99% 的代码开发工作都在这里完成。展开它，你会看到以下结构：</p>
-<ul>
-<li><strong>build</strong>：构建输出目录。每次编译/运行项目时，系统自动生成的 <code>.class</code> 编译文件、最终打包出的 APK 安装包等都存放在这里。<strong>无需手动修改，通常在 Git 中会被忽略。</strong></li>
-<li><strong>libs</strong>：本地依赖库目录。如果有一些第三方的 <code>.jar</code> 或 <code>.aar</code> 包没法通过 Gradle 在线依赖（比如某些 SDK），就可以直接丢到这个文件夹里引入。</li>
-<li><strong>androidTest</strong>：Android 自动化测试目录。用来编写必须运行在<strong>真机或模拟器</strong>上的 UI 测试代码（比如模拟用户点击按钮、滑动屏幕）。</li>
-<li><strong>java</strong>：源代码主目录。注意，虽然它的名字叫 java，但实际上你编写的 <strong>Java 和 Kotlin 源代码文件全都在这里面</strong>。</li>
-<li><strong>res</strong>：资源大本营 (Resources)。包含了所有非代码的静态资源，比如：
-<ul>
-<li><code>layout</code>：XML 界面布局文件。</li>
-<li><code>drawable</code>：图片资源、XML 绘制的形状资源。</li>
-<li><code>mipmap</code>：各个分辨率的 App 桌面图标。</li>
-<li><code>values</code>：字符串 (<code>strings.xml</code>)、颜色 (<code>colors.xml</code>)、样式主题 (<code>themes.xml</code>) 等常量配置。</li>
-</ul>
-</li>
-<li><strong>AndroidManifest.xml</strong>：应用全局配置清单。极其重要！App 的入口页面、四大组件（Activity、Service 等）的注册、以及各种系统权限（如联网、相机、位置）的申请，统统都要在这里向系统“报备”。</li>
-<li><strong>test</strong>：本地单元测试目录。用来编写直接运行在<strong>电脑本地 JVM</strong> 上的测试代码。它不依赖 Android 环境，主要用来测试纯逻辑的算法代码，运行速度极快。</li>
-<li><strong>.gitignore</strong>：Git 忽略清单。专门指定当前 <code>app</code> 模块下有哪些文件和目录<strong>不需要</strong>提交到代码仓库（比如 <code>build</code> 文件夹）。</li>
-<li><strong>app.iml</strong>：IDE 模块配置文件。由 IntelliJ IDEA / Android Studio 自动生成和维护，记录了模块的路径和依赖关系，开发者通常不需要关心它。</li>
-<li><strong>build.gradle</strong>：模块级构建脚本。这是日常开发打交道最多的文件之一。里面配置了当前 App 的包名 (<code>applicationId</code>)、版本号 (<code>versionCode</code> / <code>versionName</code>)、编译兼容 SDK 版本，以及极其重要的<strong>第三方开源库依赖 （dependencies）</strong>。</li>
-<li><strong><a target="_blank" rel="noopener" href="http://proguard-rules.pro">proguard-rules.pro</a></strong>：代码混淆与压缩规则文件。当我们准备打包 Release 正式版发布到应用市场时，为了减小包体积并<strong>防止黑客反编译</strong>我们的代码，会开启混淆。这个文件就是用来告诉系统：“哪些核心类和方法必须保留原名，绝对不能被混淆”。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaoyu-liguo.github.io/2026/02/01/Android-Project-Structure-Parsing/" data-id="cmmiwxxal0000hj8ohe862atf" data-title="Android-Project-Structure-Parsing" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Project-Struct/" rel="tag">Project-Struct</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project-Struct/" rel="tag">Project-Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI%E6%B8%B2%E6%9F%93/" rel="tag">UI渲染</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewRootImpl/" rel="tag">ViewRootImpl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView/" rel="tag">setContentView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" rel="tag">四大组件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Project-Struct/" style="font-size: 10px;">Project-Struct</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/UI%E6%B8%B2%E6%9F%93/" style="font-size: 10px;">UI渲染</a> <a href="/tags/ViewRootImpl/" style="font-size: 10px;">ViewRootImpl</a> <a href="/tags/setContentView/" style="font-size: 10px;">setContentView</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 10px;">四大组件</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">三月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">二月 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/03/08/setcontentview-source-code/">源码解密：setContentView 之后，到底发生了什么？</a>
-          </li>
-        
-          <li>
-            <a href="/2026/02/10/android-ui-rendering-process/">源码解密：从 ActivityThread 到 SurfaceFlinger，Android 到底是怎么画出界面的？</a>
-          </li>
-        
-          <li>
-            <a href="/2026/02/06/Network-HTTP-TCP-Interview/">基础的网络知识</a>
-          </li>
-        
-          <li>
-            <a href="/2026/02/03/Android%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8BActivity%E8%AF%A6%E8%A7%A3/">Android四大组件之Activity详解</a>
-          </li>
-        
-          <li>
-            <a href="/2026/02/01/Android-Project-Structure-Parsing/">Android-Project-Structure-Parsing</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 LeeLand<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">9</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-04-14T15:36:18.065Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By LeeLand</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
